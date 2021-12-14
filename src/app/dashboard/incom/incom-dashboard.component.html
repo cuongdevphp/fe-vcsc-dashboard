@@ -62,7 +62,7 @@
                 <th width='20%'>Time Send</th>
                 <th width='25%'>Time Add</th>
                 <th width='5%'>Status</th>
-                <!-- <th width='30%'>Action</th> -->
+                <th width='30%'>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -137,14 +137,14 @@
                     <nz-badge *ngIf="item.complete == '1'" nzStatus="success"></nz-badge>
                     <nz-badge *ngIf="item.complete != '1'" nzStatus="error"></nz-badge>
                 </td>
-                <!-- <td class="text-md-right">
+                <td class="text-md-right">
                     <a class="m-r-5" nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Edit" >
                         <i nz-icon nzType="edit" theme="outline"></i>
                     </a>
-                    <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Delete">
+                    <!-- <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Delete">
                         <i nz-icon nzType="delete" theme="outline"></i>
-                    </button>
-                </td> -->
+                    </button> -->
+                </td>
             </tr>
         </tbody>
     </nz-table>

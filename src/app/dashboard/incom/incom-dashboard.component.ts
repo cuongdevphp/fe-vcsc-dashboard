@@ -12,7 +12,7 @@ export class IncomDashboardComponent implements OnInit {
     pageIndex = 1;
     total = null;
     messages:any = null;
-    selectedStatus: any = 1;
+    selectedStatus: any = '';
     searchPhone: any = '';
 
     constructor(

@@ -62,18 +62,73 @@
                 <th width='20%'>Time Send</th>
                 <th width='25%'>Time Add</th>
                 <th width='5%'>Status</th>
-                <th width='30%'>Action</th>
+                <!-- <th width='30%'>Action</th> -->
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let item of productsListTable.data; let i=index">
-                <td>#{{item.id}}</td>
+                <td>{{item.id}}</td>
                 <td>
                     {{item.phonenumber}}
                 </td>
-                <td></td>
+                <td>
+                    <span *ngFor="let rule of item.routerule">
+                        <nz-tag [nzColor]="'cyan'">
+                            <span *ngIf="rule == '1'"> Zalo Notification Service</span> 
+                            <span *ngIf="rule == '2'"> Autocall</span> 
+                            <span *ngIf="rule == '3'"> SMS Brandname</span> 
+                        </nz-tag>
+                        <br/>
+                    </span>
+                </td>
                 <td>{{item.templatecode}}</td>
-                <td></td>
+                <td>
+                    <span *ngIf="item.templatecode == 'VCSC02'">
+                        <nz-tag 
+                            [nzColor]="'blue'"
+                        >
+                            Account: {{item.list_param.account}}
+                        </nz-tag>
+                        <br/>
+                        <nz-tag 
+                            [nzColor]="'blue'"
+                        >
+                            Day: {{item.list_param.day}}
+                        </nz-tag>
+                        <br/>
+                        <nz-tag 
+                            [nzColor]="'blue'"
+                        >
+                            Price: {{item.list_param.price}}
+                        </nz-tag>
+                        <br/>
+                        <nz-tag 
+                            [nzColor]="'blue'"
+                        >
+                            Quantity: {{item.list_param.quantity}}
+                        </nz-tag>
+                        <br/>
+                        <nz-tag 
+                            [nzColor]="'blue'"
+                        >
+                            Type: {{item.list_param.type}}
+                        </nz-tag>
+                        <br/>
+                        <nz-tag 
+                            [nzColor]="'blue'"
+                        >
+                            Serie: {{item.list_param.serie}}
+                        </nz-tag>
+                        <br/>
+                    </span>
+                    <span *ngIf="item.templatecode == 'VCSC01'">
+                        <nz-tag 
+                            [nzColor]="'blue'"
+                        >
+                            Otp: {{item.list_param.otp}}
+                        </nz-tag>
+                    </span>
+                </td>
                 <td>{{item.id_omni}}</td>
                 <td>{{item.channel}}</td>
                 <td>{{item.timesend}}</td>
@@ -82,14 +137,14 @@
                     <nz-badge *ngIf="item.complete == '1'" nzStatus="success"></nz-badge>
                     <nz-badge *ngIf="item.complete != '1'" nzStatus="error"></nz-badge>
                 </td>
-                <td class="text-md-right" style="display: flex;">
+                <!-- <td class="text-md-right">
                     <a class="m-r-5" nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Edit" >
                         <i nz-icon nzType="edit" theme="outline"></i>
                     </a>
                     <button nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Delete">
                         <i nz-icon nzType="delete" theme="outline"></i>
                     </button>
-                </td>
+                </td> -->
             </tr>
         </tbody>
     </nz-table>

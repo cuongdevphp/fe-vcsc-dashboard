@@ -25,4 +25,16 @@ export class IncomService {
   getMessages(pageIndex, pageSize, sortField, sortOrder, filterPhone, filterStatus) {
     return this.http.get<MessageIncom>(`${environment.apiUrl}/supplier/sendMessageList?offset=${pageIndex}&page=${pageSize}&phonenumber=${filterPhone}&status=${filterStatus}`);
   }
+
+  sendMessage(phoneNumber, contentMessage) {
+    const params = {
+      'phonenumber': phoneNumber, 
+      'routerule': ["3"],
+      'templatecode': 'vcsc-freetemp',
+      'list_param': {
+        'sendstr': contentMessage
+      }
+    }
+    return this.http.post<any>(`${environment.apiUrl}/supplier/sendMessage`, { ...params })
+  }
 }

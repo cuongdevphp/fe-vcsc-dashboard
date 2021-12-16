@@ -23,19 +23,39 @@
                         <nz-option nzLabel="Fail" nzValue="0"></nz-option>
                     </nz-select>
                 </div>
-                <!-- <div class="m-b-10 m-r-20 d-flex align-items-center">
-                    <nz-select style="min-width: 220px;" class="w-100" nzPlaceHolder="Status" [(ngModel)]="selectedStatus" (ngModelChange)="statusChange($event)">
-                        <nz-option nzLabel="All" nzValue="All"></nz-option>
-                        <nz-option nzLabel="In Stock" nzValue="in stock"></nz-option>
-                        <nz-option nzLabel="Out Of Stock" nzValue="out of stock"></nz-option>
-                    </nz-select>
-                </div> -->
             </div>          
         </div>
         <div class="col-lg-4 text-right">
-            <a nz-button nzType="primary">
-                <i nz-icon nzType="plus-circle" theme="outline"></i>
-            </a>
+            <button nz-button nzType="primary" (click)="showSendMessageModal(sendMessageContent)">
+                <i nz-icon nzType="plus"></i>
+                <span>Message</span>
+            </button>
+            <ng-template #sendMessageContent>
+                <form nz-form nzLayout="vertical">
+                    <nz-form-item>
+                        <nz-form-label nzRequired>Phone number</nz-form-label>
+                        <nz-form-control>
+                            <nz-input-group [nzSuffix]="suffixTemplateInfo" [nzPrefix]="prefixPhone">
+                                <input type="text" name="phoneNumber" [(ngModel)]="phoneNumber" nz-input placeholder="Please input phone number" />
+                            </nz-input-group>
+                            <ng-template #prefixPhone><i nz-icon nzType="phone"></i></ng-template>
+                            <nz-form-explain *ngIf="requiredForm.phoneNumber" style="color: red;">
+                                Please input phone number!
+                            </nz-form-explain>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-label nzRequired>Content</nz-form-label>
+                        <nz-form-control>
+                            <textarea name="contentMessage" [(ngModel)]="contentMessage" nz-input></textarea>
+                        </nz-form-control>
+                        <nz-form-explain *ngIf="requiredForm.content" style="color: red;">
+                            Please input content message!
+                        </nz-form-explain>
+                    </nz-form-item>
+                </form>
+                
+            </ng-template>
         </div>
     </div>
 
@@ -56,7 +76,7 @@
                 <th width='10%'>Phone Number</th>
                 <th width='10%'>Route Rule</th>
                 <th width='10%'>Template</th>
-                <th width='10%'>List Param</th>
+                <th width='15%'>Content</th>
                 <th width='15%'>ID Omni</th>
                 <th width='5%'>Channel</th>
                 <th width='20%'>Time Send</th>
@@ -74,59 +94,39 @@
                 <td>
                     <span *ngFor="let rule of item.routerule">
                         <nz-tag [nzColor]="'cyan'">
-                            <span *ngIf="rule == '1'"> Zalo Notification Service</span> 
-                            <span *ngIf="rule == '2'"> Autocall</span> 
-                            <span *ngIf="rule == '3'"> SMS Brandname</span> 
+                            <span *ngIf="rule == '1'">ZNS</span>
+                            <span *ngIf="rule == '2'">Autocall</span>
+                            <span *ngIf="rule == '3'">SMS Brandname</span>
                         </nz-tag>
                         <br/>
                     </span>
                 </td>
                 <td>{{item.templatecode}}</td>
                 <td>
-                    <span *ngIf="item.templatecode == 'VCSC02'">
-                        <nz-tag 
+                    <span *ngIf="item.templatecode === 'VCSC02'">
+                        <!-- <nz-tag 
                             [nzColor]="'blue'"
-                        >
-                            Account: {{item.list_param.account}}
-                        </nz-tag>
-                        <br/>
-                        <nz-tag 
-                            [nzColor]="'blue'"
-                        >
-                            Day: {{item.list_param.day}}
-                        </nz-tag>
-                        <br/>
-                        <nz-tag 
-                            [nzColor]="'blue'"
-                        >
-                            Price: {{item.list_param.price}}
-                        </nz-tag>
-                        <br/>
-                        <nz-tag 
-                            [nzColor]="'blue'"
-                        >
-                            Quantity: {{item.list_param.quantity}}
-                        </nz-tag>
-                        <br/>
-                        <nz-tag 
-                            [nzColor]="'blue'"
-                        >
-                            Type: {{item.list_param.type}}
-                        </nz-tag>
-                        <br/>
-                        <nz-tag 
-                            [nzColor]="'blue'"
-                        >
-                            Serie: {{item.list_param.serie}}
-                        </nz-tag>
-                        <br/>
+                        > -->
+                            VCSC: KQKL CKPS NGAY {{item.list_param.day}}
+                            CUA QUI KHACH TK {{item.list_param.account}}
+                            {{item.list_param.type}} {{item.list_param.serie}}
+                            KL {{item.list_param.quantity}}
+                            GIA {{item.list_param.price}}
+                        <!-- </nz-tag> -->
                     </span>
-                    <span *ngIf="item.templatecode == 'VCSC01'">
-                        <nz-tag 
+                    <span *ngIf="item.templatecode === 'VCSC01'">
+                        <!-- <nz-tag 
                             [nzColor]="'blue'"
-                        >
+                        > -->
                             Otp: {{item.list_param.otp}}
-                        </nz-tag>
+                        <!-- </nz-tag> -->
+                    </span>
+                    <span *ngIf="item.templatecode === 'vcsc-freetemp'">
+                        <!-- <nz-tag 
+                            [nzColor]="'blue'"
+                        > -->
+                            {{item.list_param.sendstr}}
+                        <!-- </nz-tag> -->
                     </span>
                 </td>
                 <td>{{item.id_omni}}</td>

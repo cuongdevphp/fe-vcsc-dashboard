@@ -37,4 +37,8 @@ export class IncomService {
     }
     return this.http.post<any>(`${environment.apiUrl}/supplier/sendMessage`, { ...params })
   }
+
+  sendMultipleMessage(params) {
+    return this.http.post<any>(`${environment.apiUrl}/supplier/sendMultipleMessage`, { ...params })
+  }
 }

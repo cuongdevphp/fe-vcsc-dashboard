@@ -1,6 +1,6 @@
 <nz-card>
     <div class="row m-b-30">
-        <div class="col-lg-8">
+        <div class="col-lg-10">
             <div class="d-md-flex">
                 <div class="m-b-10 m-r-20">
                     <nz-input-group [nzPrefix]="prefixTemplate">
@@ -25,7 +25,16 @@
                 </div>
             </div>          
         </div>
-        <div class="col-lg-4 text-right">
+        <div class="col-lg-2 text-right" style="display: flex;">
+            <nz-upload
+                nzAction="/assets/upload"
+                nzAccept=".txt"
+                [nzHeaders]="{ authorization: 'authorization-text' }"
+                (nzChange)="handleChange($event, sendMultipleMessageContent)"
+            >
+                <button nz-button><i nz-icon nzType="upload"></i>Upload</button>
+            </nz-upload>
+            <span style="margin-left: 3px"></span>
             <button nz-button nzType="primary" (click)="showSendMessageModal(sendMessageContent)">
                 <i nz-icon nzType="plus"></i>
                 <span>Message</span>
@@ -47,20 +56,61 @@
                     <nz-form-item>
                         <nz-form-label nzRequired>Content</nz-form-label>
                         <nz-form-control>
-                            <textarea name="contentMessage" [(ngModel)]="contentMessage" nz-input></textarea>
+                            <textarea name="contentMessage" [(ngModel)]="contentMessage" placeholder="Please input content message" nz-input></textarea>
                         </nz-form-control>
                         <nz-form-explain *ngIf="requiredForm.content" style="color: red;">
                             Please input content message!
                         </nz-form-explain>
                     </nz-form-item>
                 </form>
-                
+            </ng-template>
+            <ng-template #sendMultipleMessageContent>
+                <nz-table 
+                    #messagesMultipleListTable 
+                    [nzData]="messagesList"
+                    [nzFrontPagination]="false"
+                    [nzShowPagination]="false"              
+                >
+                    <thead>
+                        <tr>
+                            <th width='1%' style="text-align: center;">
+                                <!-- <label class="m-r-15" nz-checkbox [(ngModel)]="allChecked" (ngModelChange)="updateAllChecked()" [nzIndeterminate]="indeterminate"></label> -->
+                            </th>
+                            <th width='3%'>Phone Number</th>
+                            <th width='25%'>Content</th>
+                            <th width='1%' style="text-align: right;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of messagesMultipleListTable.data; let i=index;">
+                            <td>
+                                {{i + 1}}
+                                <!-- <label class="m-r-15" nz-checkbox [(ngModel)]="item.checked" (ngModelChange)="updateSingleChecked()"></label> -->
+                            </td>
+                            <td>
+                                <input type="text"  name="phoneNumber" [(ngModel)]="item.phoneNumber"  nz-input placeholder="Please input phone number" />
+                            </td>
+                            <td>
+                                <textarea rows="2" name="contentMessage" [(ngModel)]="item.content" placeholder="Please input content message" nz-input></textarea>
+                            </td>
+                            <td class="text-md-right">
+                                <button nz-button nzType="default" (click)="removeMessageList(i)" nzShape="circle" nz-tooltip nzTooltipTitle="Delete">
+                                    <i nz-icon nzType="delete" theme="outline"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </nz-table>
             </ng-template>
         </div>
     </div>
-
+    <style>
+        .ant-upload-list-item {
+            display: none;
+        }
+    </style>
     <nz-table 
-        #productsListTable 
+        #messagesListTable 
         [nzData]="messages"
         [nzFrontPagination]="false"
         nzShowSizeChanger
@@ -86,7 +136,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of productsListTable.data; let i=index">
+            <tr *ngFor="let item of messagesListTable.data; let i=index">
                 <td>{{item.id}}</td>
                 <td>
                     {{item.phonenumber}}

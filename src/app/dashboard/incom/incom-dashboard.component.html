@@ -23,6 +23,9 @@
                         <nz-option nzLabel="Fail" nzValue="0"></nz-option>
                     </nz-select>
                 </div>
+                <div class="m-b-10 m-r-20 d-flex align-items-center">
+                    <nz-range-picker [nzFormat]="dateFormat" [(ngModel)]="searchDate" (ngModelChange)="onChangeDateRange($event)"></nz-range-picker>
+                </div>
             </div>          
         </div>
         <div class="col-lg-2 text-right" style="display: flex;">
@@ -30,7 +33,7 @@
                 nzAction="/assets/upload"
                 nzAccept=".txt"
                 [nzHeaders]="{ authorization: 'authorization-text' }"
-                (nzChange)="handleChange($event, sendMultipleMessageContent)"
+                (nzChange)="uploadFile($event, sendMultipleMessageContent)"
             >
                 <button nz-button><i nz-icon nzType="upload"></i>Upload</button>
             </nz-upload>
@@ -78,6 +81,7 @@
                             </th>
                             <th width='3%'>Phone Number</th>
                             <th width='25%'>Content</th>
+                            <!-- <th width='1%'>Progress</th> -->
                             <th width='1%' style="text-align: right;">Action</th>
                         </tr>
                     </thead>
@@ -93,6 +97,10 @@
                             <td>
                                 <textarea rows="2" name="contentMessage" [(ngModel)]="item.content" placeholder="Please input content message" nz-input></textarea>
                             </td>
+                            <!-- <td>
+                                {{progress}}
+                                <nz-progress nzWidth="30" [nzPercent]="progress" nzType="circle"></nz-progress>
+                            </td> -->
                             <td class="text-md-right">
                                 <button nz-button nzType="default" (click)="removeMessageList(i)" nzShape="circle" nz-tooltip nzTooltipTitle="Delete">
                                     <i nz-icon nzType="delete" theme="outline"></i>
@@ -104,11 +112,6 @@
             </ng-template>
         </div>
     </div>
-    <style>
-        .ant-upload-list-item {
-            display: none;
-        }
-    </style>
     <nz-table 
         #messagesListTable 
         [nzData]="messages"
@@ -119,6 +122,7 @@
         [nzPageSize]="pageSize"
         [nzPageIndex]="pageIndex"
         (nzQueryParams)="onQueryParamsChange($event)"
+        [nzPageSizeOptions] = "[5, 10, 20, 30, 40, 50]"
     >
         <thead>
             <tr>
@@ -126,11 +130,11 @@
                 <th width='10%'>Phone Number</th>
                 <th width='10%'>Route Rule</th>
                 <th width='10%'>Template</th>
-                <th width='15%'>Content</th>
+                <th width='25%'>Content</th>
                 <th width='15%'>ID Omni</th>
                 <th width='5%'>Channel</th>
-                <th width='20%'>Time Send</th>
-                <th width='25%'>Time Add</th>
+                <th width='14%'>Time Send</th>
+                <!-- <th width='25%'>Time Add</th> -->
                 <th width='5%'>Status</th>
                 <th width='30%'>Action</th>
             </tr>
@@ -182,7 +186,7 @@
                 <td>{{item.id_omni}}</td>
                 <td>{{item.channel}}</td>
                 <td>{{item.timesend}}</td>
-                <td>{{item.timeadd}}</td>
+                <!-- <td>{{item.timeadd}}</td> -->
                 <td style="text-align: center;">
                     <nz-badge *ngIf="item.complete == '1'" nzStatus="success"></nz-badge>
                     <nz-badge *ngIf="item.complete != '1'" nzStatus="error"></nz-badge>

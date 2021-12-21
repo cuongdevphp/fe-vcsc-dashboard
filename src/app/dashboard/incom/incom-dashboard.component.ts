@@ -4,6 +4,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { IncomService } from 'src/app/shared/services/incom.service';
+import * as moment from 'moment';
 declare var $: any; // JQuery
 @Component({
     templateUrl: './incom-dashboard.component.html'
@@ -13,6 +14,8 @@ export class IncomDashboardComponent implements OnInit {
     allChecked:boolean = false;
     loading = false;
     pageSize = 10;
+    dateFormat = 'dd/MM/yyyy';
+    searchDate = [new Date(new Date().setMonth(new Date().getMonth() - 1)), new Date()];
     pageIndex = 1;
     total = null;
     indeterminate:boolean = false;
@@ -38,7 +41,8 @@ export class IncomDashboardComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.loadMessageList(this.pageIndex, this.pageSize, null, null, '', '');
+        console.log(this.searchDate, 'dateime')
+        this.loadMessageList(this.pageIndex, this.pageSize, null, null, '', '', this.searchDate[0], this.searchDate[1]);
     }
 
     onQueryParamsChange(params: NzTableQueryParams): void {
@@ -46,7 +50,7 @@ export class IncomDashboardComponent implements OnInit {
         const currentSort = sort.find(item => item.value !== null);
         const sortField = (currentSort && currentSort.key) || null;
         const sortOrder = (currentSort && currentSort.value) || null;
-        this.loadMessageList(pageIndex, pageSize, sortField, sortOrder, this.searchPhone, this.selectedStatus);
+        this.loadMessageList(pageIndex, pageSize, sortField, sortOrder, this.searchPhone, this.selectedStatus, this.searchDate[0], this.searchDate[1]);
     }
     
     loadMessageList(
@@ -56,13 +60,15 @@ export class IncomDashboardComponent implements OnInit {
         sortOrder: string | null,
         filterPhone: string,
         filterStatus: string | null,
+        startDate: Date | null,
+        endDate: Date | null,
     ): void {
         let page = 0;
         if(pageIndex !== 1) {
             page = pageSize * (pageIndex - 1);
         }
         //this.loading = true;
-        this.incomService.getMessages(page, pageSize, sortField, sortOrder, filterPhone, filterStatus)
+        this.incomService.getMessages(page, pageSize, sortField, sortOrder, filterPhone, filterStatus, startDate, endDate)
         .subscribe(messages => {
             if(messages.success) {
                 //this.loading = false;
@@ -78,7 +84,7 @@ export class IncomDashboardComponent implements OnInit {
 
     searchPhoneNumber(): void {
         setTimeout( async () =>{
-            this.loadMessageList(this.pageIndex, this.pageSize, null, null, this.searchPhone, this.selectedStatus);
+            this.loadMessageList(this.pageIndex, this.pageSize, null, null, this.searchPhone, this.selectedStatus, this.searchDate[0], this.searchDate[1]);
         }, 500);
     }
 
@@ -86,7 +92,7 @@ export class IncomDashboardComponent implements OnInit {
         if(value === 'All') {
             value = '';
         }
-        this.loadMessageList(this.pageIndex, this.pageSize, null, null, this.searchPhone, value);
+        this.loadMessageList(this.pageIndex, this.pageSize, null, null, this.searchPhone, value, this.searchDate[0], this.searchDate[1]);
     }
 
     sendMessage(phoneNumber: string, contentMessage: string): void {
@@ -99,7 +105,7 @@ export class IncomDashboardComponent implements OnInit {
                     'Notification',
                     'Send message success'
                 );
-                this.loadMessageList(this.pageIndex, this.pageSize, null, null, '', '');
+                this.loadMessageList(this.pageIndex, this.pageSize, null, null, '', '', this.searchDate[0], this.searchDate[1]);
             } else {
                 this.notification.create(
                     'error',
@@ -174,12 +180,12 @@ export class IncomDashboardComponent implements OnInit {
                     'Notification',
                     'Send message success'
                 );
-                this.loadMessageList(this.pageIndex, this.pageSize, null, null, '', '');
+                this.loadMessageList(this.pageIndex, this.pageSize, null, null, '', '', this.searchDate[0], this.searchDate[1]);
             } else {
                 this.notification.create(
                     'error',
                     'Send message fail',
-                    `${result.code}`
+                    `${result.errorList}`
                 );
             }
             this.modalService.closeAll();
@@ -243,8 +249,9 @@ export class IncomDashboardComponent implements OnInit {
         this.messagesList = [...this.messagesList];
     }
 
-    handleChange(info: NzUploadFile, sendMultipleMessageContent: TemplateRef<{}>): void {
+    uploadFile(info: NzUploadFile, sendMultipleMessageContent: TemplateRef<{}>): void {
         if(info.type === 'progress') {
+            // this.Showprogressbar();
             $('div.ant-upload-list-item').css('display','none');
             //$(this).children('div.ant-upload-list-item').style.cssText += 'display: none;';
             const reader = new FileReader();
@@ -258,11 +265,44 @@ export class IncomDashboardComponent implements OnInit {
                     arrText.push({
                         'phoneNumber': textSplit[0],
                         'content': content,
-                    })
+                    });
                 }
                 this.messagesList = arrText;
             }
             reader.readAsText(info.file.originFileObj, "utf-8");
         }
     }
+
+    onChangeDateRange(result: Date[]): void {
+        if(result.length === 0) {
+            result = [new Date(new Date().setMonth(new Date().getMonth() - 1)), new Date()];
+        }
+        this.loadMessageList(this.pageIndex, this.pageSize, null, null, this.searchPhone, this.selectedStatus, result[0], result[1]);
+    }
+        // progress = 0;
+    // Showprogressbar()  
+    // {  
+    //     setInterval(() =>{
+    //         this.progress += 1; 
+    //             // if(this.progress = 100) {
+    //             //     this.progress = 100
+    //             // }
+    //     } , 1000) 
+    // }  
+
+    
+    
+     
+    //  if (this.progress == 0) {  
+    //  } else {  
+    //    this.progress = this.progress + 1;  
+    //    if (this.progress = this.progress + 30) {  
+    //      this.progress == this.progress + 1;  
+    //      if (this.progress >= 100) {  
+    //        this.progress = 100;  
+    //      }  
+    //    }  
+     //}  
+   
+  
 }

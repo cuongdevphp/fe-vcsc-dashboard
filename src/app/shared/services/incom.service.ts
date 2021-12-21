@@ -22,8 +22,8 @@ export class IncomService {
       return this.messageSubject.value;
   }
 
-  getMessages(pageIndex, pageSize, sortField, sortOrder, filterPhone, filterStatus) {
-    return this.http.get<MessageIncom>(`${environment.apiUrl}/supplier/sendMessageList?offset=${pageIndex}&page=${pageSize}&phonenumber=${filterPhone}&status=${filterStatus}`);
+  getMessages(pageIndex, pageSize, sortField, sortOrder, filterPhone, filterStatus, startDate, endDate) {
+    return this.http.get<MessageIncom>(`${environment.apiUrl}/supplier/sendMessageList?offset=${pageIndex}&page=${pageSize}&phonenumber=${filterPhone}&status=${filterStatus}&startDate=${new Date(startDate).toISOString()}&endDate=${new Date(endDate).toISOString()}`);
   }
 
   sendMessage(phoneNumber, contentMessage) {

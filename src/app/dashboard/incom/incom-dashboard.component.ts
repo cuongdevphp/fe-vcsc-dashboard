@@ -41,7 +41,9 @@ export class IncomDashboardComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        console.log(this.searchDate, 'dateime')
+        
+        let users = JSON.parse(localStorage.getItem('user')) || [];
+        //console.log(users, 'users');
         this.loadMessageList(this.pageIndex, this.pageSize, null, null, '', '', this.searchDate[0], this.searchDate[1]);
     }
 
@@ -127,7 +129,7 @@ export class IncomDashboardComponent implements OnInit {
             content: false
         };
     }
-        
+
     showSendMessageModal(sendMessageContent: TemplateRef<{}>) {
         this.modalService.create({
             nzMaskClosable: false,
@@ -257,17 +259,18 @@ export class IncomDashboardComponent implements OnInit {
             const reader = new FileReader();
             reader.onload = (e) => {
                 const text = (<string>reader.result).split('\n');
-                this.showSendMultipleMessageModal(sendMultipleMessageContent);
+                console.log(text, 'text');
                 const arrText = [];
                 for(const i of text) {
                     const textSplit = (<string>i).split('\t');
-                    const content = textSplit[1].replace("\r", "")
+                    const content = textSplit[1].replace("\r", "");
                     arrText.push({
                         'phoneNumber': textSplit[0],
                         'content': content,
                     });
                 }
                 this.messagesList = arrText;
+                this.showSendMultipleMessageModal(sendMultipleMessageContent);
             }
             reader.readAsText(info.file.originFileObj, "utf-8");
         }

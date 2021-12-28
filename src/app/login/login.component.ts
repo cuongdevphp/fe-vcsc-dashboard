@@ -16,16 +16,10 @@ export class LoginComponent {
     submitted = false;
 
     submitForm(): void {
-        
         this.submitted = true;
-
-        // reset alerts on submit
-
-        // stop here if form is invalid
         if (this.loginForm.invalid) {
             return;
         }
-
         this.loading = true;
         this.accountService.login(this.f.userName.value, this.f.password.value)
             .pipe(first())
@@ -36,15 +30,19 @@ export class LoginComponent {
                         'Notification',
                         'Login Success.'
                     );
+                    //window.location.href = "/dashboard/default";
+                    // window.onload('/dashboard/default');
+                    // this.router.navigateByUrl("/dashboard/default")
                     // get return url from query parameters or default to home page
-                    const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-                    this.router.navigateByUrl(returnUrl);
+                    //const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard/default';
+                    this.router.navigate(['/dashboard/default']);
+                    //this.router.navigateByUrl(returnUrl);
                 },
                 error: error => {
                     this.notification.create(
                         'error',
-                        'Notification ',
-                        'Username or password is wrong.'
+                        'Notification',
+                        'Username or password is wrong'
                     );
                     this.loading = false;
                 }

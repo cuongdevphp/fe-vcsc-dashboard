@@ -8,7 +8,7 @@ import { ThemeConstantService } from '../../services/theme-constant.service';
 })
 
 export class HeaderComponent{
-
+    user: any;
     searchVisible : boolean = false;
     quickViewVisible : boolean = false;
     isFolded : boolean;
@@ -20,6 +20,8 @@ export class HeaderComponent{
     ) {}
 
     ngOnInit(): void {
+        const user = this.accountService.userValue;
+        this.user = user;
         this.themeService.isMenuFoldedChanges.subscribe(isFolded => this.isFolded = isFolded);
         this.themeService.isExpandChanges.subscribe(isExpand => this.isExpand = isExpand);
     }

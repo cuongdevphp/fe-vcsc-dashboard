@@ -11,4 +11,4 @@ export class IconFilterPipe implements PipeTransform {
             return it.toLowerCase().includes(searchText);
         });
     }
-}
+} 

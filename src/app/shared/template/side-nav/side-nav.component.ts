@@ -17,6 +17,21 @@ export class SideNavComponent{
     constructor( private themeService: ThemeConstantService) {}
 
     ngOnInit(): void {
+
+        // let user = JSON.parse(localStorage.getItem('user')) || [];
+        // const menuUser = typeof user.menu !== 'undefined' ? JSON.parse(user.menu) : '';
+        // if(menuUser) {
+        //     for(const i of ROUTES) {
+        //         let subMenu = [];
+        //         for(const y in i.submenu) {
+        //             if(menuUser.includes(i.submenu[y].name)) {
+        //                 subMenu.push(i.submenu[y]);
+        //             }
+        //         }
+        //         i.submenu = subMenu;
+        //     }
+        // }
+        
         this.menuItems = ROUTES.filter(menuItem => menuItem);
         this.themeService.isMenuFoldedChanges.subscribe(isFolded => this.isFolded = isFolded);
         this.themeService.isExpandChanges.subscribe(isExpand => this.isExpand = isExpand);

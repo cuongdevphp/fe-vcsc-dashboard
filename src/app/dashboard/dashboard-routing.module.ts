@@ -2,25 +2,14 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { DefaultDashboardComponent } from './default/default-dashboard.component';
-import { EcommerceDashboardComponent } from './e-commerce/e-commerce-dashboard.component';
-import { ProjectsDashboardComponent } from './projects/projects-dashboard.component';
-import { CrmDashboardComponent } from './crm/crm-dashboard.component';
 import { IncomDashboardComponent } from './incom/incom-dashboard.component';
-
-const routes: Routes = [
+import { UsersDashboardComponent } from './users/users.component';
+let routes: Routes = [
     {
         path: 'default',
         component: DefaultDashboardComponent,
         data: {
             title: 'Dashboard ',
-            headerDisplay: "none"
-        }
-    },
-    {
-        path: 'e-commerce',
-        component: EcommerceDashboardComponent,
-        data: {
-            title: 'E-Commerce Dashboard ',
             headerDisplay: "none"
         }
     },
@@ -33,25 +22,32 @@ const routes: Routes = [
         }
     },
     {
-        path: 'projects',
-        component: ProjectsDashboardComponent,
+        path: 'users',
+        component: UsersDashboardComponent,
         data: {
-            title: 'Projects Dashboard ',
+            title: 'Users Dashboard ',
             headerDisplay: "none"
         }
     },
-    {
-        path: 'crm',
-        component: CrmDashboardComponent,
-        data: {
-            title: 'CRM',
-            headerDisplay: "none"
-        }
-    }
 ];
 
+// let user = JSON.parse(localStorage.getItem('user')) || [];
+// const menuUser = typeof user.menu !== 'undefined' ? JSON.parse(user.menu) : '';
+
+// if(menuUser) {
+//     let subMenu = [];
+//     for(const i in routes) {
+//         if(menuUser.includes(routes[i].path)) {
+//             subMenu.push(routes[i]);
+//         }
+//     }
+//     routes = subMenu;
+// }
+// console.log(routes, 'routes');
 @NgModule({
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule],
 })
-export class DashboardRoutingModule { }
+
+export class DashboardRoutingModule { 
+}

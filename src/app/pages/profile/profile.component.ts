@@ -1,11 +1,20 @@
 import { Component } from '@angular/core'
+import { AccountService } from 'src/app/shared/services/account.service';
 
 @Component({
     templateUrl: './profile.component.html'
 })
 
 export class ProfileComponent {
+    user: any;
+    constructor( 
+        private accountService: AccountService
+    ) {}
 
+    ngOnInit(): void {
+        const user = this.accountService.userValue;
+        this.user = user;
+    }
     skillListData = ['Sketch', 'Marvel', 'Photoshop', 'Illustrator', 'Web Design', 'Mobile App Design', 'User Interface', 'User Experience']
 
     expListData = [

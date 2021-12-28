@@ -19,6 +19,7 @@ import { NgChartjsModule } from 'ng-chartjs';
 import { ThemeConstantService } from './shared/services/theme-constant.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ErrorInterceptor, fakeBackendProvider, JwtInterceptor } from './shared/_helpers';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 registerLocaleData(en);
 
@@ -26,7 +27,8 @@ registerLocaleData(en);
     declarations: [
         AppComponent,
         CommonLayoutComponent,
-        FullLayoutComponent
+        FullLayoutComponent,
+        NotFoundComponent
     ],
     imports: [
         BrowserModule,
@@ -38,12 +40,16 @@ registerLocaleData(en);
         NgChartjsModule
     ],
     providers: [
-        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+        { 
+            provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true 
+        },
+        { 
+            provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true 
+        },
         
         // provider used to create fake backend
-        fakeBackendProvider,
-        { 
+        // fakeBackendProvider,
+        {
             provide: NZ_I18N,
             useValue: en_US, 
         },

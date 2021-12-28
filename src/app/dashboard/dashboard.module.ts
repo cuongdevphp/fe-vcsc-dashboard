@@ -24,9 +24,6 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 
 import { DefaultDashboardComponent } from './default/default-dashboard.component';
-import { EcommerceDashboardComponent } from './e-commerce/e-commerce-dashboard.component';
-import { ProjectsDashboardComponent } from './projects/projects-dashboard.component';
-import { CrmDashboardComponent } from './crm/crm-dashboard.component';
 import { IncomDashboardComponent } from './incom/incom-dashboard.component';
 import { TableService } from '../shared/services/table.service';
 import { NzSelectModule } from 'ng-zorro-antd/select';
@@ -37,6 +34,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzMessageModule } from 'ng-zorro-antd/message';
+import { UsersDashboardComponent } from './users/users.component';
 
 const antdModule = [
     NzButtonModule,
@@ -77,10 +75,8 @@ const antdModule = [
     exports: [],
     declarations: [
         DefaultDashboardComponent,
-        EcommerceDashboardComponent,
-        ProjectsDashboardComponent,
-        CrmDashboardComponent,
-        IncomDashboardComponent
+        IncomDashboardComponent,
+        UsersDashboardComponent,
     ],
     providers: [
         ThemeConstantService,

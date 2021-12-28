@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
 import { CommonLayoutComponent } from "./layouts/common-layout/common-layout.component";
+import { NotFoundComponent } from './not-found/not-found.component';
 import { CommonLayout_ROUTES } from "./shared/routes/common-layout.routes";
 
 const loginModule = () => import('./login/login.module').then(x => x.LoginModule);
@@ -11,11 +12,16 @@ const appRoutes: Routes = [
         redirectTo: '/dashboard/default',
         pathMatch: 'full',
     },
+    // {
+    //     path: '**', 
+    //     redirectTo: '/dashboard/default',
+    // },
     {
         path: '', 
         component: CommonLayoutComponent,
         children: CommonLayout_ROUTES,
     },
+    {path: '**', component: NotFoundComponent},
     // { 
     //     path: '', 
     //     component: FullLayoutComponent, 

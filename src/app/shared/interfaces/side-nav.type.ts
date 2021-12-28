@@ -3,6 +3,7 @@ export interface SideNavInterface {
     title: string;
     iconType: "" | "nzIcon" | "fontawesome";
     iconTheme: "" | "fab" | "far" | "fas" | "fill" | "outline" | "twotone";
-    icon: string,
+    icon: string;
+    name: string;
     submenu : SideNavInterface[];
 }

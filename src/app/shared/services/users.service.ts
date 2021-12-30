@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
@@ -22,7 +22,33 @@ export class UsersService {
       return this.messageSubject.value;
   }
 
-  getUsers(pageIndex, pageSize, searchUserName, searchTeam, searchBranch, searchRoom) {
-    return this.http.get<any>(`${environment.apiUrl}/internal/getUsers?offset=${pageIndex}&page=${pageSize}&username=${searchUserName}&team=${searchTeam}&branch=${searchBranch}&room=${searchRoom}`);
+  getUsers(pageIndex, pageSize, searchUserName, searchTeam, searchBranch, searchRoom, searchPermission) {
+    return this.http.get<any>(`${environment.apiUrl}/internal/users?offset=${pageIndex}&page=${pageSize}&username=${searchUserName}&team=${searchTeam}&branch=${searchBranch}&room=${searchRoom}&permission=${searchPermission}`);
+  }
+
+  deleteUser(id, isActive) {
+    const params = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: {
+        isActive
+      },
+    };
+    return this.http.delete<any>(`${environment.apiUrl}/internal/user/${id}`, params)
+  }
+
+  updateUser(id, body) {
+    const params = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      ...body,
+    };
+    return this.http.put<any>(`${environment.apiUrl}/internal/user/${id}`, params)
+  }
+
+  createUser(params) {
+    return this.http.post<any>(`${environment.apiUrl}/internal/user`, { ...params })
   }
 }

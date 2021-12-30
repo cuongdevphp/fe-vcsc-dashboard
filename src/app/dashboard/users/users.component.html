@@ -1,6 +1,6 @@
 <h2>Users</h2>
 <nz-card>
-    <div class="row m-b-30">
+    <div *ngIf="localStorageUser.permission !== '0'" class="row m-b-30">
         <div class="col-lg-10">
             <div class="d-md-flex">
                 <div class="m-b-10 m-r-20">
@@ -13,19 +13,7 @@
                 </div>
                 <div class="m-b-10 m-r-20 d-flex align-items-center">
                     <nz-select 
-                        style="min-width: 220px;" 
-                        class="w-100" 
-                        nzPlaceHolder="Team" 
-                        [(ngModel)]="selectedTeam" 
-                        (ngModelChange)="teamChange($event)"
-                    >
-                        <nz-option nzLabel="All" nzValue="All"></nz-option>
-                        <nz-option *ngFor="let value of filterTeamData" [nzLabel]="value" [nzValue]="value"></nz-option>
-                    </nz-select>
-                </div>
-                <div class="m-b-10 m-r-20 d-flex align-items-center">
-                    <nz-select 
-                        style="min-width: 220px;" 
+                        style="min-width: 100px;" 
                         class="w-100" 
                         nzPlaceHolder="Branch" 
                         [(ngModel)]="selectedBranch" 
@@ -37,7 +25,7 @@
                 </div>
                 <div class="m-b-10 m-r-20 d-flex align-items-center">
                     <nz-select 
-                        style="min-width: 220px;" 
+                        style="min-width: 100px;" 
                         class="w-100" 
                         nzPlaceHolder="Room" 
                         [(ngModel)]="selectedRoom" 
@@ -47,42 +35,141 @@
                         <nz-option *ngFor="let value of filterRoomData" [nzLabel]="value" [nzValue]="value"></nz-option>
                     </nz-select>
                 </div>
+                <div class="m-b-10 m-r-20 d-flex align-items-center">
+                    <nz-select 
+                        style="min-width: 100px;" 
+                        class="w-100" 
+                        nzPlaceHolder="Team" 
+                        [(ngModel)]="selectedTeam" 
+                        (ngModelChange)="teamChange($event)"
+                    >
+                        <nz-option nzLabel="All" nzValue="All"></nz-option>
+                        <nz-option *ngFor="let value of filterTeamData" [nzLabel]="value" [nzValue]="value"></nz-option>
+                    </nz-select>
+                </div>
             </div>          
         </div>
         <div class="col-lg-2 text-right">
-            <button nz-button nzType="primary" (click)="showSendMessageModal(sendMessageContent)">
+            <button nzShape="circle" nz-button nzType="primary" (click)="showCreateUserModal(createUserFormContent)">
                 <i nz-icon nzType="plus"></i>
-                <span>User</span>
             </button>
-            <ng-template #sendMessageContent>
-                <!-- <form nz-form nzLayout="vertical">
-                    <nz-form-item>
-                        <nz-form-label nzRequired>Phone number</nz-form-label>
-                        <nz-form-control>
-                            <nz-input-group [nzSuffix]="suffixTemplateInfo" [nzPrefix]="prefixPhone">
-                                <input type="text" name="phoneNumber" [(ngModel)]="phoneNumber" nz-input placeholder="Please input phone number" />
-                            </nz-input-group>
-                            <ng-template #prefixPhone><i nz-icon nzType="phone"></i></ng-template>
-                            <nz-form-explain *ngIf="requiredForm.phoneNumber" style="color: red;">
-                                Please input phone number!
-                            </nz-form-explain>
-                        </nz-form-control>
-                    </nz-form-item>
-                    <nz-form-item>
-                        <nz-form-label nzRequired>Content</nz-form-label>
-                        <nz-form-control>
-                            <textarea name="contentMessage" [(ngModel)]="contentMessage" placeholder="Please input content message" nz-input></textarea>
-                        </nz-form-control>
-                        <nz-form-explain *ngIf="requiredForm.content" style="color: red;">
-                            Please input content message!
-                        </nz-form-explain>
-                    </nz-form-item>
-                </form> -->
+            <ng-template #createUserFormContent>
+                <form 
+                    nz-form 
+                    nzLayout="vertical" 
+                    [formGroup]="createUserForm" 
+                    (ngSubmit)="submitCreateUser()"
+                >
+                    <div class="row">
+                        <div class="col-md-6">
+                            <nz-form-item class="relative">
+                                <nz-form-label nzRequired>Username</nz-form-label>
+                                <nz-form-control nzErrorTip="Please input username!">
+                                    <nz-input-group>
+                                        <input type="text" nz-input formControlName="username" placeholder="Please input username">
+                                    </nz-input-group>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div class="col-md-6">
+                            <nz-form-item class="relative">
+                                <nz-form-label nzRequired>Name</nz-form-label>
+                                <nz-form-control nzErrorTip="Please input name!">
+                                    <nz-input-group>
+                                        <input type="text" nz-input formControlName="name" placeholder="Please input name">
+                                    </nz-input-group>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <nz-form-item class="relative">
+                                <nz-form-label nzRequired>Password</nz-form-label>
+                                <nz-form-control nzErrorTip="Please input password!">
+                                    <nz-input-group>
+                                        <input type="password" nz-input formControlName="password" placeholder="Password">
+                                    </nz-input-group>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div class="col-md-6">
+                            <nz-form-item class="relative">
+                                <nz-form-label nzRequired>Permission</nz-form-label>
+                                <nz-form-control nzErrorTip="Please input permission!">
+                                    <nz-select formControlName="permission" class="w-100" nzPlaceHolder="Select Permission" >
+                                        <nz-option *ngFor="let value of filterPermissionData" [nzLabel]="value.name" [nzValue]="value.value"></nz-option>
+                                    </nz-select>
+                                    <!-- <nz-select formControlName="permission" class="w-100" nzPlaceHolder="Select Permission" >
+                                        <nz-option nzLabel="VCSC" nzValue="1111"></nz-option>
+                                        <nz-option nzLabel="Chi nhánh" nzValue="111"></nz-option>
+                                        <nz-option nzLabel="PGD" nzValue="11"></nz-option>
+                                        <nz-option nzLabel="Nhóm" nzValue="1"></nz-option>
+                                        <nz-option nzLabel="Nhân viên" nzValue="0"></nz-option>
+                                    </nz-select> -->
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <nz-form-item>
+                                <nz-form-label>Code</nz-form-label>
+                                <nz-form-control>
+                                    <nz-input-group>
+                                        <input type="text" nz-input formControlName="code" placeholder="Code">
+                                    </nz-input-group>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div class="col-md-6">
+                            <nz-form-item>
+                                <nz-form-label>Note</nz-form-label>
+                                <nz-form-control >
+                                    <input type="text" nz-input formControlName="note" placeholder="note">
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <nz-form-item class="relative">
+                                <nz-form-label nzRequired>Branch</nz-form-label>
+                                <nz-form-control nzErrorTip="Please select branch!">
+                                    <nz-select formControlName="branch" class="w-100" nzPlaceHolder="Select Branch" >
+                                        <nz-option *ngFor="let value of filterBranchData" [nzLabel]="value" [nzValue]="value"></nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div class="col-md-4">
+
+                            <nz-form-item class="relative">
+                                <nz-form-label nzRequired>Room</nz-form-label>
+                                <nz-form-control nzErrorTip="Please select room!">
+                                    <nz-select formControlName="room" class="w-100" nzPlaceHolder="Select Room" >
+                                        <nz-option *ngFor="let value of filterRoomData" [nzLabel]="value" [nzValue]="value"></nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div class="col-md-4">
+                            <nz-form-item class="relative">
+                                <nz-form-label nzRequired>Team</nz-form-label>
+                                <nz-form-control nzErrorTip="Please select team!">
+                                    <nz-select formControlName="team" class="w-100" nzPlaceHolder="Select Team" >
+                                        <nz-option *ngFor="let value of filterTeamData" [nzLabel]="value" [nzValue]="value"></nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                    </div>
+                </form>
             </ng-template>
         </div>
     </div>
-
     <nz-table 
+        nzTableLayout="fixed"
         #usersListTable 
         [nzData]="users"
         [nzFrontPagination]="false"
@@ -96,38 +183,120 @@
     >
         <thead>
             <tr>
-                <th width='3%'>ID</th>
-                <th width='5%'>Username</th>
+                <th width='5%'>ID</th>
+                <th width='10%'>Username</th>
                 <th width='10%'>Name</th>
-                <th width='5%'>Team</th>
                 <th width='5%'>Branch</th>
                 <th width='5%'>Room</th>
+                <th width='5%'>Team</th>
                 <th width='10%'>Code</th>
                 <th width='15%'>Note</th>
-                <th width='5%'>Permission</th>
-                <th width='5%'>Status</th>
-                <th width='5%'>Action</th>
+                <th width='10%'>Permission</th>
+                <th width='5%' *ngIf="localStorageUser.permission !== '0'" >Active</th>
+                <th width='5%' *ngIf="localStorageUser.permission !== '0'">Action</th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let item of usersListTable.data; let i=index">
-                <td>{{item.id}}</td>
-                <td>{{item.username}}</td>
-                <td>{{item.name}}</td>
-                <td>{{item.team}}</td>
-                <td>{{item.branch}}</td>
-                <td>{{item.transaction_room}}</td>
-                <td>{{item.code}}</td>
-                <td>{{item.note}}</td>
-                <td>{{item.permission}}</td>
-                <td style="text-align: center;">
-                    <nz-badge  nzStatus="success"></nz-badge>
-                </td>
-                <td class="text-md-right">
-                    <a class="m-r-5" nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Edit" >
-                        <i nz-icon nzType="edit" theme="outline"></i>
-                    </a>
-                </td>
+                <ng-container *ngIf="!editCache[item.id].edit; else editTemplate">
+                    <td>{{item.id}}</td>
+                    <td>{{item.username}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.branch}}</td>
+                    <td>{{item.transaction_room}}</td>
+                    <td>{{item.team}}</td>
+                    <td>{{item.code}}</td>
+                    <td>{{item.note}}</td>
+                    <td>
+                        <nz-tag [nzColor]="'cyan'">
+                            <span *ngIf="item.permission == '1111'">VCSC</span>
+                            <span *ngIf="item.permission == '111'">Chi nhánh</span>
+                            <span *ngIf="item.permission == '11'">PGD</span>
+                            <span *ngIf="item.permission == '1'">Nhóm</span>
+                            <span *ngIf="item.permission == '0'">Nhân viên</span>
+                        </nz-tag>
+                    </td>
+                    <td *ngIf="localStorageUser.permission !== '0'" >
+                        <nz-switch [(ngModel)]="item.active" (ngModelChange)="changeStatusActive(item)"></nz-switch>
+                    </td>
+                    <td *ngIf="localStorageUser.permission !== '0'" class="text-md-right" style="display: flex; min-width: 110px;">
+                        <button (click)="startEdit(item.id)" class="m-r-5" nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Edit" >
+                            <i nz-icon nzType="edit" theme="outline"></i>
+                        </button>
+                        <!-- <button
+                            nz-popconfirm
+                            nzPopconfirmTitle="Are you sure delete this user?"
+                            (nzOnConfirm)="confirm(item)"
+                            (nzOnCancel)="cancel()"
+                            nzPopconfirmPlacement="topLeft"
+                            nz-button
+                            nzShape="circle"
+                            nzTooltipTitle="Edit"
+                        >
+                            <i nz-icon nzType="delete" theme="outline"></i>
+                        </button> -->
+                    </td>
+                </ng-container>
+                <ng-template #editTemplate>
+                    <td>{{item.id}}</td>
+                    <td>{{item.username}}</td>
+                    <td>
+                        <input type="text" nz-input [(ngModel)]="editCache[item.id].data.name" />
+                    </td>
+                    <td>
+                        <nz-select [(ngModel)]="editCache[item.id].data.branch" style="width: 70px;">
+                            <nz-option *ngFor="let value of filterBranchData" [nzLabel]="value" [nzValue]="value"></nz-option>
+                        </nz-select>
+                    </td>
+                    <td>
+                        <nz-select [(ngModel)]="editCache[item.id].data.transaction_room" style="width: 70px;">
+                            <nz-option *ngFor="let value of filterRoomData" [nzLabel]="value" [nzValue]="value"></nz-option>
+                        </nz-select>
+                    </td>
+                    <td>
+                        <nz-select [(ngModel)]="editCache[item.id].data.team" style="width: 70px;">
+                            <nz-option *ngFor="let value of filterTeamData" [nzLabel]="value" [nzValue]="value"></nz-option>
+                        </nz-select>
+                    </td>
+                    <td>
+                        <input type="text" nz-input [(ngModel)]="editCache[item.id].data.code" />
+                    </td>
+                    <td>
+                        <input type="text" nz-input [(ngModel)]="editCache[item.id].data.note" />
+                    </td>
+                    <td>
+                        <nz-select [(ngModel)]="editCache[item.id].data.permission" style="width: 120px;">
+                            <nz-option *ngFor="let value of filterPermissionData" [nzLabel]="value.name" [nzValue]="value.value"></nz-option>
+                        </nz-select>
+                    </td>
+                    <td>
+                        <nz-switch [nzDisabled]="true" [(ngModel)]="item.active" (ngModelChange)="changeStatusActive(item)"></nz-switch></td>
+                    <td style="display: flex; min-width: 110px;">
+                        <button 
+                            (click)="saveEditUser(item.id)" 
+                            class="m-r-5" 
+                            nz-button 
+                            nzType="primary" 
+                            nzShape="circle" 
+                            nz-tooltip 
+                            nzTooltipTitle="Save" 
+                        >
+                            <i nz-icon nzType="check" theme="outline"></i>
+                        </button>
+                        <button 
+                            (click)="cancelEditUser(item.id)"
+                            class="m-r-5" 
+                            nz-button 
+                            nzType="primary" 
+                            nz-tooltip 
+                            nzShape="circle" 
+                            nzTooltipTitle="Close" 
+                            nzDanger
+                        >
+                            <i nz-icon nzType="close" theme="outline"></i>
+                        </button>
+                    </td>
+                </ng-template>
             </tr>
         </tbody>
     </nz-table>

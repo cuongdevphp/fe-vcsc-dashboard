@@ -35,10 +35,15 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { UsersDashboardComponent } from './users/users.component';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const antdModule = [
+    NzPopconfirmModule,
     NzButtonModule,
     NzCardModule,
+    NzSwitchModule,
     NzAvatarModule,
     NzRateModule,
     NzBadgeModule,
@@ -69,6 +74,7 @@ const antdModule = [
         CommonModule,
         SharedModule,
         DashboardRoutingModule,
+        ReactiveFormsModule,
         NgChartjsModule,
         ...antdModule
     ],

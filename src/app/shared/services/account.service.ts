@@ -1,6 +1,6 @@
 ﻿import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -25,16 +25,15 @@ export class AccountService {
     }
 
     login(username, password) {
-        return this.http.post<any>(`${environment.apiUrl}/login`, { username, password })
-            .pipe(map(result => {
-                console.log(result, 'result');
-                if(result.success) {
-                    // store user details and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('user', JSON.stringify(result.data));
-                    this.userSubject.next(result.data);
-                    return result.data;
-                }
-            }));
+        return this.http.post<any>(`${environment.apiUrl}/login`, { username, password }).pipe(map(result => {
+            console.log(result, 'result');
+            if(result.success) {
+                // store user details and jwt token in local storage to keep user logged in between page refreshes
+                localStorage.setItem('user', JSON.stringify(result.data));
+                this.userSubject.next(result.data);
+                return result.data;
+            }
+        }));
     }
 
     logout() {

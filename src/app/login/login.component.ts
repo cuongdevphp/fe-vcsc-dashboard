@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core'
 import { FormBuilder, FormGroup,  Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -20,6 +21,7 @@ export class LoginComponent {
         if (this.loginForm.invalid) {
             return;
         }
+        
         this.loading = true;
         this.accountService.login(this.f.userName.value, this.f.password.value)
             .pipe(first())
@@ -38,11 +40,11 @@ export class LoginComponent {
                     this.router.navigate(['/dashboard/default']);
                     //this.router.navigateByUrl(returnUrl);
                 },
-                error: error => {
+                error: (e: HttpErrorResponse) => {
                     this.notification.create(
                         'error',
                         'Notification',
-                        'Username or password is wrong'
+                        e.error.error
                     );
                     this.loading = false;
                 }

@@ -36,15 +36,15 @@ export const ROUTES: SideNavInterface[] = [
                 name: 'users',
                 submenu: [],
             },
-            {
-                path: '/dashboard/statistics',
-                title: 'Statistics',
-                iconType: 'nzIcon',
-                icon: 'pie-chart',
-                iconTheme: 'outline',
-                name: 'statistics',
-                submenu: [],
-            },
+            // {
+            //     path: '/dashboard/statistics',
+            //     title: 'Statistics',
+            //     iconType: 'nzIcon',
+            //     icon: 'pie-chart',
+            //     iconTheme: 'outline',
+            //     name: 'statistics',
+            //     submenu: [],
+            // },
         ]
     },
 ]    

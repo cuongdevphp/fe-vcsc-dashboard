@@ -200,7 +200,13 @@
             <tr *ngFor="let item of usersListTable.data; let i=index">
                 <ng-container *ngIf="!editCache[item.id].edit; else editTemplate">
                     <td>{{item.id}}</td>
-                    <td>{{item.username}}</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <nz-avatar *ngIf="item.image" [nzSize]="30" [nzIcon]="'user'" nzSrc="http://10.10.25.150:3001/assets/profile/{{item.image}}"></nz-avatar>
+                            <nz-avatar *ngIf="!item.image" [nzSize]="30" nzIcon="user" class="ant-avatar-blue"  ></nz-avatar>
+                            <h6 class="m-l-10 m-b-0">{{item.username}}</h6>
+                        </div>
+                    </td>
                     <td>{{item.name}}</td>
                     <td>{{item.branch}}</td>
                     <td>{{item.transaction_room}}</td>
@@ -290,7 +296,7 @@
                             nzType="primary" 
                             nz-tooltip 
                             nzShape="circle" 
-                            nzTooltipTitle="Close" 
+                            nzTooltipTitle="Cancel" 
                             nzDanger
                         >
                             <i nz-icon nzType="close" theme="outline"></i>

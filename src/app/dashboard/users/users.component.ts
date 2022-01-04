@@ -125,7 +125,7 @@ export class UsersDashboardComponent implements OnInit {
 
         this.usersService.createUser(params).subscribe(result => {
             if(result.success) {
-                this.nzMessageService.info(result.message);
+                this.nzMessageService.create('success', result.message);
                 this.createUserForm.reset();
                 this.modalService.closeAll();
                 this.loadUsersList(this.pageIndex, this.pageSize, this.searchUser, this.selectedTeam, this.selectedBranch, this.selectedRoom, this.selectedPermission);
@@ -144,9 +144,8 @@ export class UsersDashboardComponent implements OnInit {
         const id = item.id;
         const isActive = item.active ? 1 : 0; 
         this.usersService.deleteUser(id, isActive).subscribe(result => {
-            console.log(result, 'result');
             if(result.success) {
-                this.nzMessageService.info(result.message);
+                this.nzMessageService.create('success', result.message);
             } else {
                 this.nzMessageService.error('Update status error');
             }
@@ -221,10 +220,9 @@ export class UsersDashboardComponent implements OnInit {
             vcsc: `V${this.editCache[id].data['branch']}${this.editCache[id].data['transaction_room']}${this.editCache[id].data['team']}`, 
         };
         this.usersService.updateUser(id, data).subscribe(result => {
-            console.log(result, 'result');
             if(result.success) {
                 this.editCache[id].edit = false;
-                this.nzMessageService.info(result.message);
+                this.nzMessageService.create('success', result.message);
             } else {
                 this.nzMessageService.error('Update user error');
             }

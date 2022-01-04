@@ -37,7 +37,7 @@ export class LoginComponent {
                     // this.router.navigateByUrl("/dashboard/default")
                     // get return url from query parameters or default to home page
                     //const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard/default';
-                    this.router.navigate(['/dashboard/default']);
+                    this.router.navigate(['/dashboard/home']);
                     //this.router.navigateByUrl(returnUrl);
                 },
                 error: (e: HttpErrorResponse) => {

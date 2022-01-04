@@ -4,13 +4,29 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { IncomService } from 'src/app/shared/services/incom.service';
-import * as moment from 'moment';
+import { ThemeConstantService } from 'src/app/shared/services/theme-constant.service';
 declare var $: any; // JQuery
 @Component({
     templateUrl: './incom-dashboard.component.html'
 })
 
 export class IncomDashboardComponent implements OnInit {
+    themeColors = this.colorConfig.get().colors;
+    blue = this.themeColors.blue;
+    blueLight = this.themeColors.blueLight;
+    cyan = this.themeColors.cyan;
+    cyanLight = this.themeColors.cyanLight;
+    gold = this.themeColors.gold;
+    purple = this.themeColors.purple;
+    purpleLight = this.themeColors.purpleLight;
+    red = this.themeColors.red;
+    revenueChartType = 'line';
+
+    
+    lineChartLegend = true;
+    lineChartType = 'line';
+    revenueChartFormat: string = 'revenueMonth';
+
     allChecked:boolean = false;
     loading = false;
     pageSize = 10;
@@ -36,6 +52,7 @@ export class IncomDashboardComponent implements OnInit {
         private incomService: IncomService,
         private modalService: NzModalService,
         private notification: NzNotificationService,
+        private colorConfig: ThemeConstantService
     ) {
         //this.displayData = this.productsList
     }
@@ -160,10 +177,114 @@ export class IncomDashboardComponent implements OnInit {
                     },
                 },
             ],
-            nzWidth: 800,
+            nzWidth: 1000,
         })
     }
     
+    showStatisticModal(statisticContent: TemplateRef<{}>) {
+        this.modalService.create({
+            nzMaskClosable: false,
+            nzTitle: 'Statistic',
+            nzOnCancel: () => {
+
+            },
+            nzContent: statisticContent,
+            // nzFooter: [
+            //     {
+            //         label: 'OK',
+            //         type: 'primary',
+            //         onClick: () => {
+                        
+            //         },
+            //     },
+            // ],
+            nzWidth: 800,
+        })
+    }
+
+    lineChartData: Array<any> = [
+        { 
+            data: [65, 59, 80, 81, 56, 55, 40, 80, 81, 56, 55, 24], 
+            label: 'ZNS' 
+        },
+        { 
+            data: [28, 48, 40, 19, 86, 27, 90, 80, 81, 56, 55, 28], 
+            label: 'SMS' 
+        }
+    ];
+
+    
+    lineChartLabels:Array<any> = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    lineChartOptions: any = {
+        responsive: true,
+        hover: {
+            mode: 'nearest',
+            intersect: true
+        },
+        tooltips: {
+            mode: 'index'
+        },
+        scales: {
+            xAxes: [{
+                gridLines: [{
+                    display: false,
+                }],
+                ticks: {
+                    display: true,
+                    fontColor: this.themeColors.grayLight,
+                    fontSize: 13,
+                    padding: 10
+                }
+            }],
+            yAxes: [{
+                gridLines: {
+                    drawBorder: false,
+                    drawTicks: false,
+                    borderDash: [3, 4],
+                    zeroLineWidth: 1,
+                    zeroLineBorderDash: [3, 4]
+                },
+                ticks: {
+                    display: true,
+                    max: 100,
+                    stepSize: 10,
+                    fontColor: this.themeColors.grayLight,
+                    fontSize: 13,
+                    padding: 10
+                }
+            }],
+        }
+    };
+
+    lineChartColors: Array<any> = [
+        {
+            backgroundColor: this.themeColors.transparent,
+            borderColor: this.themeColors.blue,
+            pointBackgroundColor: this.themeColors.blue,
+            pointBorderColor: this.themeColors.white,
+            pointHoverBackgroundColor: this.themeColors.blueLight,
+            pointHoverBorderColor: this.themeColors.blueLight
+        },
+        {
+            backgroundColor: this.themeColors.transparent,
+            borderColor: this.themeColors.cyan,
+            pointBackgroundColor: this.themeColors.cyan,
+            pointBorderColor: this.themeColors.white,
+            pointHoverBackgroundColor: this.themeColors.cyanLight,
+            pointHoverBorderColor: this.themeColors.cyanLight
+        }
+    ];
+
+    momentChange(value: string): void {
+        console.log(value, 'value');
+        if(value === 'revenueMonth') {
+            this.lineChartLabels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        } else if (value === 'revenueYear') {
+            this.lineChartLabels = ["2021", "2022", "2023"];
+        }
+    }
+
     resetSendMultipleModal(): void {
         this.loadingSendMultipleModal = false;
         this.messagesList = [];

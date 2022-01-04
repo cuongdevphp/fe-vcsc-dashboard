@@ -3,10 +3,11 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { DefaultDashboardComponent } from './default/default-dashboard.component';
 import { IncomDashboardComponent } from './incom/incom-dashboard.component';
+import { StatisticsDashboardComponent } from './statistics/statistics-dashboard.component';
 import { UsersDashboardComponent } from './users/users.component';
 let routes: Routes = [
     {
-        path: 'default',
+        path: 'home',
         component: DefaultDashboardComponent,
         data: {
             title: 'Dashboard ',
@@ -26,6 +27,14 @@ let routes: Routes = [
         component: UsersDashboardComponent,
         data: {
             title: 'Users Dashboard ',
+            headerDisplay: "none"
+        }
+    },
+    {
+        path: 'statistics',
+        component: StatisticsDashboardComponent,
+        data: {
+            title: 'Statistics Dashboard',
             headerDisplay: "none"
         }
     },

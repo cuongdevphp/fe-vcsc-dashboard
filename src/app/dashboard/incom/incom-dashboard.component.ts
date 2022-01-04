@@ -180,40 +180,49 @@ export class IncomDashboardComponent implements OnInit {
             nzWidth: 1000,
         })
     }
-    
-    showStatisticModal(statisticContent: TemplateRef<{}>) {
-        this.modalService.create({
-            nzMaskClosable: false,
-            nzTitle: 'Statistic',
-            nzOnCancel: () => {
 
-            },
+    dataChart = null;
+    
+    getStatistic(): void {
+        // this.loadingSendModal = true;
+        this.incomService.getStatistic()
+        .subscribe(result => {
+            if(result.success) {
+                this.dataChart = result.data; 
+                this.momentChange('revenueMonth');
+            } else {
+                this.notification.create(
+                    'error',
+                    'Get statistic fail',
+                    `${result.code}`
+                );
+            }
+            // this.modalService.closeAll();
+            // this.resetSendModal();
+        });
+    }
+
+    showStatisticModal(statisticContent: TemplateRef<{}>) {
+        this.getStatistic();
+        this.modalService.create({
+            nzTitle: 'Statistic',
             nzContent: statisticContent,
-            // nzFooter: [
-            //     {
-            //         label: 'OK',
-            //         type: 'primary',
-            //         onClick: () => {
-                        
-            //         },
-            //     },
-            // ],
             nzWidth: 800,
+            nzFooter: null
         })
     }
 
     lineChartData: Array<any> = [
         { 
-            data: [65, 59, 80, 81, 56, 55, 40, 80, 81, 56, 55, 24], 
+            data: [], 
             label: 'ZNS' 
         },
-        { 
-            data: [28, 48, 40, 19, 86, 27, 90, 80, 81, 56, 55, 28], 
+        {
+            data: [], 
             label: 'SMS' 
         }
     ];
 
-    
     lineChartLabels:Array<any> = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
     lineChartOptions: any = {
@@ -278,9 +287,30 @@ export class IncomDashboardComponent implements OnInit {
 
     momentChange(value: string): void {
         console.log(value, 'value');
+        console.log(this.dataChart, 'this.dataChart');
         if(value === 'revenueMonth') {
+            this.lineChartData = [
+                { 
+                    data: this.dataChart.ZNS.monthZNS, 
+                    label: 'ZNS' 
+                },
+                {
+                    data: this.dataChart.SMS.monthSMS, 
+                    label: 'SMS' 
+                }
+            ];
             this.lineChartLabels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         } else if (value === 'revenueYear') {
+            this.lineChartData = [
+                { 
+                    data: this.dataChart.ZNS.yearZNS, 
+                    label: 'ZNS' 
+                },
+                {
+                    data: this.dataChart.SMS.yearSMS, 
+                    label: 'SMS' 
+                }
+            ];
             this.lineChartLabels = ["2021", "2022", "2023"];
         }
     }

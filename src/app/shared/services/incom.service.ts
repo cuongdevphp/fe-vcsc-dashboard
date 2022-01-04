@@ -41,4 +41,8 @@ export class IncomService {
   sendMultipleMessage(params) {
     return this.http.post<any>(`${environment.apiUrl}/supplier/sendMultipleMessage`, { ...params })
   }
+
+  getStatistic() {
+    return this.http.get<any>(`${environment.apiUrl}/supplier/statistic`);
+  }
 }

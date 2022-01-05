@@ -23,7 +23,7 @@ export class IncomService {
   }
 
   getMessages(pageIndex, pageSize, sortField, sortOrder, filterPhone, filterStatus, startDate, endDate) {
-    return this.http.get<MessageIncom>(`${environment.apiUrl}/supplier/sendMessageList?offset=${pageIndex}&page=${pageSize}&phonenumber=${filterPhone}&status=${filterStatus}&startDate=${new Date(startDate).toISOString()}&endDate=${new Date(endDate).toISOString()}`);
+    return this.http.get<MessageIncom>(`${environment.apiUrl}/incom/sendMessageList?offset=${pageIndex}&page=${pageSize}&phonenumber=${filterPhone}&status=${filterStatus}&startDate=${new Date(startDate).toISOString()}&endDate=${new Date(endDate).toISOString()}`);
   }
 
   sendMessage(phoneNumber, contentMessage) {
@@ -35,14 +35,14 @@ export class IncomService {
         'sendstr': contentMessage
       }
     }
-    return this.http.post<any>(`${environment.apiUrl}/supplier/sendMessage`, { ...params })
+    return this.http.post<any>(`${environment.apiUrl}/incom/sendMessage`, { ...params })
   }
 
   sendMultipleMessage(params) {
-    return this.http.post<any>(`${environment.apiUrl}/supplier/sendMultipleMessage`, { ...params })
+    return this.http.post<any>(`${environment.apiUrl}/incom/sendMultipleMessage`, { ...params })
   }
 
   getStatistic() {
-    return this.http.get<any>(`${environment.apiUrl}/supplier/statistic`);
+    return this.http.get<any>(`${environment.apiUrl}/incom/statistic`);
   }
 }

@@ -26,6 +26,78 @@ export class IncomDashboardComponent implements OnInit {
     lineChartLegend = true;
     lineChartType = 'line';
     revenueChartFormat: string = 'revenueMonth';
+    lineChartData: Array<any> = [
+        { 
+            data: [], 
+            label: 'ZNS' 
+        },
+        {
+            data: [], 
+            label: 'SMS' 
+        }
+    ];
+
+    lineChartLabels:Array<any> = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    lineChartOptions: any = {
+        responsive: true,
+        hover: {
+            mode: 'nearest',
+            intersect: true
+        },
+        tooltips: {
+            mode: 'index'
+        },
+        scales: {
+            xAxes: [{
+                gridLines: [{
+                    display: false,
+                }],
+                ticks: {
+                    display: true,
+                    fontColor: this.themeColors.grayLight,
+                    fontSize: 13,
+                    padding: 10
+                }
+            }],
+            yAxes: [{
+                gridLines: {
+                    drawBorder: false,
+                    drawTicks: false,
+                    borderDash: [3, 4],
+                    zeroLineWidth: 1,
+                    zeroLineBorderDash: [3, 4]
+                },
+                ticks: {
+                    display: true,
+                    max: 100,
+                    stepSize: 10,
+                    fontColor: this.themeColors.grayLight,
+                    fontSize: 13,
+                    padding: 10
+                }
+            }],
+        }
+    };
+
+    lineChartColors: Array<any> = [
+        {
+            backgroundColor: this.themeColors.transparent,
+            borderColor: this.themeColors.blue,
+            pointBackgroundColor: this.themeColors.blue,
+            pointBorderColor: this.themeColors.white,
+            pointHoverBackgroundColor: this.themeColors.blueLight,
+            pointHoverBorderColor: this.themeColors.blueLight
+        },
+        {
+            backgroundColor: this.themeColors.transparent,
+            borderColor: this.themeColors.cyan,
+            pointBackgroundColor: this.themeColors.cyan,
+            pointBorderColor: this.themeColors.white,
+            pointHoverBackgroundColor: this.themeColors.cyanLight,
+            pointHoverBorderColor: this.themeColors.cyanLight
+        }
+    ];
 
     allChecked:boolean = false;
     loading = false;
@@ -211,79 +283,6 @@ export class IncomDashboardComponent implements OnInit {
             nzFooter: null
         })
     }
-
-    lineChartData: Array<any> = [
-        { 
-            data: [], 
-            label: 'ZNS' 
-        },
-        {
-            data: [], 
-            label: 'SMS' 
-        }
-    ];
-
-    lineChartLabels:Array<any> = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-    lineChartOptions: any = {
-        responsive: true,
-        hover: {
-            mode: 'nearest',
-            intersect: true
-        },
-        tooltips: {
-            mode: 'index'
-        },
-        scales: {
-            xAxes: [{
-                gridLines: [{
-                    display: false,
-                }],
-                ticks: {
-                    display: true,
-                    fontColor: this.themeColors.grayLight,
-                    fontSize: 13,
-                    padding: 10
-                }
-            }],
-            yAxes: [{
-                gridLines: {
-                    drawBorder: false,
-                    drawTicks: false,
-                    borderDash: [3, 4],
-                    zeroLineWidth: 1,
-                    zeroLineBorderDash: [3, 4]
-                },
-                ticks: {
-                    display: true,
-                    max: 100,
-                    stepSize: 10,
-                    fontColor: this.themeColors.grayLight,
-                    fontSize: 13,
-                    padding: 10
-                }
-            }],
-        }
-    };
-
-    lineChartColors: Array<any> = [
-        {
-            backgroundColor: this.themeColors.transparent,
-            borderColor: this.themeColors.blue,
-            pointBackgroundColor: this.themeColors.blue,
-            pointBorderColor: this.themeColors.white,
-            pointHoverBackgroundColor: this.themeColors.blueLight,
-            pointHoverBorderColor: this.themeColors.blueLight
-        },
-        {
-            backgroundColor: this.themeColors.transparent,
-            borderColor: this.themeColors.cyan,
-            pointBackgroundColor: this.themeColors.cyan,
-            pointBorderColor: this.themeColors.white,
-            pointHoverBackgroundColor: this.themeColors.cyanLight,
-            pointHoverBorderColor: this.themeColors.cyanLight
-        }
-    ];
 
     momentChange(value: string): void {
         console.log(value, 'value');

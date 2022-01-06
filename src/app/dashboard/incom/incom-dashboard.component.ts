@@ -310,7 +310,7 @@ export class IncomDashboardComponent implements OnInit {
                     label: 'SMS' 
                 }
             ];
-            this.lineChartLabels = ["2021", "2022", "2023"];
+            this.lineChartLabels = [new Date().getFullYear() - 2, new Date().getFullYear() - 1, new Date().getFullYear()];
         }
     }
 

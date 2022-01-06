@@ -95,14 +95,52 @@
                 </td>
                 <td>{{item.templatecode}}</td>
                 <td>
-                    <span *ngIf="item.templatecode === 'VCSC02'">
+                    <span 
+                        *ngIf="
+                            item.templatecode === 'VCSC02' || 
+                            item.templatecode === 'VCSC04' || 
+                            item.templatecode === 'VCSC07'
+                        ">
                         VCSC: KQKL CKPS NGAY {{item.list_param.day}}
                         CUA QUI KHACH TK {{item.list_param.account}}
                         {{item.list_param.type}} {{item.list_param.serie}}
                         KL {{item.list_param.quantity}}
                         GIA {{item.list_param.price}}
+                        <span 
+                            *ngIf="item.templatecode === 'VCSC04' || item.templatecode === 'VCSC07'">
+                            Thời gian khớp lệnh {{item.list_param.time}}
+                        </span>
+                        <span 
+                            *ngIf="
+                                item.templatecode === 'VCSC07'
+                            ">
+                            Số hiệu lệnh {{item.list_param.id}}
+                        </span>
                     </span>
-                    <span *ngIf="item.templatecode === 'VCSC01'">
+                    <span 
+                        *ngIf="
+                            item.templatecode === 'VCSC06' || 
+                            item.templatecode === 'VCSC05' || 
+                            item.templatecode === 'VCSC08'
+                        ">
+                        VCSC: {{item.list_param.day}}
+                        YOUR MATCHING RESULT ACC 
+                        {{item.list_param.account}} 
+                        {{item.list_param.type}} DIG 
+                        VOL {{item.list_param.quantity}} 
+                        PRICE {{item.list_param.price}}  
+                        <span 
+                            *ngIf="item.templatecode === 'VCSC05' || item.templatecode === 'VCSC08'">
+                            FILLED AT {{item.list_param.time}}
+                        </span>
+                        <span 
+                            *ngIf="
+                                item.templatecode === 'VCSC08'
+                            ">
+                             {{item.list_param.id}}
+                        </span>
+                    </span>
+                    <span *ngIf="item.templatecode === 'VCSC01' || item.templatecode === 'VCSC_OTP_VN' || item.templatecode === 'VCSC_OTP_EN'">
                         Otp: {{item.list_param.otp}}
                     </span>
                     <span *ngIf="item.templatecode === 'vcsc-freetemp'">

@@ -65,15 +65,16 @@
     >
         <thead>
             <tr>
-                <th width='3%'>ID</th>
-                <th width='10%'>Phone Number</th>
-                <th width='10%'>Route Rule</th>
-                <th width='10%'>Template</th>
+                <th width='1%'>ID</th>
+                <th width='11%'>Phone Number</th>
+                <th width='9%'>Route Rule</th>
+                <th width='12%'>Template</th>
                 <th width='25%'>Content</th>
-                <th width='15%'>ID Omni</th>
+                <th width='9%'>ID Omni</th>
                 <th width='5%'>Channel</th>
-                <th width='14%'>Time Send</th>
-                <th width='5%'>Status</th>
+                <th width='17%'>Time Send</th>
+                <th width='14%'>Created by</th>
+                <th width='2%'>Status</th>
                 <!-- <th width='30%'>Action</th> -->
             </tr>
         </thead>
@@ -150,15 +151,16 @@
                 <td>{{item.id_omni}}</td>
                 <td>{{item.channel}}</td>
                 <td>{{item.timesend}}</td>
+                <td>{{item.created_by}}</td>
                 <td style="text-align: center;">
                     <nz-badge *ngIf="item.complete == '1'" nzStatus="success"></nz-badge>
                     <nz-badge *ngIf="item.complete != '1'" nzStatus="error"></nz-badge>
                 </td>
-                <td class="text-md-right">
-                    <!-- <a class="m-r-5" nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Edit" >
+                <!-- <td class="text-md-right">
+                    <a class="m-r-5" nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Edit" >
                         <i nz-icon nzType="edit" theme="outline"></i>
-                    </a> -->
-                </td>
+                    </a>
+                </td> -->
             </tr>
         </tbody>
     </nz-table>

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+import { ChatComponent } from './chat/chat.component';
 import { DefaultDashboardComponent } from './default/default-dashboard.component';
 import { IncomDashboardComponent } from './incom/incom-dashboard.component';
 import { StatisticsDashboardComponent } from './statistics/statistics-dashboard.component';
@@ -11,6 +12,14 @@ let routes: Routes = [
         component: DefaultDashboardComponent,
         data: {
             title: 'Dashboard ',
+            headerDisplay: "none"
+        }
+    },
+    {
+        path: 'chat',
+        component: ChatComponent,
+        data: {
+            title: 'Chat Dashboard ',
             headerDisplay: "none"
         }
     },

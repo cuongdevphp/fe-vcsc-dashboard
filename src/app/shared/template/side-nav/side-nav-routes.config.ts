@@ -19,6 +19,15 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: [],
             },
             {
+                path: '/dashboard/chat',
+                title: 'Chat',
+                iconType: 'nzIcon',
+                icon: 'message',
+                iconTheme: 'outline',
+                name: 'chat',
+                submenu: [],
+            },
+            {
                 path: '/dashboard/incom',
                 title: 'Incom',
                 iconType: 'nzIcon',

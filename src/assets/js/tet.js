@@ -82,8 +82,8 @@ function flakeFall() {
             divRef = divRef.style; 
         } 
         var oPix = document.childNodes ? 'px' : 0;
-        if(scrHeight >= 900) {
-            scrHeight = 870;
+        if(scrHeight >= 800) {
+            scrHeight = 800;
         }
         divRef.top = ( Math.round( ycoords[x] * scrHeight ) + scrollHeight ) + oPix;
         divRef.left = ( Math.round( ( ( xcoords[x] * scrWidth ) - (pictureWidth / 2 ) ) + ( ( scrWidth / ( ( numFlakes + 1 ) * 10 ) ) * (Math.sin( lrFlakes * ycoords[x] ) - Math.sin( 3 * lrFlakes * ycoords[x]) ) ) ) + scrollWidth ) + oPix;

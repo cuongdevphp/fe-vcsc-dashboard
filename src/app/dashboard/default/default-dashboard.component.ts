@@ -8,6 +8,7 @@ import { StatisticService } from 'src/app/shared/services/statistic.service';
 
 export class DefaultDashboardComponent implements OnInit {
     searchDate = new Date();
+    dateSessionLogin = new Date();
     customersChartData: number[] = [];
     webSession: number = 0;
     lotteSession: number = 0;
@@ -31,35 +32,171 @@ export class DefaultDashboardComponent implements OnInit {
         private colorConfig:ThemeConstantService,
         private statisticService: StatisticService,
     ) {}
+    
     ngOnInit(): void {
-        this.loadSessionLogin(this.searchDate);
+        this.loadSessionLogin(this.dateSessionLogin);
     }
 
-    onChangeDate(result: Date): void {
+    onChangeSessionLogin(result: Date): void {
         if(result) {
             this.loadSessionLogin(result);
         }
         // console.log(result, 'result');
     }
 
-    loadSessionLogin( startDate: Date | null ): void {
-        
+    loadSessionLogin( date: Date | null ): void {
         this.isSpinningSessionLogin = true;
-        this.statisticService.getSessionLogin(startDate)
+        this.statisticService.getSessionLogin(date)
         .subscribe(result => {
             if(result.success) {
-                this.customersChartData = [result.data.data.lotte, result.data.data.web, result.data.data.vpro, result.data.data.android];
+                const web = [];
+                const ios = [];
+                const android = [];
+                const vpro = [];
+                for(const i of result.data.data) {
+                    web.push(i.web);
+                    ios.push(i.ios);
+                    android.push(i.android);
+                    vpro.push(i.vpro);
+                }
+                this.lineChartData = [
+                    { 
+                        data: ios, 
+                        label: 'iOS' 
+                    },
+                    { 
+                        data: android, 
+                        label: 'Android' 
+                    },
+                    { 
+                        data: vpro, 
+                        label: 'vPro' 
+                    },
+                    {
+                        data: web, 
+                        label: 'Web' 
+                    }
+                ];
+
+                // this.customersChartData = [result.data.data.lotte, result.data.data.web, result.data.data.vpro, result.data.data.android];
                 
-                this.webSession = result.data.data.web;
-                this.lotteSession = result.data.data.lotte;
-                this.vproSession = result.data.data.vpro;
-                this.androidSession = result.data.data.android;
+                // this.webSession = result.data.data.web;
+                // this.lotteSession = result.data.data.lotte;
+                // this.vproSession = result.data.data.vpro;
+                // this.androidSession = result.data.data.android;
                 
                 this.isSpinningSessionLogin = false;
                 //this.loading = false;
             }
         });
     }
+
+    lineChartData: Array<any> = [
+        { 
+            data: [], 
+            label: 'iOS' 
+        },
+        { 
+            data: [], 
+            label: 'Android' 
+        },
+        { 
+            data: [], 
+            label: 'vPro' 
+        },
+        {
+            data: [], 
+            label: 'Web' 
+        }
+    ];
+
+    // lineChartData: Array<any> = [
+    //     { data: [65, 59, 80, 81, 56, 55, 40], label: 'iOS' },
+    //     { data: [165, 159, 180, 181, 156, 155, 140], label: 'Android' },
+    //     { data: [265, 259, 280, 281, 256, 255, 240], label: 'vPro' },
+    //     { data: [28, 48, 40, 19, 86, 27, 90], label: 'Web' }
+    // ];
+    currentLineChartLabelsIdx = 1;
+    lineChartLabels:Array<any> = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th", "11th", "12th", "13th", "14th", "15th", "16th", "17th", "18th", "19th", "20th", "21st", "22nd", "23rd", "24th", "25th", "26th", "27th", "28th", "29th", "30th", "31st"];
+    lineChartOptions: any = {
+        responsive: true,
+        hover: {
+            mode: 'nearest',
+            intersect: true
+        },
+        tooltips: {
+            mode: 'index'
+        },
+        scales: {
+            xAxes: [{ 
+                gridLines: [{
+                    display: false,
+                }],
+                ticks: {
+                    display: true,
+                    fontColor: this.themeColors.grayLight,
+                    fontSize: 13,
+                    padding: 10
+                }
+            }],
+            yAxes: [{
+                gridLines: {
+                    drawBorder: false,
+                    drawTicks: false,
+                    borderDash: [3, 4],
+                    zeroLineWidth: 1,
+                    zeroLineBorderDash: [3, 4]  
+                },
+                ticks: {
+                    display: true,
+                    max: 8500,                            
+                    stepSize: 500,
+                    fontColor: this.themeColors.grayLight,
+                    fontSize: 13,
+                    padding: 10
+                }  
+            }],
+        }
+    };
+    lineChartColors: Array<any> = [
+        { 
+            backgroundColor: this.themeColors.transparent,
+            borderColor: this.themeColors.blue,
+            pointBackgroundColor: this.themeColors.blue,
+            pointBorderColor: this.themeColors.white,
+            pointHoverBackgroundColor: this.themeColors.blueLight,
+            pointHoverBorderColor: this.themeColors.blueLight
+        },
+        { 
+            backgroundColor: this.themeColors.transparent,
+            borderColor: this.themeColors.volcano,
+            pointBackgroundColor: this.themeColors.volcano,
+            pointBorderColor: this.themeColors.white,
+            pointHoverBackgroundColor: this.themeColors.volcanoLight,
+            pointHoverBorderColor: this.themeColors.volcanoLight
+        },
+        { 
+            backgroundColor: this.themeColors.transparent,
+            borderColor: this.themeColors.lime,
+            pointBackgroundColor: this.themeColors.lime,
+            pointBorderColor: this.themeColors.white,
+            pointHoverBackgroundColor: this.themeColors.cyanLight,
+            pointHoverBorderColor: this.themeColors.cyanLight
+        },
+        { 
+            backgroundColor: this.themeColors.transparent,
+            borderColor: this.themeColors.cyan,
+            pointBackgroundColor: this.themeColors.cyan,
+            pointBorderColor: this.themeColors.white,
+            pointHoverBackgroundColor: this.themeColors.cyanLight,
+            pointHoverBorderColor: this.themeColors.cyanLight
+        }
+    ];
+    lineChartLegend = true;
+    lineChartType = 'line';
+
+
+
 
     revenueChartFormat: string = 'revenueMonth';
 

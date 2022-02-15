@@ -46,101 +46,31 @@
 </div>
 
 <div class="row">
-    <div class="col-md-12 col-lg-6">
-        <nz-spin nzTip="Loading..." [nzSpinning]="isSpinningSessionLogin" [nzDelay]="500">
-            <nz-card>
-                <div class="d-flex justify-content-between align-items-center">
-                    <h5>Session Login</h5>
-                    <div>
-                        <nz-date-picker 
-                            [(ngModel)]="searchDate" 
-                            (ngModelChange)="onChangeDate($event)" 
-                        ></nz-date-picker>
-                    </div>
-                </div>
-                <div class="m-v-60 text-center" style="height: 200px">
-                    <canvas ngChartjs 
-                        [data]="customersChartData" 
-                        [labels]="customersChartLabels" 
-                        [chartType]="customersChartType"
-                        [colors]="customersChartColors"
-                        [options]="customersChartOptions"
-                        [legend]="false">
-                    </canvas>
-                </div>
-                <div class="row border-top p-t-25">
-                    <div class="col-3">
-                        <div class="d-flex justify-content-center">
-                            <div class="media align-items-center">
-                                <nz-badge nzStatus="default" [nzColor]="cyan"></nz-badge>
-                                <div class="m-l-5">
-                                    <h4 class="m-b-0">{{lotteSession}}</h4>
-                                    <p class="m-b-0 muted">Lotte</p>
-                                </div>    
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="d-flex justify-content-center">
-                            <div class="media align-items-center">
-                                <nz-badge nzStatus="default" [nzColor]="red"></nz-badge>
-                                <div class="m-l-5">
-                                    <h4 class="m-b-0">{{webSession}}</h4>
-                                    <p class="m-b-0 muted">Web</p>
-                                </div>    
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="d-flex justify-content-center">
-                            <div class="media align-items-center">
-                                <nz-badge nzStatus="default" [nzColor]="gold"></nz-badge>
-                                <div class="m-l-5">
-                                    <h4 class="m-b-0">{{vproSession}}</h4>
-                                    <p class="m-b-0 muted">Vpro</p>
-                                </div>    
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="d-flex justify-content-center">
-                            <div class="media align-items-center">
-                                <nz-badge nzStatus="default" [nzColor]="blue"></nz-badge>
-                                <div class="m-l-5">
-                                    <h4 class="m-b-0">{{androidSession}}</h4>
-                                    <p class="m-b-0 muted">Android</p>
-                                </div>    
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </nz-card>
-                
-        </nz-spin>
-    </div>
-    <!-- <div class="col-md-12 col-lg-6">
+    <div class="col-md-12">
         <nz-card>
             <div class="d-flex justify-content-between align-items-center">
-                <h5>Total Revenue</h5>
+                <h5>Session Login</h5>
                 <div>
-                    <nz-radio-group [(ngModel)]="revenueChartFormat">
-                        <label nz-radio-button nzValue="revenueMonth">Month</label>
-                        <label nz-radio-button nzValue="revenueYear">Year</label>
-                    </nz-radio-group>
+                    <nz-date-picker nzMode="month" [(ngModel)]="dateSessionLogin" (ngModelChange)="onChangeSessionLogin($event)"></nz-date-picker>
+
                 </div>
             </div>
-            <div class="m-t-50" style="height: 330px">
-                <canvas ngChartjs 
-                    [datasets]="revenueChartData" 
-                    [labels]="revenueChartLabels"
-                    [options]="revenueChartOptions" 
-                    [colors]="revenueChartColors" 
-                    [legend]="false"
-                    [chartType]="revenueChartType">
-                </canvas>
-            </div>
+            
+            <nz-spin [nzSpinning]="isSpinningSessionLogin" [nzDelay]="500">
+                <div class="m-t-50">
+                    <canvas 
+                        ngChartjs 
+                        [datasets]="lineChartData" 
+                        [labels]="lineChartLabels"
+                        [options]="lineChartOptions" 
+                        [colors]="lineChartColors" 
+                        [legend]="lineChartLegend"
+                        [chartType]="lineChartType">
+                    </canvas>
+                </div>
+            </nz-spin>
         </nz-card>
-    </div> -->
+    </div>
 </div>
 <!-- <div class="row">
     <div class="col-md-12 col-lg-4">

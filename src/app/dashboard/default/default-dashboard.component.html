@@ -48,15 +48,15 @@
 <div class="row">
     <div class="col-md-12">
         <nz-card>
-            <div class="d-flex justify-content-between align-items-center">
-                <h5>Session Login</h5>
-                <div>
-                    <nz-date-picker nzMode="month" [(ngModel)]="dateSessionLogin" (ngModelChange)="onChangeSessionLogin($event)"></nz-date-picker>
-
-                </div>
-            </div>
-            
             <nz-spin [nzSpinning]="isSpinningSessionLogin" [nzDelay]="500">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5>Session Login</h5>
+                    <div>
+                        <nz-date-picker nzMode="month" [(ngModel)]="dateSessionLogin" (ngModelChange)="onChangeSessionLogin($event)"></nz-date-picker>
+
+                    </div>
+                </div>
+            
                 <div class="m-t-50">
                     <canvas 
                         ngChartjs 

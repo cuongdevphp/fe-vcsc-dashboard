@@ -1,11 +1,19 @@
-import { Component } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 import { ThemeConstantService } from '../../shared/services/theme-constant.service';
+import { StatisticService } from 'src/app/shared/services/statistic.service';
 
 @Component({
     templateUrl: './default-dashboard.component.html'
 })
 
-export class DefaultDashboardComponent {
+export class DefaultDashboardComponent implements OnInit {
+    searchDate = new Date();
+    customersChartData: number[] = [];
+    webSession: number = 0;
+    lotteSession: number = 0;
+    vproSession: number = 0;
+    androidSession: number = 0;
+    isSpinningSessionLogin: boolean = false;
 
     themeColors = this.colorConfig.get().colors;
     blue = this.themeColors.blue;
@@ -19,7 +27,39 @@ export class DefaultDashboardComponent {
 
     taskListIndex: number = 0;
 
-    constructor( private colorConfig:ThemeConstantService ) {}
+    constructor( 
+        private colorConfig:ThemeConstantService,
+        private statisticService: StatisticService,
+    ) {}
+    ngOnInit(): void {
+        this.loadSessionLogin(this.searchDate);
+    }
+
+    onChangeDate(result: Date): void {
+        if(result) {
+            this.loadSessionLogin(result);
+        }
+        // console.log(result, 'result');
+    }
+
+    loadSessionLogin( startDate: Date | null ): void {
+        
+        this.isSpinningSessionLogin = true;
+        this.statisticService.getSessionLogin(startDate)
+        .subscribe(result => {
+            if(result.success) {
+                this.customersChartData = [result.data.data.lotte, result.data.data.web, result.data.data.vpro, result.data.data.android];
+                
+                this.webSession = result.data.data.web;
+                this.lotteSession = result.data.data.lotte;
+                this.vproSession = result.data.data.vpro;
+                this.androidSession = result.data.data.android;
+                
+                this.isSpinningSessionLogin = false;
+                //this.loading = false;
+            }
+        });
+    }
 
     revenueChartFormat: string = 'revenueMonth';
 
@@ -82,11 +122,10 @@ export class DefaultDashboardComponent {
     ];
     revenueChartType = 'line';
 
-    customersChartLabels: string[] = ['New', 'Returning', 'Others'];
-    customersChartData: number[] = [350, 450, 100];
+    customersChartLabels: string[] = ['Lotte', 'Web', 'Vpro', 'Android'];
     customersChartColors: Array<any> =  [{ 
-        backgroundColor: [this.cyan, this.purple, this.gold],
-        pointBackgroundColor : [this.cyan, this.purple, this.gold]
+        backgroundColor: [this.cyan, this.red, this.gold, this.blue],
+        pointBackgroundColor : [this.cyan, this.red, this.gold, this.blue]
     }];
     customersChartOptions: any = {
         cutoutPercentage: 75,

@@ -22,6 +22,7 @@ import { NzListModule } from 'ng-zorro-antd/list';
 import { NzCalendarModule } from 'ng-zorro-antd/calendar';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 import { DefaultDashboardComponent } from './default/default-dashboard.component';
 import { IncomDashboardComponent } from './incom/incom-dashboard.component';
@@ -68,7 +69,8 @@ const antdModule = [
     NzPaginationModule,
     NzDatePickerModule,
     NzCheckboxModule,
-    NzMessageModule
+    NzMessageModule,
+    NzSpinModule,
 ]
 
 @NgModule({

@@ -9,7 +9,7 @@ const appRoutes: Routes = [
     { path: 'login', loadChildren: loginModule },
     {
         path: '',
-        redirectTo: '/dashboard/default',
+        redirectTo: '/dashboard/home',
         pathMatch: 'full',
     },
     // {

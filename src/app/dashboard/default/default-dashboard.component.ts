@@ -62,7 +62,7 @@ export class DefaultDashboardComponent implements OnInit {
                 const vpro = [];
                 const techX = [];
                 const date = [];
-                for(const i of result.data) {
+                for(const i of result.data.data) {
                     web.push(i.web);
                     ios.push(i.ios);
                     android.push(i.android);

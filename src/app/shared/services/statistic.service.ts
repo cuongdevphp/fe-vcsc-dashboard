@@ -13,7 +13,7 @@ export class StatisticService {
 
   }
 
-  getSessionLogin(date) {
-    return this.http.get<any>(`${environment.apiUrl}/statistic/sessionLogin?date=${new Date(date).toISOString()}`);
+  getSessionLogin(startDate, endDate) {
+    return this.http.get<any>(`${environment.apiUrl}/statistic/sessionLogin?startDate=${new Date(startDate).toISOString()}&endDate=${new Date(endDate).toISOString()}`);
   }
 }

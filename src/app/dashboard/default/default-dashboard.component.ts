@@ -7,14 +7,15 @@ import { StatisticService } from 'src/app/shared/services/statistic.service';
 })
 
 export class DefaultDashboardComponent implements OnInit {
-    searchDate = new Date();
-    dateSessionLogin = new Date();
     customersChartData: number[] = [];
     webSession: number = 0;
     lotteSession: number = 0;
     vproSession: number = 0;
     androidSession: number = 0;
     isSpinningSessionLogin: boolean = false;
+    maxSessionLogin: number = 0;
+    dateFormat = 'dd/MM/yyyy';
+    dateSessionLogin = [new Date(new Date().setMonth(new Date().getMonth() - 1)), new Date()];
 
     themeColors = this.colorConfig.get().colors;
     blue = this.themeColors.blue;
@@ -34,30 +35,40 @@ export class DefaultDashboardComponent implements OnInit {
     ) {}
     
     ngOnInit(): void {
-        this.loadSessionLogin(this.dateSessionLogin);
+        this.loadSessionLogin(this.dateSessionLogin[0], this.dateSessionLogin[1]);
     }
 
-    onChangeSessionLogin(result: Date): void {
-        if(result) {
-            this.loadSessionLogin(result);
+    onChangeSessionLogin(result: Date[]): void {
+        console.log(result, 'result');
+        if(result.length === 0) {
+            result = [new Date(new Date().setMonth(new Date().getMonth() - 1)), new Date()];
         }
-        // console.log(result, 'result');
+        this.loadSessionLogin(result[0], result[1]);
     }
 
-    loadSessionLogin( date: Date | null ): void {
+
+    loadSessionLogin( 
+        startDate: Date | null,
+        endDate: Date | null, 
+    ): void {
+        console.log(startDate, endDate);
         this.isSpinningSessionLogin = true;
-        this.statisticService.getSessionLogin(date)
+        this.statisticService.getSessionLogin(startDate, endDate)
         .subscribe(result => {
             if(result.success) {
                 const web = [];
                 const ios = [];
                 const android = [];
                 const vpro = [];
-                for(const i of result.data.data) {
+                const techX = [];
+                const date = [];
+                for(const i of result.data) {
                     web.push(i.web);
                     ios.push(i.ios);
                     android.push(i.android);
                     vpro.push(i.vpro);
+                    techX.push(i.techX);
+                    date.push(i.dateChart);
                 }
                 this.lineChartData = [
                     { 
@@ -75,24 +86,23 @@ export class DefaultDashboardComponent implements OnInit {
                     {
                         data: web, 
                         label: 'Web' 
-                    }
+                    },
+                    { 
+                        data: techX, 
+                        label: 'techX' 
+                    },
                 ];
-
-                // this.customersChartData = [result.data.data.lotte, result.data.data.web, result.data.data.vpro, result.data.data.android];
-                
-                // this.webSession = result.data.data.web;
-                // this.lotteSession = result.data.data.lotte;
-                // this.vproSession = result.data.data.vpro;
-                // this.androidSession = result.data.data.android;
-                
+                this.lineChartLabels = date;
+                const maxSessionLogin = [...ios, ...android, ...vpro, ...web];
+                this.maxSessionLogin = Math.max(...maxSessionLogin);
+                console.log(this.maxSessionLogin, 'maxSessionLogin');
                 this.isSpinningSessionLogin = false;
-                //this.loading = false;
             }
         });
     }
 
     lineChartData: Array<any> = [
-        { 
+        {
             data: [], 
             label: 'iOS' 
         },
@@ -107,17 +117,17 @@ export class DefaultDashboardComponent implements OnInit {
         {
             data: [], 
             label: 'Web' 
-        }
+        },
+        {
+            data: [], 
+            label: 'TechX' 
+        },
     ];
 
-    // lineChartData: Array<any> = [
-    //     { data: [65, 59, 80, 81, 56, 55, 40], label: 'iOS' },
-    //     { data: [165, 159, 180, 181, 156, 155, 140], label: 'Android' },
-    //     { data: [265, 259, 280, 281, 256, 255, 240], label: 'vPro' },
-    //     { data: [28, 48, 40, 19, 86, 27, 90], label: 'Web' }
-    // ];
     currentLineChartLabelsIdx = 1;
-    lineChartLabels:Array<any> = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th", "11th", "12th", "13th", "14th", "15th", "16th", "17th", "18th", "19th", "20th", "21st", "22nd", "23rd", "24th", "25th", "26th", "27th", "28th", "29th", "30th", "31st"];
+
+    lineChartLabels:Array<any> = [];
+    
     lineChartOptions: any = {
         responsive: true,
         hover: {
@@ -149,8 +159,8 @@ export class DefaultDashboardComponent implements OnInit {
                 },
                 ticks: {
                     display: true,
-                    max: 8500,                            
-                    stepSize: 500,
+                    max: 8000,                            
+                    stepSize: 1000,
                     fontColor: this.themeColors.grayLight,
                     fontSize: 13,
                     padding: 10
@@ -180,8 +190,8 @@ export class DefaultDashboardComponent implements OnInit {
             borderColor: this.themeColors.lime,
             pointBackgroundColor: this.themeColors.lime,
             pointBorderColor: this.themeColors.white,
-            pointHoverBackgroundColor: this.themeColors.cyanLight,
-            pointHoverBorderColor: this.themeColors.cyanLight
+            pointHoverBackgroundColor: this.themeColors.limeLight,
+            pointHoverBorderColor: this.themeColors.limeLight
         },
         { 
             backgroundColor: this.themeColors.transparent,
@@ -190,13 +200,18 @@ export class DefaultDashboardComponent implements OnInit {
             pointBorderColor: this.themeColors.white,
             pointHoverBackgroundColor: this.themeColors.cyanLight,
             pointHoverBorderColor: this.themeColors.cyanLight
+        },
+        { 
+            backgroundColor: this.themeColors.transparent,
+            borderColor: this.themeColors.magenta,
+            pointBackgroundColor: this.themeColors.magenta,
+            pointBorderColor: this.themeColors.white,
+            pointHoverBackgroundColor: this.themeColors.magentaLight,
+            pointHoverBorderColor: this.themeColors.magentaLight
         }
     ];
     lineChartLegend = true;
     lineChartType = 'line';
-
-
-
 
     revenueChartFormat: string = 'revenueMonth';
 
@@ -224,7 +239,7 @@ export class DefaultDashboardComponent implements OnInit {
                 ticks: {
                     display: true,
                     fontColor: this.themeColors.grayLight,
-                    fontSize: 13,
+                    fontSize: 14,
                     padding: 10
                 }
             }],

@@ -67,7 +67,7 @@ export class DefaultDashboardComponent implements OnInit {
                     ios.push(i.ios);
                     android.push(i.android);
                     vpro.push(i.vpro);
-                    techX.push(i.techX);
+                    //techX.push(i.techX);
                     date.push(i.dateChart);
                 }
                 this.lineChartData = [
@@ -87,10 +87,10 @@ export class DefaultDashboardComponent implements OnInit {
                         data: web, 
                         label: 'Web' 
                     },
-                    { 
-                        data: techX, 
-                        label: 'techX' 
-                    },
+                    // { 
+                    //     data: techX, 
+                    //     label: 'techX' 
+                    // },
                 ];
                 this.lineChartLabels = date;
                 const maxSessionLogin = [...ios, ...android, ...vpro, ...web];
@@ -118,10 +118,10 @@ export class DefaultDashboardComponent implements OnInit {
             data: [], 
             label: 'Web' 
         },
-        {
-            data: [], 
-            label: 'TechX' 
-        },
+        // {
+        //     data: [], 
+        //     label: 'TechX' 
+        // },
     ];
 
     currentLineChartLabelsIdx = 1;
@@ -201,14 +201,14 @@ export class DefaultDashboardComponent implements OnInit {
             pointHoverBackgroundColor: this.themeColors.cyanLight,
             pointHoverBorderColor: this.themeColors.cyanLight
         },
-        { 
-            backgroundColor: this.themeColors.transparent,
-            borderColor: this.themeColors.magenta,
-            pointBackgroundColor: this.themeColors.magenta,
-            pointBorderColor: this.themeColors.white,
-            pointHoverBackgroundColor: this.themeColors.magentaLight,
-            pointHoverBorderColor: this.themeColors.magentaLight
-        }
+        // { 
+        //     backgroundColor: this.themeColors.transparent,
+        //     borderColor: this.themeColors.magenta,
+        //     pointBackgroundColor: this.themeColors.magenta,
+        //     pointBorderColor: this.themeColors.white,
+        //     pointHoverBackgroundColor: this.themeColors.magentaLight,
+        //     pointHoverBorderColor: this.themeColors.magentaLight
+        // }
     ];
     lineChartLegend = true;
     lineChartType = 'line';

@@ -15,7 +15,7 @@ export class DefaultDashboardComponent implements OnInit {
     isSpinningSessionLogin: boolean = false;
     maxSessionLogin: number = 0;
     dateFormat = 'dd/MM/yyyy';
-    dateSessionLogin = [new Date(new Date().setMonth(new Date().getMonth() - 1)), new Date()];
+    dateSessionLogin = [new Date(new Date().setMonth(new Date().getMonth() - 1)), new Date(new Date().setMonth(new Date().getDate() + 1))];
 
     themeColors = this.colorConfig.get().colors;
     blue = this.themeColors.blue;

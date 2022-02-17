@@ -60,14 +60,16 @@ export class DefaultDashboardComponent implements OnInit {
                 const ios = [];
                 const android = [];
                 const vpro = [];
-                const techX = [];
+                const ipad = [];
+                const quay = [];
                 const date = [];
                 for(const i of result.data.data) {
                     web.push(i.web);
                     ios.push(i.ios);
                     android.push(i.android);
                     vpro.push(i.vpro);
-                    //techX.push(i.techX);
+                    quay.push(i.quay);
+                    ipad.push(i.ipad);
                     date.push(i.dateChart);
                 }
                 this.lineChartData = [
@@ -87,10 +89,14 @@ export class DefaultDashboardComponent implements OnInit {
                         data: web, 
                         label: 'Web' 
                     },
-                    // { 
-                    //     data: techX, 
-                    //     label: 'techX' 
-                    // },
+                    { 
+                        data: quay, 
+                        label: 'Quầy' 
+                    },
+                    { 
+                        data: ipad, 
+                        label: 'iPad' 
+                    },
                 ];
                 this.lineChartLabels = date;
                 const maxSessionLogin = [...ios, ...android, ...vpro, ...web];
@@ -118,10 +124,14 @@ export class DefaultDashboardComponent implements OnInit {
             data: [], 
             label: 'Web' 
         },
-        // {
-        //     data: [], 
-        //     label: 'TechX' 
-        // },
+        {
+            data: [], 
+            label: 'Quầy' 
+        },
+        {
+            data: [], 
+            label: 'iPad' 
+        },
     ];
 
     currentLineChartLabelsIdx = 1;
@@ -159,8 +169,8 @@ export class DefaultDashboardComponent implements OnInit {
                 },
                 ticks: {
                     display: true,
-                    max: 8000,                            
-                    stepSize: 1000,
+                    max: 1400,                            
+                    stepSize: 100,
                     fontColor: this.themeColors.grayLight,
                     fontSize: 13,
                     padding: 10
@@ -201,14 +211,22 @@ export class DefaultDashboardComponent implements OnInit {
             pointHoverBackgroundColor: this.themeColors.cyanLight,
             pointHoverBorderColor: this.themeColors.cyanLight
         },
-        // { 
-        //     backgroundColor: this.themeColors.transparent,
-        //     borderColor: this.themeColors.magenta,
-        //     pointBackgroundColor: this.themeColors.magenta,
-        //     pointBorderColor: this.themeColors.white,
-        //     pointHoverBackgroundColor: this.themeColors.magentaLight,
-        //     pointHoverBorderColor: this.themeColors.magentaLight
-        // }
+        { 
+            backgroundColor: this.themeColors.transparent,
+            borderColor: this.themeColors.dark,
+            pointBackgroundColor: this.themeColors.dark,
+            pointBorderColor: this.themeColors.white,
+            pointHoverBackgroundColor: this.themeColors.magentaLight,
+            pointHoverBorderColor: this.themeColors.magentaLight
+        },
+        { 
+            backgroundColor: this.themeColors.transparent,
+            borderColor: this.themeColors.purple,
+            pointBackgroundColor: this.themeColors.purple,
+            pointBorderColor: this.themeColors.white,
+            pointHoverBackgroundColor: this.themeColors.purpleLight,
+            pointHoverBorderColor: this.themeColors.purpleLight
+        },
     ];
     lineChartLegend = true;
     lineChartType = 'line';

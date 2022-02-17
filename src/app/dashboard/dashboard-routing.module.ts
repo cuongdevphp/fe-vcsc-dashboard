@@ -5,6 +5,7 @@ import { ChatComponent } from './chat/chat.component';
 import { DefaultDashboardComponent } from './default/default-dashboard.component';
 import { IncomDashboardComponent } from './incom/incom-dashboard.component';
 import { StatisticsDashboardComponent } from './statistics/statistics-dashboard.component';
+import { TradingDashboardComponent } from './trading/trading.component';
 import { UsersDashboardComponent } from './users/users.component';
 let routes: Routes = [
     {
@@ -44,6 +45,14 @@ let routes: Routes = [
         component: StatisticsDashboardComponent,
         data: {
             title: 'Statistics Dashboard',
+            headerDisplay: "none"
+        }
+    },
+    {
+        path: 'trading',
+        component: TradingDashboardComponent,
+        data: {
+            title: 'Trading Dashboard',
             headerDisplay: "none"
         }
     },

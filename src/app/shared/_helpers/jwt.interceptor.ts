@@ -17,7 +17,7 @@ export class JwtInterceptor implements HttpInterceptor {
         if (isLoggedIn && isApiUrl) {
             request = request.clone({
                 setHeaders: {
-                    "x-api-key": "3QdD4oNVt6TJxE1LTLTbcJiyjI2dcBUVOxS1R"
+                    "x-api-key": "7D459aF8551Db7603bF7997C0357C95169F43c76"
                     //Authorization: `Bearer ${user.token}`
                 }
             });

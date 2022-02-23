@@ -70,8 +70,8 @@ export class IncomDashboardComponent implements OnInit {
                 },
                 ticks: {
                     display: true,
-                    max: 200,
-                    stepSize: 20,
+                    max: 5000,
+                    stepSize: 500,
                     fontColor: this.themeColors.grayLight,
                     fontSize: 13,
                     padding: 10

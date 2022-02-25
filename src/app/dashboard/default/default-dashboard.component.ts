@@ -1,13 +1,20 @@
 import { Component, OnInit } from '@angular/core'
 import { ThemeConstantService } from '../../shared/services/theme-constant.service';
 import { StatisticService } from 'src/app/shared/services/statistic.service';
+import * as moment from 'moment';
 
 @Component({
-    templateUrl: './default-dashboard.component.html'
+    templateUrl: './default-dashboard.component.html',
 })
 
 export class DefaultDashboardComponent implements OnInit {
-    customersChartData: number[] = [];
+    doughnutWeb: number = 0;
+    doughnutiOS: number = 0;
+    doughnutiPad: number = 0;
+    doughnutAndroid: number = 0;
+    doughnutQuay: number = 0;
+    doughnutvPro: number = 0;
+
     webSession: number = 0;
     lotteSession: number = 0;
     vproSession: number = 0;
@@ -15,9 +22,13 @@ export class DefaultDashboardComponent implements OnInit {
     isSpinningSessionLogin: boolean = false;
     maxSessionLogin: number = 0;
     dateFormat = 'dd/MM/yyyy';
-    dateSessionLogin = [new Date(new Date().setMonth(new Date().getMonth() - 1)), new Date(new Date().setDate(new Date().getDate() + 1))];
+    selectWeekSessionLoginWeek = new Date();
+    dateRangeSessionLogin = [new Date(new Date().setMonth(new Date().getMonth() - 1)), new Date(new Date().setDate(new Date().getDate() + 1))];
 
-    themeColors = this.colorConfig.get().colors;
+    startWeekDate = moment(new Date()).startOf("week").add(1, 'days').toDate();
+    dateWeekEnd = moment(new Date()).endOf("week").add(1, 'days').toDate();
+
+    themeColors = this.colorConfig.get().colors;    
     blue = this.themeColors.blue;
     blueLight = this.themeColors.blueLight;
     cyan = this.themeColors.cyan;
@@ -26,6 +37,9 @@ export class DefaultDashboardComponent implements OnInit {
     purple = this.themeColors.purple;
     purpleLight = this.themeColors.purpleLight;
     red = this.themeColors.red;
+    volcano = this.themeColors.volcano;
+    lime = this.themeColors.lime;
+    dark = this.themeColors.dark;
 
     taskListIndex: number = 0;
 
@@ -35,73 +49,147 @@ export class DefaultDashboardComponent implements OnInit {
     ) {}
     
     ngOnInit(): void {
-        this.loadSessionLogin(this.dateSessionLogin[0], this.dateSessionLogin[1]);
+        this.loadSessionLogin(this.dateRangeSessionLogin[0], this.dateRangeSessionLogin[1], this.startWeekDate, this.dateWeekEnd);
     }
 
-    onChangeSessionLogin(result: Date[]): void {
-        console.log(result, 'result');
+    onChangeDateRangeSessionLogin(result: Date[]): void {
         if(result.length === 0) {
             result = [new Date(new Date().setMonth(new Date().getMonth() - 1)), new Date()];
         }
-        this.loadSessionLogin(result[0], result[1]);
+        this.loadSessionLogin(result[0], result[1], this.startWeekDate, this.dateWeekEnd);
     }
 
+    onChangeWeekSessionLogin(result: Date): void {
+        const startWeek = moment(result).startOf("week").add(1, 'days').toDate();
+        const endWeek = moment(result).endOf("week").add(1, 'days').toDate();
+        this.loadSessionLogin(this.dateRangeSessionLogin[0], this.dateRangeSessionLogin[1], startWeek, endWeek);
+    }
 
     loadSessionLogin( 
         startDate: Date | null,
         endDate: Date | null, 
+        startWeekDate: Date | null, 
+        endWeekDate: Date | null, 
     ): void {
-        console.log(startDate, endDate);
         this.isSpinningSessionLogin = true;
-        this.statisticService.getSessionLogin(startDate, endDate)
+        this.statisticService.getSessionLogin(startDate, endDate, startWeekDate, endWeekDate)
         .subscribe(result => {
             if(result.success) {
-                const web = [];
-                const ios = [];
-                const android = [];
-                const vpro = [];
-                const ipad = [];
-                const quay = [];
-                const date = [];
-                for(const i of result.data.data) {
-                    web.push(i.web);
-                    ios.push(i.ios);
-                    android.push(i.android);
-                    vpro.push(i.vpro);
-                    quay.push(i.quay);
-                    ipad.push(i.ipad);
-                    date.push(i.dateChart);
+                const webDateRange = [];
+                const iosDateRange = [];
+                const androidDateRange = [];
+                const vproDateRange = [];
+                const ipadDateRange = [];
+                const quayDateRange = [];
+                const dateDateRange = [];
+                for(const i of result.data.dateRange) {
+                    webDateRange.push(i.web);
+                    iosDateRange.push(i.ios);
+                    androidDateRange.push(i.android);
+                    vproDateRange.push(i.vpro);
+                    quayDateRange.push(i.quay);
+                    ipadDateRange.push(i.ipad);
+                    dateDateRange.push(i.dateChart);
                 }
                 this.lineChartData = [
                     { 
-                        data: ios, 
+                        data: iosDateRange, 
                         label: 'iOS' 
                     },
                     { 
-                        data: android, 
+                        data: androidDateRange, 
                         label: 'Android' 
                     },
                     { 
-                        data: vpro, 
+                        data: vproDateRange, 
                         label: 'vPro' 
                     },
                     {
-                        data: web, 
+                        data: webDateRange, 
                         label: 'Web' 
                     },
                     { 
-                        data: quay, 
+                        data: quayDateRange, 
                         label: 'Quầy' 
                     },
                     { 
-                        data: ipad, 
+                        data: ipadDateRange, 
                         label: 'iPad' 
                     },
                 ];
-                this.lineChartLabels = date;
-                const maxSessionLogin = [...ios, ...android, ...vpro, ...web];
-                this.maxSessionLogin = Math.max(...maxSessionLogin);
-                console.log(this.maxSessionLogin, 'maxSessionLogin');
+                
+                const webWeekRange = [];
+                const iosWeekRange = [];
+                const androidWeekRange = [];
+                const vproWeekRange = [];
+                const ipadWeekRange = [];
+                const quayWeekRange = [];
+                const dateWeekRange = [];
+                for(const i of result.data.week) {
+                    webWeekRange.push(i.web);
+                    iosWeekRange.push(i.ios);
+                    androidWeekRange.push(i.android);
+                    vproWeekRange.push(i.vpro);
+                    quayWeekRange.push(i.quay);
+                    ipadWeekRange.push(i.ipad);
+                    dateWeekRange.push(i.dateChart);
+                }
+                this.barChartData = [
+                    {
+                        data: iosWeekRange,
+                        label: 'iOS',
+                        categoryPercentage: 0.45,
+                        barPercentage: 0.70,
+                    },
+                    {
+                        data: androidWeekRange,
+                        label: 'Android',
+                        categoryPercentage: 0.45,
+                        barPercentage: 0.70,
+                    },
+                    {
+                        data: vproWeekRange,
+                        label: 'vPro',
+                        categoryPercentage: 0.45,
+                        barPercentage: 0.70,
+                    },
+                    {
+                        data: webWeekRange,
+                        label: 'Web',
+                        categoryPercentage: 0.45,
+                        barPercentage: 0.70,
+                    },
+                    {
+                        data: quayWeekRange,
+                        label: 'Quầy',
+                        categoryPercentage: 0.45,
+                        barPercentage: 0.70,
+                    },
+                    {
+                        data: ipadWeekRange,
+                        label: 'iPad',
+                        categoryPercentage: 0.45,
+                        barPercentage: 0.70,
+                    }
+                ];
+
+                this.doughnutWeb = result.data.today[0].web;
+                this.doughnutiOS = result.data.today[0].ios;
+                this.doughnutiPad = result.data.today[0].ipad;
+                this.doughnutAndroid = result.data.today[0].android;
+                this.doughnutQuay = result.data.today[0].quay;
+                this.doughnutvPro = result.data.today[0].vpro;
+                this.customersChartData = [
+                    result.data.today[0].ios, 
+                    result.data.today[0].android, 
+                    result.data.today[0].vpro, 
+                    result.data.today[0].web, 
+                    result.data.today[0].quay, 
+                    result.data.today[0].ipad
+                ];
+
+                this.lineChartLabels = dateDateRange;
+                
                 this.isSpinningSessionLogin = false;
             }
         });
@@ -169,7 +257,7 @@ export class DefaultDashboardComponent implements OnInit {
                 },
                 ticks: {
                     display: true,
-                    max: 1400,                            
+                    max: 1400,
                     stepSize: 100,
                     fontColor: this.themeColors.grayLight,
                     fontSize: 13,
@@ -291,27 +379,25 @@ export class DefaultDashboardComponent implements OnInit {
         }
     ];
     revenueChartType = 'line';
-
-    customersChartLabels: string[] = ['Lotte', 'Web', 'Vpro', 'Android'];
+    // Doughnut Chart
+    customersChartLabels: string[] = ['iOS', 'Android', 'vPro', 'Web', 'Quầy', 'iPad'];
+    customersChartData: number[] = [0, 0, 0, 0, 0, 0];
     customersChartColors: Array<any> =  [{ 
-        backgroundColor: [this.cyan, this.red, this.gold, this.blue],
-        pointBackgroundColor : [this.cyan, this.red, this.gold, this.blue]
+        backgroundColor: [this.blue, this.volcano, this.lime, this.cyan, this.dark, this.purple],
+        pointBackgroundColor : [this.cyan, this.purple, this.gold, this.gold, this.gold, this.gold]
     }];
     customersChartOptions: any = {
         cutoutPercentage: 75,
         maintainAspectRatio: false
     }
     customersChartType = 'doughnut';
-
+    
     //Bar Chart
-    avgProfitChartOptions: any = {
-        scaleShowVerticalLines: false,
+    barChartOptions: any = {
         responsive: true,
-        maintainAspectRatio: false,
         scales: {
             xAxes: [{
                 display: true,
-                stacked: true,
                 scaleLabel: {
                     display: false,
                     labelString: 'Month'
@@ -326,7 +412,6 @@ export class DefaultDashboardComponent implements OnInit {
             }],
             yAxes: [{
                 display: true,
-                stacked: true,
                 scaleLabel: {
                     display: false,
                     labelString: 'Value'
@@ -339,8 +424,9 @@ export class DefaultDashboardComponent implements OnInit {
                     zeroLineWidth: 1,
                     zeroLineBorderDash: [3, 4]
                 },
-                ticks: {                           
-                    stepSize: 40,
+                ticks: {
+                    max: 1400,                            
+                    stepSize: 100,
                     display: true,
                     beginAtZero: true,
                     fontSize: 13,
@@ -349,243 +435,73 @@ export class DefaultDashboardComponent implements OnInit {
             }]
         }
     };
-    avgProfitChartLabels: string[] = ['Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'];
-    avgProfitChartType = 'bar';
-    avgProfitChartLegend = false;
-    avgProfitChartColors: Array<any> = [
+
+    barChartLabels: string[] = ['Mon', 'Tus', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    barChartType = 'bar';
+    barChartLegend = true;
+    barChartColors: Array<any> = [
         { 
-            backgroundColor: this.blue,
+            backgroundColor: this.themeColors.blue,
             borderWidth: 0
         },
         { 
-            backgroundColor: this.blueLight,
+            backgroundColor: this.themeColors.volcano,
             borderWidth: 0
-        }
-    ];
-    avgProfitChartData: any[] = [
-        { 
-            data: [38, 38, 30, 19, 56, 55, 31],
-            label: 'Series A',
-            categoryPercentage: 0.35,
-            barPercentage: 0.3,
         },
         { 
-            data: [55, 69, 90, 81, 86, 27, 77],
-            label: 'Series B',
-            categoryPercentage: 0.35,
-            barPercentage: 0.3,
-        }
+            backgroundColor: this.themeColors.lime,
+            borderWidth: 0
+        },
+        { 
+            backgroundColor: this.themeColors.cyan,
+            borderWidth: 0
+        },
+        { 
+            backgroundColor: this.themeColors.dark,
+            borderWidth: 0
+        },
+        { 
+            backgroundColor: this.themeColors.purple,
+            borderWidth: 0
+        },
     ];
 
-    productsList = [
+    barChartData: any[] = [
         {
-            name: 'Gray Sofa',
-            avatar: 'assets/images/others/thumb-9.jpg',
-            earn: 1912,
-            sales: 81,
-            stock: 82,
+            data: [],
+            label: 'iOS',
+            categoryPercentage: 0.45,
+            barPercentage: 0.70,
         },
         {
-            name: 'Beat Headphone',
-            avatar: 'assets/images/others/thumb-10.jpg',
-            earn: 1377,
-            sales: 26,
-            stock: 61
+            data: [],
+            label: 'Android',
+            categoryPercentage: 0.45,
+            barPercentage: 0.70,
         },
         {
-            name: 'Wooden Rhino',
-            avatar: 'assets/images/others/thumb-11.jpg',
-            earn: 9212,
-            sales: 71,
-            stock: 23,
+            data: [],
+            label: 'vPro',
+            categoryPercentage: 0.45,
+            barPercentage: 0.70,
         },
         {
-            name: 'Red Chair',
-            avatar: 'assets/images/others/thumb-12.jpg',
-            earn: 1298,
-            sales: 79,
-            stock: 54,
+            data: [],
+            label: 'Web',
+            categoryPercentage: 0.45,
+            barPercentage: 0.70,
         },
         {
-            name: 'Wristband',
-            avatar: 'assets/images/others/thumb-13.jpg',
-            earn: 7376,
-            sales: 60,
-            stock: 76,
-        }
-    ]    
-
-    fileList = [
-        {
-            icon: "file-word",
-            name: "Documentation.doc",
-            color: this.blue,
-            size: "1.2MB"
+            data: [],
+            label: 'Quầy',
+            categoryPercentage: 0.45,
+            barPercentage: 0.70,
         },
         {
-            icon: "file-excel",
-            name: "Expensess.xls",
-            color: this.cyan,
-            size: "518KB"
-        },
-        {
-            icon: "file-text",
-            name: "Receipt.txt",
-            color: this.purple,
-            size: "355KB"
-        },
-        {
-            icon: "file-word",
-            name: "Project Requirement.doc",
-            color: this.blue,
-            size: "1.6MB"
-        },
-        {
-            icon: "file-pdf",
-            name: "App Flow.pdf",
-            color: this.red,
-            size: "19.8MB"
-        },
-        {
-            icon: "file-ppt",
-            name: "Presentation.ppt",
-            color: this.gold,
-            size: "2.7MB"
-        },
-    ]
-
-    activityList = [
-        {
-            name: "Virgil Gonzales",
-            avatar: this.blue,
-            date: "10:44 PM",
-            action: "Complete task",
-            target: "Prototype Design",
-            actionType: "completed"
-        },
-        {
-            name: "Lilian Stone",
-            avatar: this.cyan,
-            date: "8:34 PM",
-            action: "Attached file",
-            target: "Mockup Zip",
-            actionType: "upload"
-        },
-        {
-            name: "Erin Gonzales",
-            avatar: this.gold,
-            date: "8:34 PM",
-            action: "Commented",
-            target: "'This is not our work!'",
-            actionType: "comment"
-        },
-        {
-            name: "Riley Newman",
-            avatar: this.blue,
-            date: "8:34 PM",
-            action: "Commented",
-            target: "'Hi, please done this before tommorow'",
-            actionType: "comment"
-        },
-        {
-            name: "Pamela Wanda",
-            avatar: this.red,
-            date: "8:34 PM",
-            action: "Removed",
-            target: "a file",
-            actionType: "removed"
-        },
-        {
-            name: "Marshall Nichols",
-            avatar: this.purple,
-            date: "5:21 PM",
-            action: "Create",
-            target: "this project",
-            actionType: "created"
-        }
-    ]    
-
-    taskListToday = [
-        {
-            title: "Define users and workflow",
-            desc: "A cheeseburger is more than sandwich",
-            checked: false
-        },
-        {
-            title: "Schedule jobs",
-            desc: "I'm gonna build me an airport",
-            checked: true
-        },
-        {
-            title: "Extend the data model",
-            desc: "Let us wax poetic about cheeseburger.",
-            checked: true
-        },
-        {
-            title: "Change interface",
-            desc: "Efficiently unleash cross-media information",
-            checked: false
-        },
-        {
-            title: "Create databases",
-            desc: "Here's the story of a man named Brady",
-            checked: false
+            data: [],
+            label: 'iPad',
+            categoryPercentage: 0.45,
+            barPercentage: 0.70,
         }
     ];
-    
-    taskListWeek = [
-        {
-            title: "Verify connectivity",
-            desc: "Bugger bag egg's old boy willy jolly",
-            checked: false
-        },
-        {
-            title: "Order console machines",
-            desc: "Value proposition alpha crowdsource",
-            checked: false
-        },
-        {
-            title: "Customize Template",
-            desc: "Do you see any Teletubbies in here",
-            checked: true
-        },
-        {
-            title: "Batch schedule",
-            desc: "Trillion a very small stage in a vast",
-            checked: true
-        },
-        {
-            title: "Prepare implementation",
-            desc: "Drop in axle roll-in rail slide",
-            checked: true
-        }
-    ];
-
-    taskListMonth = [
-        {
-            title: "Create user groups",
-            desc: "Nipperkin run a rig ballast chase",
-            checked: false
-        },
-        {
-            title: "Design Wireframe",
-            desc: "Value proposition alpha crowdsource",
-            checked: true
-        },
-        {
-            title: "Project Launch",
-            desc: "I'll be sure to note that",
-            checked: false
-        },
-        {
-            title: "Management meeting",
-            desc: "Hand-crafted exclusive finest",
-            checked: false
-        },
-        {
-            title: "Extend data model",
-            desc: "European minnow priapumfish mosshead",
-            checked: true
-        }
-    ]
-}  
+}

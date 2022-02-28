@@ -14,6 +14,11 @@ export class DefaultDashboardComponent implements OnInit {
     doughnutAndroid: number = 0;
     doughnutQuay: number = 0;
     doughnutvPro: number = 0;
+    
+    total: number = 0;
+    pluginsDoughnut: any = [{}];
+
+    barMax: number = 0;
 
     webSession: number = 0;
     lotteSession: number = 0;
@@ -48,10 +53,37 @@ export class DefaultDashboardComponent implements OnInit {
         private statisticService: StatisticService,
     ) {}
     
+    // Doughnut Chart
+    customersChartLabels: string[] = ['iOS', 'Android', 'vPro', 'Web', 'Quầy', 'iPad'];
+    customersChartData: number[] = [0, 0, 0, 0, 0, 0];
+    customersChartColors: Array<any> = [{ 
+        backgroundColor: [this.blue, this.volcano, this.lime, this.cyan, this.dark, this.purple],
+        pointBackgroundColor : [this.cyan, this.purple, this.gold, this.gold, this.gold, this.gold]
+    }];
+    customersChartOptions: any = {
+    }
+    customersChartType = 'doughnut';
+
     ngOnInit(): void {
         this.loadSessionLogin(this.dateRangeSessionLogin[0], this.dateRangeSessionLogin[1], this.startWeekDate, this.dateWeekEnd);
+        this.pluginsDoughnut = [{
+            beforeDraw: async function(chart) {
+                const width = chart.chart.width;
+                const height = chart.chart.height;
+                const ctx = chart.chart.ctx;
+                ctx.restore();
+                const fontSize = (height / 114).toFixed(2);
+                ctx.font = `${fontSize}em sans-serif`;
+                ctx.textBaseline = 'middle';
+                const text = chart.config.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                const textX = Math.round((width - ctx.measureText(text).width) / 2);
+                const textY = height / 2;
+                ctx.fillText(text, textX, textY);
+                ctx.save();
+            }
+        }];
     }
-
+    
     onChangeDateRangeSessionLogin(result: Date[]): void {
         if(result.length === 0) {
             result = [new Date(new Date().setMonth(new Date().getMonth() - 1)), new Date()];
@@ -189,12 +221,94 @@ export class DefaultDashboardComponent implements OnInit {
                 ];
 
                 this.lineChartLabels = dateDateRange;
-                
+                this.barMax = 500;
                 this.isSpinningSessionLogin = false;
+                this.barChartOptions = {
+                    responsive: true,
+                    scales: {
+                        xAxes: [{
+                            display: true,
+                            scaleLabel: {
+                                display: false,
+                                labelString: 'Month'
+                            },
+                            gridLines: false,
+                            ticks: {
+                                display: true,
+                                beginAtZero: true,
+                                fontSize: 13,
+                                padding: 10
+                            }
+                        }],
+                        yAxes: [{
+                            display: true,
+                            scaleLabel: {
+                                display: false,
+                                labelString: 'Value'
+                            },
+                            gridLines: {
+                                drawBorder: false,
+                                offsetGridLines: false,
+                                drawTicks: false,
+                                borderDash: [3, 4],
+                                zeroLineWidth: 1,
+                                zeroLineBorderDash: [3, 4]
+                            },
+                            ticks: {
+                                max: 1400,                            
+                                stepSize: 300,
+                                display: true,
+                                beginAtZero: true,
+                                fontSize: 13,
+                                padding: 10
+                            }
+                        }]
+                    },
+                };
+                
+                this.lineChartOptions = {
+                    responsive: true,
+                    hover: {
+                        mode: 'nearest',
+                        intersect: true
+                    },
+                    tooltips: {
+                        mode: 'index'
+                    },
+                    scales: {
+                        xAxes: [{ 
+                            gridLines: [{
+                                display: false,
+                            }],
+                            ticks: {
+                                display: true,
+                                fontColor: this.themeColors.grayLight,
+                                fontSize: 13,
+                                padding: 10
+                            }
+                        }],
+                        yAxes: [{
+                            gridLines: {
+                                drawBorder: false,
+                                drawTicks: false,
+                                borderDash: [3, 4],
+                                zeroLineWidth: 1,
+                                zeroLineBorderDash: [3, 4]  
+                            },
+                            ticks: {
+                                display: true,
+                                max: 1400,
+                                stepSize: 300,
+                                fontColor: this.themeColors.grayLight,
+                                fontSize: 13,
+                                padding: 10
+                            }  
+                        }],
+                    }
+                };
             }
-        });
-    }
-
+        },
+    )}
     lineChartData: Array<any> = [
         {
             data: [], 
@@ -226,46 +340,8 @@ export class DefaultDashboardComponent implements OnInit {
 
     lineChartLabels:Array<any> = [];
     
-    lineChartOptions: any = {
-        responsive: true,
-        hover: {
-            mode: 'nearest',
-            intersect: true
-        },
-        tooltips: {
-            mode: 'index'
-        },
-        scales: {
-            xAxes: [{ 
-                gridLines: [{
-                    display: false,
-                }],
-                ticks: {
-                    display: true,
-                    fontColor: this.themeColors.grayLight,
-                    fontSize: 13,
-                    padding: 10
-                }
-            }],
-            yAxes: [{
-                gridLines: {
-                    drawBorder: false,
-                    drawTicks: false,
-                    borderDash: [3, 4],
-                    zeroLineWidth: 1,
-                    zeroLineBorderDash: [3, 4]  
-                },
-                ticks: {
-                    display: true,
-                    max: 1400,
-                    stepSize: 100,
-                    fontColor: this.themeColors.grayLight,
-                    fontSize: 13,
-                    padding: 10
-                }  
-            }],
-        }
-    };
+    lineChartOptions: any = {};
+
     lineChartColors: Array<any> = [
         { 
             backgroundColor: this.themeColors.transparent,
@@ -364,7 +440,7 @@ export class DefaultDashboardComponent implements OnInit {
                     fontColor: this.themeColors.grayLight,
                     fontSize: 13,
                     padding: 10
-                }  
+                }
             }],
         }
     };
@@ -379,63 +455,9 @@ export class DefaultDashboardComponent implements OnInit {
         }
     ];
     revenueChartType = 'line';
-    // Doughnut Chart
-    customersChartLabels: string[] = ['iOS', 'Android', 'vPro', 'Web', 'Quầy', 'iPad'];
-    customersChartData: number[] = [0, 0, 0, 0, 0, 0];
-    customersChartColors: Array<any> =  [{ 
-        backgroundColor: [this.blue, this.volcano, this.lime, this.cyan, this.dark, this.purple],
-        pointBackgroundColor : [this.cyan, this.purple, this.gold, this.gold, this.gold, this.gold]
-    }];
-    customersChartOptions: any = {
-        cutoutPercentage: 75,
-        maintainAspectRatio: false
-    }
-    customersChartType = 'doughnut';
     
     //Bar Chart
-    barChartOptions: any = {
-        responsive: true,
-        scales: {
-            xAxes: [{
-                display: true,
-                scaleLabel: {
-                    display: false,
-                    labelString: 'Month'
-                },
-                gridLines: false,
-                ticks: {
-                    display: true,
-                    beginAtZero: true,
-                    fontSize: 13,
-                    padding: 10
-                }
-            }],
-            yAxes: [{
-                display: true,
-                scaleLabel: {
-                    display: false,
-                    labelString: 'Value'
-                },
-                gridLines: {
-                    drawBorder: false,
-                    offsetGridLines: false,
-                    drawTicks: false,
-                    borderDash: [3, 4],
-                    zeroLineWidth: 1,
-                    zeroLineBorderDash: [3, 4]
-                },
-                ticks: {
-                    max: 1400,                            
-                    stepSize: 100,
-                    display: true,
-                    beginAtZero: true,
-                    fontSize: 13,
-                    padding: 10
-                }
-            }]
-        }
-    };
-
+    barChartOptions: any = {};
     barChartLabels: string[] = ['Mon', 'Tus', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     barChartType = 'bar';
     barChartLegend = true;

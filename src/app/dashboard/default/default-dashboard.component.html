@@ -61,16 +61,18 @@
                                         <div class="m-v-60 text-center" style="height: 197px">
                                             <canvas 
                                                 ngChartjs 
+                                                id="my-doughnut-text-plugin"
                                                 [data]="customersChartData" 
                                                 [labels]="customersChartLabels" 
                                                 [chartType]="customersChartType"
+                                                [inlinePlugins]="pluginsDoughnut"
                                                 [colors]="customersChartColors"
                                                 [options]="customersChartOptions"
                                                 [legend]="false">
                                             </canvas>
                                         </div>
                                         <div class="row border-top p-t-25">
-                                            <div class="col-2">
+                                            <div class="col-4">
                                                 <div class="d-flex justify-content-center">
                                                     <div class="media align-items-center">
                                                         <nz-badge nzStatus="default" [nzColor]="blue"></nz-badge>
@@ -81,57 +83,57 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-2">
-                                                <div class="d-flex justify-content-center">
-                                                    <div class="media align-items-center">
-                                                        <nz-badge nzStatus="default" [nzColor]="volcano"></nz-badge>
-                                                        <div class="m-l-5">
-                                                            <h4 class="m-b-0">{{doughnutAndroid}}</h4>
-                                                            <p class="m-b-0 muted">Android</p>
-                                                        </div>    
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-2">
+                                            <div class="col-4">
                                                 <div class="d-flex justify-content-center">
                                                     <div class="media align-items-center">
                                                         <nz-badge nzStatus="default" [nzColor]="lime"></nz-badge>
                                                         <div class="m-l-5">
-                                                            <h4 class="m-b-0">{{doughnutvPro}}</h4>
+                                                            <h5 class="m-b-0">{{doughnutvPro}}</h5>
                                                             <p class="m-b-0 muted">vPro</p>
                                                         </div>    
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-2">
-                                                <div class="d-flex justify-content-center">
-                                                    <div class="media align-items-center">
-                                                        <nz-badge nzStatus="default" [nzColor]="cyan"></nz-badge>
-                                                        <div class="m-l-5">
-                                                            <h4 class="m-b-0">{{doughnutWeb}}</h4>
-                                                            <p class="m-b-0 muted">Web</p>
-                                                        </div>    
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-2">
+                                            <div class="col-4">
                                                 <div class="d-flex justify-content-center">
                                                     <div class="media align-items-center">
                                                         <nz-badge nzStatus="default" [nzColor]="dark"></nz-badge>
                                                         <div class="m-l-5">
-                                                            <h4 class="m-b-0">{{doughnutQuay}}</h4>
+                                                            <h5 class="m-b-0">{{doughnutQuay}}</h5>
                                                             <p class="m-b-0 muted">Quầy</p>
                                                         </div>    
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-2">
+                                            <div class="col-4">
+                                                <div class="d-flex justify-content-center">
+                                                    <div class="media align-items-center">
+                                                        <nz-badge nzStatus="default" [nzColor]="cyan"></nz-badge>
+                                                        <div class="m-l-5">
+                                                            <h5 class="m-b-0">{{doughnutWeb}}</h5>
+                                                            <p class="m-b-0 muted">Web</p>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
                                                 <div class="d-flex justify-content-center">
                                                     <div class="media align-items-center">
                                                         <nz-badge nzStatus="default" [nzColor]="purple"></nz-badge>
                                                         <div class="m-l-5">
-                                                            <h4 class="m-b-0">{{doughnutiPad}}</h4>
+                                                            <h5 class="m-b-0">{{doughnutiPad}}</h5>
                                                             <p class="m-b-0 muted">iPad</p>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="d-flex justify-content-center">
+                                                    <div class="media align-items-center">
+                                                        <nz-badge nzStatus="default" style="margin-left: 21px;" [nzColor]="volcano"></nz-badge>
+                                                        <div class="m-l-5">
+                                                            <h5 class="m-b-0">{{doughnutAndroid}}</h5>
+                                                            <p class="m-b-0 muted">Android</p>
                                                         </div>    
                                                     </div>
                                                 </div>

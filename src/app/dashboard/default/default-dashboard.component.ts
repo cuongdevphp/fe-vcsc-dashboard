@@ -114,6 +114,7 @@ export class DefaultDashboardComponent implements OnInit {
                 const ipadDateRange = [];
                 const quayDateRange = [];
                 const dateDateRange = [];
+                const totalDateRange = [];
                 for(const i of result.data.dateRange) {
                     webDateRange.push(i.web);
                     iosDateRange.push(i.ios);
@@ -122,6 +123,8 @@ export class DefaultDashboardComponent implements OnInit {
                     quayDateRange.push(i.quay);
                     ipadDateRange.push(i.ipad);
                     dateDateRange.push(i.dateChart);
+                    const t = i.web + i.ios + i.android + i.vpro + i.quay + i.ipad;
+                    totalDateRange.push(t);
                 }
                 this.lineChartData = [
                     { 
@@ -148,6 +151,12 @@ export class DefaultDashboardComponent implements OnInit {
                         data: ipadDateRange, 
                         label: 'iPad' 
                     },
+                    {
+                        label: "Total",
+                        data: totalDateRange,
+                        type: "line",
+                        showLines: false,
+                    }
                 ];
                 
                 const webWeekRange = [];
@@ -166,6 +175,14 @@ export class DefaultDashboardComponent implements OnInit {
                     ipadWeekRange.push(i.ipad);
                     dateWeekRange.push(i.dateChart);
                 }
+                const monTotal = webWeekRange[0] + iosWeekRange[0] + androidWeekRange[0] + vproWeekRange[0] + quayWeekRange[0] + ipadWeekRange[0];
+                const tueTotal= webWeekRange[1] + iosWeekRange[1] + androidWeekRange[1] + vproWeekRange[1] + quayWeekRange[1] + ipadWeekRange[1];
+                const wedTotal = webWeekRange[2] + iosWeekRange[2] + androidWeekRange[2] + vproWeekRange[2] + quayWeekRange[2] + ipadWeekRange[2];
+                const thuTotal = webWeekRange[3] + iosWeekRange[3] + androidWeekRange[3] + vproWeekRange[3] + quayWeekRange[3] + ipadWeekRange[3];
+                const friTotal = webWeekRange[4] + iosWeekRange[4] + androidWeekRange[4] + vproWeekRange[4] + quayWeekRange[4] + ipadWeekRange[4];
+                const staTotal = webWeekRange[5] + iosWeekRange[5] + androidWeekRange[5] + vproWeekRange[5] + quayWeekRange[5] + ipadWeekRange[5];
+                const sunTotal = webWeekRange[6] + iosWeekRange[6] + androidWeekRange[6] + vproWeekRange[6] + quayWeekRange[6] + ipadWeekRange[6];
+                
                 this.barChartData = [
                     {
                         data: iosWeekRange,
@@ -202,6 +219,12 @@ export class DefaultDashboardComponent implements OnInit {
                         label: 'iPad',
                         categoryPercentage: 0.45,
                         barPercentage: 0.70,
+                    },
+                    {
+                        label: "Total",
+                        data: [monTotal, tueTotal, wedTotal, thuTotal, friTotal, staTotal, sunTotal],
+                        type: "line",
+                        showLines: false,
                     }
                 ];
 
@@ -458,7 +481,7 @@ export class DefaultDashboardComponent implements OnInit {
     
     //Bar Chart
     barChartOptions: any = {};
-    barChartLabels: string[] = ['Mon', 'Tus', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    barChartLabels: string[] = [`Mon`, 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     barChartType = 'bar';
     barChartLegend = true;
     barChartColors: Array<any> = [
@@ -524,6 +547,12 @@ export class DefaultDashboardComponent implements OnInit {
             label: 'iPad',
             categoryPercentage: 0.45,
             barPercentage: 0.70,
+        },
+        {
+            label: "Total",
+            data: [0, 0, 0, 0, 0, 0, 0],
+            type: "line",
+            showLines: false,
         }
     ];
 }

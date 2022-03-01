@@ -85,6 +85,7 @@ export class DefaultDashboardComponent implements OnInit {
     }
 
     refresh(): void {
+        this.selectWeekSessionLoginWeek = new Date();
         this.loadSessionLogin(this.dateRangeSessionLogin[0], this.dateRangeSessionLogin[1], this.startWeekDate, this.dateWeekEnd);
     }
     

@@ -30,8 +30,8 @@ export class DefaultDashboardComponent implements OnInit {
     selectWeekSessionLoginWeek = new Date();
     dateRangeSessionLogin = [new Date(new Date().setMonth(new Date().getMonth() - 1)), new Date(new Date().setDate(new Date().getDate() + 1))];
 
-    startWeekDate = moment(new Date()).startOf("week").add(1, 'days').toDate();
-    dateWeekEnd = moment(new Date()).endOf("week").add(1, 'days').toDate();
+    startWeekDate = moment(new Date()).startOf("week").toDate();
+    dateWeekEnd = moment(new Date()).endOf("week").toDate();
 
     themeColors = this.colorConfig.get().colors;    
     blue = this.themeColors.blue;
@@ -83,6 +83,10 @@ export class DefaultDashboardComponent implements OnInit {
             }
         }];
     }
+
+    refresh(): void {
+        this.loadSessionLogin(this.dateRangeSessionLogin[0], this.dateRangeSessionLogin[1], this.startWeekDate, this.dateWeekEnd);
+    }
     
     onChangeDateRangeSessionLogin(result: Date[]): void {
         if(result.length === 0) {
@@ -92,8 +96,8 @@ export class DefaultDashboardComponent implements OnInit {
     }
 
     onChangeWeekSessionLogin(result: Date): void {
-        const startWeek = moment(result).startOf("week").add(1, 'days').toDate();
-        const endWeek = moment(result).endOf("week").add(1, 'days').toDate();
+        const startWeek = moment(result).startOf("week").toDate();
+        const endWeek = moment(result).endOf("week").toDate();
         this.loadSessionLogin(this.dateRangeSessionLogin[0], this.dateRangeSessionLogin[1], startWeek, endWeek);
     }
 
@@ -481,7 +485,7 @@ export class DefaultDashboardComponent implements OnInit {
     
     //Bar Chart
     barChartOptions: any = {};
-    barChartLabels: string[] = [`Mon`, 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    barChartLabels: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     barChartType = 'bar';
     barChartLegend = true;
     barChartColors: Array<any> = [

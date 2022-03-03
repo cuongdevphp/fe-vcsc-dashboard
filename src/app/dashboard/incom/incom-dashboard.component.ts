@@ -190,20 +190,20 @@ export class IncomDashboardComponent implements OnInit {
         this.loadingSendModal = true;
         this.incomService.sendMessage(phoneNumber, contentMessage)
         .subscribe(result => {
-            if(result.success) {
-                this.notification.create(
-                    'success',
-                    'Notification',
-                    'Send message success'
-                );
-                this.loadMessageList(this.pageIndex, this.pageSize, null, null, '', '', this.searchDate[0], this.searchDate[1]);
-            } else {
-                this.notification.create(
-                    'error',
-                    'Send message fail',
-                    `${result.code}`
-                );
-            }
+            // if(result.success) {
+            this.notification.create(
+                'success',
+                'Notification',
+                'Send message success'
+            );
+            this.loadMessageList(this.pageIndex, this.pageSize, null, null, '', '', this.searchDate[0], this.searchDate[1]);
+            // } else {
+            //     this.notification.create(
+            //         'error',
+            //         'Send message fail',
+            //         `${result.code}`
+            //     );
+            // }
             this.modalService.closeAll();
             this.resetSendModal();
         });

@@ -6,7 +6,7 @@ import { ChartingLibraryWidgetOptions, IChartingLibraryWidget, LanguageCode, Res
 })
 
 export class TradingDashboardComponent implements OnInit, OnDestroy  {
-    private _symbol: ChartingLibraryWidgetOptions['symbol'] = 'VNM';
+    private _symbol: ChartingLibraryWidgetOptions['symbol'] = 'VCI';
     private _interval: ChartingLibraryWidgetOptions['interval'] = 'D' as ResolutionString;
     // BEWARE: no trailing slash is expected in feed URL
     private _datafeedUrl = 'https://invest.vcsc.com.vn/api/v2/tradingview';

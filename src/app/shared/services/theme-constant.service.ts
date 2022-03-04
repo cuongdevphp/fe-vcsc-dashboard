@@ -32,6 +32,8 @@ export class ThemeConstantService {
             geekBlueLight: 'rgba(47, 84, 235, 0.1)',
             purple: '#886cff',
             purpleLight: 'rgba(136, 108, 255, 0.1)',
+            yellow: '#ffc107',
+            yellowLight: 'rgba(255, 255, 0, 0.1)',
             gray: '#53535f',
             grayLight: '#77838f',
             grayLighter: '#ededed',

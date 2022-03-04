@@ -14,6 +14,7 @@ export class DefaultDashboardComponent implements OnInit {
     doughnutAndroid: number = 0;
     doughnutQuay: number = 0;
     doughnutvPro: number = 0;
+    doughnutTechx: number = 0;
     
     total: number = 0;
     pluginsDoughnut: any = [{}];
@@ -36,14 +37,24 @@ export class DefaultDashboardComponent implements OnInit {
     themeColors = this.colorConfig.get().colors;    
     blue = this.themeColors.blue;
     blueLight = this.themeColors.blueLight;
+
     cyan = this.themeColors.cyan;
     cyanLight = this.themeColors.cyanLight;
+
     gold = this.themeColors.gold;
+
     purple = this.themeColors.purple;
     purpleLight = this.themeColors.purpleLight;
+
+    yellow = this.themeColors.yellow;
+    yellowLight = this.themeColors.yellowLight;
+
     red = this.themeColors.red;
+
     volcano = this.themeColors.volcano;
+
     lime = this.themeColors.lime;
+
     dark = this.themeColors.dark;
 
     taskListIndex: number = 0;
@@ -54,11 +65,11 @@ export class DefaultDashboardComponent implements OnInit {
     ) {}
     
     // Doughnut Chart
-    customersChartLabels: string[] = ['iOS', 'Android', 'vPro', 'Web', 'Quầy', 'iPad'];
-    customersChartData: number[] = [0, 0, 0, 0, 0, 0];
+    customersChartLabels: string[] = ['iOS', 'Android', 'vPro', 'Web', 'Quầy', 'iPad', 'TechX'];
+    customersChartData: number[] = [0, 0, 0, 0, 0, 0, 0];
     customersChartColors: Array<any> = [{ 
-        backgroundColor: [this.blue, this.volcano, this.lime, this.cyan, this.dark, this.purple],
-        pointBackgroundColor : [this.cyan, this.purple, this.gold, this.gold, this.gold, this.gold]
+        backgroundColor: [this.blue, this.volcano, this.lime, this.cyan, this.dark, this.purple, this.yellow],
+        pointBackgroundColor : [this.cyan, this.purple, this.gold, this.gold, this.gold, this.gold, this.gold]
     }];
     customersChartOptions: any = {
     }
@@ -120,6 +131,7 @@ export class DefaultDashboardComponent implements OnInit {
                 const quayDateRange = [];
                 const dateDateRange = [];
                 const totalDateRange = [];
+                const techxDateRange = [];
                 for(const i of result.data.dateRange) {
                     webDateRange.push(i.web);
                     iosDateRange.push(i.ios);
@@ -128,7 +140,8 @@ export class DefaultDashboardComponent implements OnInit {
                     quayDateRange.push(i.quay);
                     ipadDateRange.push(i.ipad);
                     dateDateRange.push(i.dateChart);
-                    const t = i.web + i.ios + i.android + i.vpro + i.quay + i.ipad;
+                    techxDateRange.push(i.techx);
+                    const t = i.web + i.ios + i.android + i.vpro + i.quay + i.ipad + i.techx;
                     totalDateRange.push(t);
                 }
                 this.lineChartData = [
@@ -156,6 +169,10 @@ export class DefaultDashboardComponent implements OnInit {
                         data: ipadDateRange, 
                         label: 'iPad' 
                     },
+                    { 
+                        data: techxDateRange, 
+                        label: 'TechX' 
+                    },
                     {
                         label: "Total",
                         data: totalDateRange,
@@ -170,6 +187,7 @@ export class DefaultDashboardComponent implements OnInit {
                 const vproWeekRange = [];
                 const ipadWeekRange = [];
                 const quayWeekRange = [];
+                const techxWeekRange = [];
                 const dateWeekRange = [];
                 for(const i of result.data.week) {
                     webWeekRange.push(i.web);
@@ -178,15 +196,17 @@ export class DefaultDashboardComponent implements OnInit {
                     vproWeekRange.push(i.vpro);
                     quayWeekRange.push(i.quay);
                     ipadWeekRange.push(i.ipad);
+                    techxWeekRange.push(i.techx);
                     dateWeekRange.push(i.dateChart);
                 }
-                const monTotal = webWeekRange[0] + iosWeekRange[0] + androidWeekRange[0] + vproWeekRange[0] + quayWeekRange[0] + ipadWeekRange[0];
-                const tueTotal= webWeekRange[1] + iosWeekRange[1] + androidWeekRange[1] + vproWeekRange[1] + quayWeekRange[1] + ipadWeekRange[1];
-                const wedTotal = webWeekRange[2] + iosWeekRange[2] + androidWeekRange[2] + vproWeekRange[2] + quayWeekRange[2] + ipadWeekRange[2];
-                const thuTotal = webWeekRange[3] + iosWeekRange[3] + androidWeekRange[3] + vproWeekRange[3] + quayWeekRange[3] + ipadWeekRange[3];
-                const friTotal = webWeekRange[4] + iosWeekRange[4] + androidWeekRange[4] + vproWeekRange[4] + quayWeekRange[4] + ipadWeekRange[4];
-                const staTotal = webWeekRange[5] + iosWeekRange[5] + androidWeekRange[5] + vproWeekRange[5] + quayWeekRange[5] + ipadWeekRange[5];
-                const sunTotal = webWeekRange[6] + iosWeekRange[6] + androidWeekRange[6] + vproWeekRange[6] + quayWeekRange[6] + ipadWeekRange[6];
+                console.log(techxWeekRange, 'techxWeekRange');
+                const monTotal = techxWeekRange[0] + webWeekRange[0] + iosWeekRange[0] + androidWeekRange[0] + vproWeekRange[0] + quayWeekRange[0] + ipadWeekRange[0];
+                const tueTotal = techxWeekRange[1] + webWeekRange[1] + iosWeekRange[1] + androidWeekRange[1] + vproWeekRange[1] + quayWeekRange[1] + ipadWeekRange[1];
+                const wedTotal = techxWeekRange[2] + webWeekRange[2] + iosWeekRange[2] + androidWeekRange[2] + vproWeekRange[2] + quayWeekRange[2] + ipadWeekRange[2];
+                const thuTotal = techxWeekRange[3] + webWeekRange[3] + iosWeekRange[3] + androidWeekRange[3] + vproWeekRange[3] + quayWeekRange[3] + ipadWeekRange[3];
+                const friTotal = techxWeekRange[4] + webWeekRange[4] + iosWeekRange[4] + androidWeekRange[4] + vproWeekRange[4] + quayWeekRange[4] + ipadWeekRange[4];
+                const staTotal = techxWeekRange[5] + webWeekRange[5] + iosWeekRange[5] + androidWeekRange[5] + vproWeekRange[5] + quayWeekRange[5] + ipadWeekRange[5];
+                const sunTotal = techxWeekRange[6] + webWeekRange[6] + iosWeekRange[6] + androidWeekRange[6] + vproWeekRange[6] + quayWeekRange[6] + ipadWeekRange[6];
                 
                 this.barChartData = [
                     {
@@ -226,6 +246,12 @@ export class DefaultDashboardComponent implements OnInit {
                         barPercentage: 0.70,
                     },
                     {
+                        data: techxWeekRange,
+                        label: 'TechX',
+                        categoryPercentage: 0.45,
+                        barPercentage: 0.70,
+                    },
+                    {
                         label: "Total",
                         data: [monTotal, tueTotal, wedTotal, thuTotal, friTotal, staTotal, sunTotal],
                         type: "line",
@@ -239,13 +265,16 @@ export class DefaultDashboardComponent implements OnInit {
                 this.doughnutAndroid = result.data.today[0].android;
                 this.doughnutQuay = result.data.today[0].quay;
                 this.doughnutvPro = result.data.today[0].vpro;
+                this.doughnutTechx = result.data.today[0].techx;
+
                 this.customersChartData = [
                     result.data.today[0].ios, 
                     result.data.today[0].android, 
                     result.data.today[0].vpro, 
                     result.data.today[0].web, 
                     result.data.today[0].quay, 
-                    result.data.today[0].ipad
+                    result.data.today[0].ipad,
+                    result.data.today[0].techx,
                 ];
 
                 this.lineChartLabels = dateDateRange;
@@ -360,6 +389,10 @@ export class DefaultDashboardComponent implements OnInit {
         },
         {
             data: [], 
+            label: 'TechX' 
+        },
+        {
+            data: [], 
             label: 'iPad' 
         },
     ];
@@ -418,6 +451,14 @@ export class DefaultDashboardComponent implements OnInit {
             pointBorderColor: this.themeColors.white,
             pointHoverBackgroundColor: this.themeColors.purpleLight,
             pointHoverBorderColor: this.themeColors.purpleLight
+        },
+        { 
+            backgroundColor: this.themeColors.transparent,
+            borderColor: this.themeColors.yellow,
+            pointBackgroundColor: this.themeColors.yellow,
+            pointBorderColor: this.themeColors.white,
+            pointHoverBackgroundColor: this.themeColors.yellowLight,
+            pointHoverBorderColor: this.themeColors.yellowLight
         },
     ];
     lineChartLegend = true;
@@ -514,6 +555,10 @@ export class DefaultDashboardComponent implements OnInit {
             backgroundColor: this.themeColors.purple,
             borderWidth: 0
         },
+        { 
+            backgroundColor: this.themeColors.yellow,
+            borderWidth: 0
+        },
     ];
 
     barChartData: any[] = [
@@ -550,6 +595,12 @@ export class DefaultDashboardComponent implements OnInit {
         {
             data: [],
             label: 'iPad',
+            categoryPercentage: 0.45,
+            barPercentage: 0.70,
+        },
+        {
+            data: [],
+            label: 'TechX',
             categoryPercentage: 0.45,
             barPercentage: 0.70,
         },

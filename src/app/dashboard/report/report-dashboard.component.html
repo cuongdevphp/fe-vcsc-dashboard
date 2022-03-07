@@ -1,0 +1,83 @@
+<h2>Report</h2>
+<nz-card>
+    <div style="display: flex;">
+        <div class="col-md-12 col-lg-4">
+            <nz-card>
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5>Số lượng tài khoản</h5>
+                </div>
+                
+                <div class="m-v-60 text-center" style="height: 197px">
+                    <div style="text-align: right;">
+                        <nz-range-picker [nzFormat]="dateFormatQtyAcc" [(ngModel)]="dateRangeQtyAcc" (ngModelChange)="onChangeDateRangeQtyAcc($event)"></nz-range-picker>
+                    </div>
+                    <nz-table 
+                        [nzLoading]="loadingQtyAccount"
+                        [nzData]="['']"
+                        [nzFrontPagination]="false"
+                        nzShowSizeChanger
+                    >
+                        <thead>
+                            <tr>
+                                <th style="text-align: left;" colspan="2">Loại khách hàng</th>
+                                <th>Số lượng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="hidden-table">
+                                <td rowspan="2">Trong nước</td>
+                                <td>Cá nhân</td>
+                                <td>{{qtyAccountVNPer}}</td>
+                            </tr>
+                            <tr class="hidden-table">
+                                <td>Tổ chức</td>
+                                <td>{{qtyAccountVNOrg}}</td>
+                            </tr>
+                            <tr class="hidden-table">
+                                <td rowspan="2">Nước ngoài</td>
+                                <td>Cá nhân</td>
+                                <td>{{qtyAccountForeignPer}}</td>
+                            </tr>
+                            <tr class="hidden-table">
+                                <td>Tổ chức</td>
+                                <td>{{qtyAccountForeignOrg}}</td>
+                            </tr>
+                            <tr class="hidden-table">
+                                <td>Tổng</td>
+                                <td></td>
+                                <td>{{totalQtyAccount}}</td>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+                </div>
+            </nz-card>
+        </div>
+        <div class="col-md-12 col-lg-8">
+            <nz-card style="height: 578px;">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5>Tình hình giao dịch</h5>
+                    <div>
+                        <!-- <nz-date-picker 
+                            [nzFormat]="dateFormat" 
+                            [(ngModel)]="selectWeekSessionLoginWeek" 
+                            (ngModelChange)="onChangeWeekSessionLogin($event)" 
+                            nzMode="week"
+                        ></nz-date-picker> -->
+                    </div>
+                </div>
+                <div class="m-t-50" style="height: 330px">
+                    <!-- <canvas 
+                        ngChartjs 
+                        height="110px"
+                        [datasets]="barChartData" 
+                        [labels]="barChartLabels"
+                        [options]="barChartOptions" 
+                        [colors]="barChartColors"
+                        [legend]="barChartLegend" 
+                        [chartType]="barChartType">
+                    </canvas> -->
+                </div>
+            </nz-card>
+        </div>
+    </div>
+</nz-card>

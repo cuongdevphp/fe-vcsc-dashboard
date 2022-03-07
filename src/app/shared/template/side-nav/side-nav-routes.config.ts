@@ -54,6 +54,15 @@ export const ROUTES: SideNavInterface[] = [
                 name: 'trading',
                 submenu: [],
             },
+            {
+                path: '/dashboard/report',
+                title: 'Report',
+                iconType: 'nzIcon',
+                icon: 'book',
+                iconTheme: 'outline',
+                name: 'report',
+                submenu: [],
+            },
         ]
     },
 ]    

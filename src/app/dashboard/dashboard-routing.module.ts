@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ChatComponent } from './chat/chat.component';
 import { DefaultDashboardComponent } from './default/default-dashboard.component';
 import { IncomDashboardComponent } from './incom/incom-dashboard.component';
+import { ReportDashboardComponent } from './report/report-dashboard.component';
 import { StatisticsDashboardComponent } from './statistics/statistics-dashboard.component';
 import { TradingDashboardComponent } from './trading/trading.component';
 import { UsersDashboardComponent } from './users/users.component';
@@ -53,6 +54,14 @@ let routes: Routes = [
         component: TradingDashboardComponent,
         data: {
             title: 'Trading Dashboard',
+            headerDisplay: "none"
+        }
+    },
+    {
+        path: 'report',
+        component: ReportDashboardComponent,
+        data: {
+            title: 'Report Dashboard',
             headerDisplay: "none"
         }
     },

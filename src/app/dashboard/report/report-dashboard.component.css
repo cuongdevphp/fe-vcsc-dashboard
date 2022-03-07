@@ -1,0 +1,9 @@
+table:hover,
+tr:hover,
+thead:hover {
+    background: rgb(253, 253, 253) !important;
+}
+
+.ant-table-tbody > tr.ant-table-row:hover > td {
+    background: none !important;
+}

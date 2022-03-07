@@ -41,6 +41,7 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StatisticsDashboardComponent } from './statistics/statistics-dashboard.component';
 import { ChatComponent } from './chat/chat.component';
+import { ReportDashboardComponent } from './report/report-dashboard.component';
 
 const antdModule = [
     NzPopconfirmModule,
@@ -88,6 +89,7 @@ const antdModule = [
         IncomDashboardComponent,
         UsersDashboardComponent,
         StatisticsDashboardComponent,
+        ReportDashboardComponent,
         ChatComponent
     ],
     providers: [

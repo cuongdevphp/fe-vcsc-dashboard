@@ -19,6 +19,10 @@ export class ReportService {
   public get messageValue(): MessageIncom {
       return this.messageSubject.value;
   }
+  
+  getQtyAccount(startDate, endDate) {
+    return this.http.get<any>(`${environment.apiUrl}/report/qtyAccount?startDate=${new Date(startDate).toISOString()}&endDate=${new Date(endDate).toISOString()}`);
+  }
 
   getCommission(startDate, endDate) {
     return this.http.get<any>(`${environment.apiUrl}/report/commission?startDate=${new Date(startDate).toISOString()}&endDate=${new Date(endDate).toISOString()}`);

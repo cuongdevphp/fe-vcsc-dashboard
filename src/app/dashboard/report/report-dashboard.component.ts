@@ -25,21 +25,44 @@ export class ReportDashboardComponent implements OnInit {
 
     allChecked:boolean = false;
     loadingQtyAccount = false;
-    pageSize = 10;
+    loadingCommission = false;
     dateFormatQtyAcc = 'dd/MM/yyyy';
     dateRangeQtyAcc = [new Date(new Date().setMonth(new Date().getMonth() - 1)), new Date(new Date().setDate(new Date().getDate() + 1))];
-    searchDate = [new Date(new Date().setMonth(new Date().getMonth() - 1)), new Date()];
-    pageIndex = 1;
-    total = null;
-    indeterminate:boolean = false;
-    messagesList:any = null;
-    messages:any = null;
+    dateFormatCommission = 'dd/MM/yyyy';
+    dateRangeCommission = [new Date(new Date().setMonth(new Date().getMonth() - 1)), new Date(new Date().setDate(new Date().getDate() + 1))];
+
 
     qtyAccountForeignOrg:number = null;
     qtyAccountForeignPer:number = null;
     qtyAccountVNOrg:number = null;
     qtyAccountVNPer:number = null;
     totalQtyAccount: number = null;
+
+    
+    rsQtyTotalBuyStockVN:number = null;
+    rsQtyTotalSellStockVN:number = null;
+    rsTotalValueBuyStockVN:number = null;
+    rsTotalValueSellStockVN:number = null;
+    rsTotalQtyBuyStockForeign:number = null;
+    rsTotalQtySellStockForeign:number = null;
+    rsTotalValueBuyStockForeign:number = null;
+    rsTotalValueSellStockForeign:number = null;
+    rsTotalQtyBuyBondVN:number = null;
+    rsTotalQtySellBondVN:number = null;
+    rsTotalValueBuyBondVN:number = null;
+    rsTotalValueSellBondVN:number = null;
+    rsTotalQtyBuyBondForeign:number = null;
+    rsTotalQtySellBondForeign:number = null;
+    rsTotalValueBuyBondForeign:number = null;
+    rsTotalValueSellBondForeign:number = null;
+    rsTotalQtyBuyFundVN:number = null;
+    rsTotalQtySellFundVN:number = null;
+    rsTotalValueBuyFundVN:number = null;
+    rsTotalValueSellFundVN:number = null;
+    rsTotalQtyBuyFundForeign:number = null;
+    rsTotalQtySellFundForeign:number = null;
+    rsTotalValueBuyFundForeign:number = null;
+    rsTotalValueSellFundForeign:number = null;
 
     selectedStatus: any = '';
     searchPhone: any = '';
@@ -63,30 +86,33 @@ export class ReportDashboardComponent implements OnInit {
         
         // let users = JSON.parse(localStorage.getItem('user')) || [];
         //console.log(users, 'users');
-        this.loadQtyAccountList(this.dateRangeQtyAcc[0], this.dateRangeQtyAcc[1]);
+        this.loadQtyAccount(this.dateRangeQtyAcc[0], this.dateRangeQtyAcc[1]);
+        
+        setTimeout(() => {
+            this.loadCommission(this.dateRangeCommission[0], this.dateRangeCommission[1]);
+        }, 1200);
     }
 
     onChangeDateRangeQtyAcc(result: Date[]): void {
         if(result.length === 0) {
             result = [new Date(new Date().setMonth(new Date().getMonth() - 1)), new Date()];
         }
-        this.loadQtyAccountList(result[0], result[1]);
+        this.loadQtyAccount(result[0], result[1]);
     }
 
-    // onQueryParamsChange(params: NzTableQueryParams): void {
-    //     const { pageSize, pageIndex, sort } = params;
-    //     const currentSort = sort.find(item => item.value !== null);
-    //     const sortField = (currentSort && currentSort.key) || null;
-    //     const sortOrder = (currentSort && currentSort.value) || null;
-    //     this.loadMessageList(pageIndex, pageSize, sortField, sortOrder, this.searchPhone, this.selectedStatus, this.searchDate[0], this.searchDate[1]);
-    // }
+    onChangeDateRangeCommission(result: Date[]): void {
+        if(result.length === 0) {
+            result = [new Date(new Date().setMonth(new Date().getMonth() - 1)), new Date()];
+        }
+        this.loadCommission(result[0], result[1]);
+    }
     
-    loadQtyAccountList(
+    loadQtyAccount(
         startDate: Date | null,
         endDate: Date | null,
     ): void {
         this.loadingQtyAccount = true;
-        this.reportService.getCommission(startDate, endDate)
+        this.reportService.getQtyAccount(startDate, endDate)
         .subscribe(result => {
             console.log(result, 'messages');
             if(result.success) {
@@ -96,16 +122,48 @@ export class ReportDashboardComponent implements OnInit {
                 this.qtyAccountVNPer = result.data.rsQtyAccountVNPer;
                 this.totalQtyAccount = this.qtyAccountForeignOrg + this.qtyAccountForeignPer + this.qtyAccountVNOrg + this.qtyAccountVNPer;
                 this.loadingQtyAccount = false;
-                // this.messages = messages.data.data;
-                // this.total = messages.data.total;
-                // this.pageSize = pageSize;
-                // this.pageIndex = pageIndex;
-                // this.searchPhone = filterPhone;
-                // this.selectedStatus = filterStatus;
             }
         });
     }
 
+    loadCommission(
+        startDate: Date | null,
+        endDate: Date | null,
+    ): void {
+        this.loadingCommission = true;
+        this.reportService.getCommission(startDate, endDate)
+        .subscribe(result => {
+            console.log(result, 'messages');
+            if(result.success) {
+                this.rsQtyTotalBuyStockVN = result.data.rsQtyTotalBuyStockVN;
+                this.rsQtyTotalSellStockVN = result.data.rsQtyTotalSellStockVN;
+                this.rsTotalValueBuyStockVN = result.data.rsTotalValueBuyStockVN;
+                this.rsTotalValueSellStockVN = result.data.rsTotalValueSellStockVN;
+                this.rsTotalQtyBuyStockForeign = result.data.rsTotalQtyBuyStockForeign;
+                this.rsTotalQtySellStockForeign = result.data.rsTotalQtySellStockForeign;
+                this.rsTotalValueBuyStockForeign = result.data.rsTotalValueBuyStockForeign;
+                this.rsTotalValueSellStockForeign = result.data.rsTotalValueSellStockForeign;
+                this.rsTotalQtyBuyBondVN = result.data.rsTotalQtyBuyBondVN;
+                this.rsTotalQtySellBondVN = result.data.rsTotalQtySellBondVN;
+                this.rsTotalValueBuyBondVN = result.data.rsTotalValueBuyBondVN;
+                this.rsTotalValueSellBondVN = result.data.rsTotalValueSellBondVN;
+                this.rsTotalQtyBuyBondForeign = result.data.rsTotalQtyBuyBondForeign;
+                this.rsTotalQtySellBondForeign = result.data.rsTotalQtySellBondForeign;
+                this.rsTotalValueBuyBondForeign = result.data.rsTotalValueBuyBondForeign;
+                this.rsTotalValueSellBondForeign = result.data.rsTotalValueSellBondForeign;
+                this.rsTotalQtyBuyFundVN = result.data.rsTotalQtyBuyFundVN;
+                this.rsTotalQtySellFundVN = result.data.rsTotalQtySellFundVN;
+                this.rsTotalValueBuyFundVN = result.data.rsTotalValueBuyFundVN;
+                this.rsTotalValueSellFundVN = result.data.rsTotalValueSellFundVN;
+                this.rsTotalQtyBuyFundForeign = result.data.rsTotalQtyBuyFundForeign;
+                this.rsTotalQtySellFundForeign = result.data.rsTotalQtySellFundForeign;
+                this.rsTotalValueBuyFundForeign = result.data.rsTotalValueBuyFundForeign;
+                this.rsTotalValueSellFundForeign = result.data.rsTotalValueSellFundForeign;
+                // this.totalQtyAccount = this.qtyAccountForeignOrg + this.qtyAccountForeignPer + this.qtyAccountVNOrg + this.qtyAccountVNPer;
+                this.loadingCommission = false;
+            }
+        });
+    }
     // searchPhoneNumber(): void {
     //     setTimeout( async () =>{
     //         this.loadMessageList(this.pageIndex, this.pageSize, null, null, this.searchPhone, this.selectedStatus, this.searchDate[0], this.searchDate[1]);

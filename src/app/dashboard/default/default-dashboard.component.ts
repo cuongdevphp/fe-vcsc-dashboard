@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { ThemeConstantService } from '../../shared/services/theme-constant.service';
 import { StatisticService } from 'src/app/shared/services/statistic.service';
+import { differenceInCalendarDays } from 'date-fns';
 import * as moment from 'moment';
 
 @Component({
@@ -30,6 +31,10 @@ export class DefaultDashboardComponent implements OnInit {
     dateFormat = 'dd/MM/yyyy';
     selectWeekSessionLoginWeek = new Date();
     dateRangeSessionLogin = [new Date(new Date().setMonth(new Date().getMonth() - 1)), new Date(new Date().setDate(new Date().getDate() + 1))];
+
+
+    today = new Date();
+    disabledWeekSessionLoginWeek = (current: Date): boolean => differenceInCalendarDays(current, this.today) > 0;
 
     startWeekDate = moment(new Date()).startOf("week").toDate();
     dateWeekEnd = moment(new Date()).endOf("week").toDate();

@@ -34,6 +34,7 @@
                                             <h5>Week</h5>
                                             <div>
                                                 <nz-date-picker 
+                                                    [nzDisabledDate]="disabledWeekSessionLoginWeek"
                                                     [nzFormat]="dateFormat" 
                                                     [(ngModel)]="selectWeekSessionLoginWeek" 
                                                     (ngModelChange)="onChangeWeekSessionLogin($event)" 

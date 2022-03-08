@@ -6,6 +6,9 @@ import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { IncomService } from 'src/app/shared/services/incom.service';
 import { ReportService } from 'src/app/shared/services/report.service';
 import { ThemeConstantService } from 'src/app/shared/services/theme-constant.service';
+import { differenceInCalendarDays } from 'date-fns';
+
+import * as moment from 'moment';
 declare var $: any; // JQuery
 @Component({
     templateUrl: './report-dashboard.component.html',
@@ -28,8 +31,9 @@ export class ReportDashboardComponent implements OnInit {
     loadingCommission = false;
     dateFormatQtyAcc = 'dd/MM/yyyy';
     dateRangeQtyAcc = [new Date(new Date().setMonth(new Date().getMonth() - 1)), new Date(new Date().setDate(new Date().getDate() + 1))];
-    dateFormatCommission = 'dd/MM/yyyy';
-    dateRangeCommission = [ new Date(new Date().setDate(new Date().getDate() - 1)), new Date(new Date().setDate(new Date().getDate() + 0))];
+
+    dateFormatCommission = 'MM/yyyy';
+    dateMonthCommission = new Date(new Date().setMonth(new Date().getMonth() - 1));
 
 
     qtyAccountForeignOrg:number = null;
@@ -83,13 +87,18 @@ export class ReportDashboardComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        
+
+        const startOfMonth = moment(this.dateMonthCommission).startOf('month').toISOString();
+        const endOfMonth   = moment(this.dateMonthCommission).endOf('month').toISOString();
+
         // let users = JSON.parse(localStorage.getItem('user')) || [];
-        //console.log(users, 'users');
+        console.log(this.dateMonthCommission, 'users');
+        console.log(startOfMonth, 'startOfMonth');
+        console.log(endOfMonth, 'endOfMonth');
         this.loadQtyAccount(this.dateRangeQtyAcc[0], this.dateRangeQtyAcc[1]);
         
         setTimeout(() => {
-            this.loadCommission(this.dateRangeCommission[0], this.dateRangeCommission[1]);
+            this.loadCommission(startOfMonth, endOfMonth);
         }, 1200);
     }
 
@@ -100,11 +109,10 @@ export class ReportDashboardComponent implements OnInit {
         this.loadQtyAccount(result[0], result[1]);
     }
 
-    onChangeDateRangeCommission(result: Date[]): void {
-        if(result.length === 0) {
-            result = [new Date(new Date().setMonth(new Date().getMonth() - 1)), new Date()];
-        }
-        this.loadCommission(result[0], result[1]);
+    onChangeMonthRangeCommission(result: Date): void {
+        const startOfMonth = moment(result).startOf('month').toISOString();
+        const endOfMonth   = moment(result).endOf('month').toISOString();
+        this.loadCommission(startOfMonth, endOfMonth);
     }
     
     loadQtyAccount(
@@ -127,8 +135,8 @@ export class ReportDashboardComponent implements OnInit {
     }
 
     loadCommission(
-        startDate: Date | null,
-        endDate: Date | null,
+        startDate: string | null,
+        endDate: string | null,
     ): void {
         this.loadingCommission = true;
         this.reportService.getCommission(startDate, endDate)
@@ -164,6 +172,10 @@ export class ReportDashboardComponent implements OnInit {
             }
         });
     }
+    
+    previousMonth = new Date(new Date().setMonth(new Date().getMonth() - 1));
+    disabledDateFormatCommission = (current: Date): boolean => differenceInCalendarDays(current, this.previousMonth) > 0;
+
     // searchPhoneNumber(): void {
     //     setTimeout( async () =>{
     //         this.loadMessageList(this.pageIndex, this.pageSize, null, null, this.searchPhone, this.selectedStatus, this.searchDate[0], this.searchDate[1]);

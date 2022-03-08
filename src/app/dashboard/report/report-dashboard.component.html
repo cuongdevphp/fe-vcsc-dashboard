@@ -8,7 +8,7 @@
                 </div>
                 
                 <div class="m-v-60 text-center" style="height: 197px">
-                    <div style="text-align: right;">
+                    <div style="text-align: right;">    
                         <nz-range-picker [nzFormat]="dateFormatQtyAcc" [(ngModel)]="dateRangeQtyAcc" (ngModelChange)="onChangeDateRangeQtyAcc($event)"></nz-range-picker>
                     </div>
                     <nz-table 
@@ -62,7 +62,13 @@
                 
                 <div class="m-v-60 text-center" style="height: 197px">
                     <div style="text-align: right;">
-                        <nz-range-picker [nzFormat]="dateFormatCommission" [(ngModel)]="dateRangeCommission" (ngModelChange)="onChangeDateRangeCommission($event)"></nz-range-picker>
+                        <nz-date-picker 
+                            [nzDisabledDate]="disabledDateFormatCommission"
+                            [nzFormat]="dateFormatCommission" 
+                            [(ngModel)]="dateMonthCommission" 
+                            (ngModelChange)="onChangeMonthRangeCommission($event)" 
+                            nzMode="month"
+                        ></nz-date-picker>
                     </div>
                     <nz-table 
                         style="padding-top: 20px;"

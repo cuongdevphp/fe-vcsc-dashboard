@@ -29,7 +29,7 @@ export class ReportDashboardComponent implements OnInit {
     dateFormatQtyAcc = 'dd/MM/yyyy';
     dateRangeQtyAcc = [new Date(new Date().setMonth(new Date().getMonth() - 1)), new Date(new Date().setDate(new Date().getDate() + 1))];
     dateFormatCommission = 'dd/MM/yyyy';
-    dateRangeCommission = [ new Date(new Date().setDate(new Date().getDate() - 1)), new Date(new Date().setDate(new Date().getDate() + 1))];
+    dateRangeCommission = [ new Date(new Date().setDate(new Date().getDate() - 1)), new Date(new Date().setDate(new Date().getDate() + 0))];
 
 
     qtyAccountForeignOrg:number = null;

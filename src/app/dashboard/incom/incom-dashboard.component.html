@@ -154,7 +154,7 @@
                 <td>{{item.created_by}}</td>
                 <td style="text-align: center;">
                     <nz-badge *ngIf="item.complete == '1'" nzStatus="success"></nz-badge>
-                    <nz-badge *ngIf="item.complete != '1'" nzStatus="error"></nz-badge>
+                    <nz-badge *ngIf="item.complete != '1'" nzStatus="error"  nz-tooltip nzTooltipTitle="error code {{item.error_code}}"></nz-badge>
                 </td>
                 <!-- <td class="text-md-right">
                     <a class="m-r-5" nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Edit" >

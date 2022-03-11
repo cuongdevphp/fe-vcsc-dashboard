@@ -100,6 +100,36 @@ export class DefaultDashboardComponent implements OnInit {
         }];
     }
 
+    // canDeactivate: NzTabsCanDeactivateFn = (fromIndex: number, toIndex: number) => {
+    //     console.log(fromIndex,'fromindex');
+    //     switch (fromIndex) {
+    //       case 0:
+    //         return toIndex === 1;
+    //       case 1:
+    //         return Promise.resolve(toIndex === 2);
+    //       case 2:
+    //         return false;
+    //       default:
+    //         return true;
+    //     }
+    // };
+
+    onChangTabs(args: any[]): void {
+        console.log(args[0].index);
+        switch (args[0].index) {
+            case 0:
+                console.log()
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            default:
+                break;
+        }
+    }
+    
+        
     refresh(): void {
         this.selectWeekSessionLoginWeek = new Date();
         this.loadSessionLogin(this.dateRangeSessionLogin[0], this.dateRangeSessionLogin[1], this.startWeekDate, this.dateWeekEnd);

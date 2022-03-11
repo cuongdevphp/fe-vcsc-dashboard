@@ -7,8 +7,8 @@
                 </div>
             
                 <div class="m-t-50">
-                    <nz-tabset class="page-header-tab">
-                        <nz-tab nzTitle="Date Range">
+                    <nz-tabset (nzSelectChange)="onChangTabs([$event])" class="page-header-tab">
+                        <nz-tab nzTitle="Date Range" >
                             <div style="text-align: right;">
                                 <nz-range-picker [nzFormat]="dateFormat" [(ngModel)]="dateRangeSessionLogin" (ngModelChange)="onChangeDateRangeSessionLogin($event)"></nz-range-picker>
                             </div>

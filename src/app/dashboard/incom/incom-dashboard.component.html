@@ -149,7 +149,10 @@
                     </span>
                 </td>
                 <td>{{item.id_omni}}</td>
-                <td>{{item.channel}}</td>
+                <td>
+                    <span *ngIf="item.templatecode === 'vcsc-freetemp'">BRANDNAMESMS</span>
+                    <span *ngIf="item.templatecode !== 'vcsc-freetemp'">{{item.channel}}</span>
+                </td>
                 <td>{{item.timesend}}</td>
                 <td>{{item.created_by}}</td>
                 <td style="text-align: center;">

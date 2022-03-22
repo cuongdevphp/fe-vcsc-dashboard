@@ -9,7 +9,7 @@ export class TradingDashboardComponent implements OnInit, OnDestroy  {
     private _symbol: ChartingLibraryWidgetOptions['symbol'] = 'VCI';
     private _interval: ChartingLibraryWidgetOptions['interval'] = 'D' as ResolutionString;
     // BEWARE: no trailing slash is expected in feed URL
-    private _datafeedUrl = 'https://invest.vcsc.com.vn/api/v2/tradingview';
+    private _datafeedUrl = 'https://rest.vcsc.com.vn/api/v1/tradingview';
     private _libraryPath: ChartingLibraryWidgetOptions['library_path'] = '/assets/charting_library/';
     private _chartsStorageUrl: ChartingLibraryWidgetOptions['charts_storage_url'] = 'https://saveload.tradingview.com';
     private _chartsStorageApiVersion: ChartingLibraryWidgetOptions['charts_storage_api_version'] = '1.1';

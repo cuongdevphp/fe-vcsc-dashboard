@@ -1,4 +1,7 @@
 .app-tv-chart-container {
-	height: calc(60vh - 80px);
+	height: 98%;
 	/* width: calc(120vh - 80px); */
+}
+.ant-tabs-nav .ant-tabs-tab {
+	padding: -0.25rem 1.25rem;
 }

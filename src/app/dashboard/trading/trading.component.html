@@ -1,7 +1,529 @@
 <div class="row">
+    <div class="col-md-12 col-lg-9">
+        <nz-card class="app-tv-chart-container" id="tv_chart_container">
+            <!-- <div class="app-tv-chart-container" id="tv_chart_container"></div> -->
+        </nz-card>
+    </div>
+    <div class="col-md-12 col-lg-3">
+        <nz-card>
+            <form 
+                nz-form 
+                nzLayout="vertical" 
+            >
+                <div class="row">
+                    <div class="col-md-6">
+                        <nz-form-item class="relative">
+                            <!-- <nz-form-label nzRequired>Username</nz-form-label> -->
+                            <nz-select class="w-100" nzPlaceHolder="Chọn lệnh">
+                                <nz-option nzLabel="Lệnh thường" nzValue="1111"></nz-option>
+                                <nz-option nzLabel="Lệnh dừng MP" nzValue="111"></nz-option>
+                                <nz-option nzLabel="Lệnh dừng giới hạn" nzValue="11"></nz-option>
+                                <nz-option nzLabel="Lệnh đặt trước" nzValue="1"></nz-option>
+                            </nz-select>
+                        </nz-form-item>
+                    </div>
+                    <div class="col-md-6">
+                        <nz-form-item class="relative">
+                            <nz-form-control nzErrorTip="Please input name!">
+                                <button nz-button nzType="primary" *ngIf="typeOptionOrder == 0" nzGhost="false" (click)="optionOrder(0)">Mua</button>
+                                <button nz-button nzType="primary" *ngIf="typeOptionOrder == 1" nzGhost="true" (click)="optionOrder(0)">Mua</button>
+                                &nbsp;
+                                <button nz-button nzType="primary" *ngIf="typeOptionOrder == 1" nzDanger (click)="optionOrder(1)">Bán</button>
+                                <button nz-button nzType="default" *ngIf="typeOptionOrder == 0" nzDanger (click)="optionOrder(1)">Bán</button>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <nz-form-item class="relative">
+                            <nz-form-label>Tiểu khoản</nz-form-label>
+                            <nz-select class="w-100" nzPlaceHolder="Chọn tiểu khoản">
+                                <nz-option nzLabel="00" nzValue="00"></nz-option>
+                                <nz-option nzLabel="01" nzValue="01"></nz-option>
+                                <nz-option nzLabel="80" nzValue="80"></nz-option>
+                            </nz-select>
+                        </nz-form-item>
+                    </div>
+                    <div class="col-md-6">
+                        <nz-form-item class="relative">
+                            <span>
+                                <nz-form-label *ngIf="typeOptionOrder == 0">Sức mua </nz-form-label>
+                                <nz-form-label *ngIf="typeOptionOrder == 1">SL có thể bán </nz-form-label>&nbsp;&nbsp;
+                                <img alt="" nz-tooltip [nzTooltipTitle]="titleTemplate" style="margin-top: -10px;" width="16px" src="/assets/icon/ic_information.svg"/>
+                            </span>
+                            <ng-template #titleTemplate let-thing>
+                                <i nz-icon nzType="file"></i>
+                                <span>Tooltip With </span>
+                            </ng-template>
+                            <nz-form-control>
+                                    234234
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <nz-form-item>
+                            <nz-form-label >Mã Cổ phiếu</nz-form-label>
+                            <nz-form-control>
+                                <nz-select 
+                                    [(ngModel)]="stockCode"
+                                    name="stockCode" 
+                                    nzShowSearch class="w-100" nzPlaceHolder="Chọn lệnh"
+                                    (ngModelChange)="changeStock($event)"
+                                >
+                                    <nz-option 
+                                        *ngFor="let value of lstStockCode" 
+                                        [nzLabel]="value.s + ' - ' + value.n1"
+                                        [nzValue]="value.s"
+                                    >
+                                    
+                                    </nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <nz-form-item class="relative">
+                            <nz-form-label>Giá</nz-form-label>
+                            <nz-input-group >
+                                <input type="text" name="phoneNumber"  nz-input placeholder="Please input phone number" />
+                            </nz-input-group>
+                        </nz-form-item>
+                    </div>
+                    <div class="col-md-6">
+                        <nz-form-item class="relative">
+                            <nz-form-label>Kiểu lệnh</nz-form-label>
+                            <nz-select class="w-100" nzPlaceHolder="Chọn lệnh">
+                                <nz-option nzLabel="LO" nzValue="LO"></nz-option>
+                                <nz-option nzLabel="ATO" nzValue="ATO"></nz-option>
+                                <nz-option nzLabel="MP" nzValue="MP"></nz-option>
+                                <nz-option nzLabel="ATC" nzValue="ATC"></nz-option>
+                            </nz-select>
+                        </nz-form-item>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <nz-form-item class="relative">
+                            <nz-form-label>Số lượng (Tối đa 0)</nz-form-label>
+                            <nz-form-control>
+                                <nz-input-group >
+                                    <input type="text" name="phoneNumber"  nz-input placeholder="Please input phone number" />
+                                </nz-input-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div class="col-md-6">
+                        <nz-form-item class="relative">
+                            <span>
+                                <nz-form-label >Giá trị giao dịch</nz-form-label>
+                            </span>
+                            <nz-form-control>
+                                234234
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <nz-form-item class="relative" style="display: block;">
+                            <nz-switch ></nz-switch> Xác nhận
+                        </nz-form-item>
+                    </div>
+                    <div class="col-md-6">
+                        <nz-form-item class="relative">
+                            <button nz-button nzType="primary" *ngIf="typeOptionOrder == 1" nzDanger>Đặt bán</button>
+                            <button nz-button nzType="primary" *ngIf="typeOptionOrder == 0">Đặt mua</button>
+                        </nz-form-item>
+                    </div>
+                </div>
+            </form>
+        </nz-card>
+    </div>
+</div>
+
+<div class="row">
     <div class="col-md-12 col-lg-6">
-        <div class="app-tv-chart-container" id="tv_chart_container"></div>
+        <nz-card>
+            <nz-tabset (nzSelectChange)="onChangTabs([$event])" class="page-header-tab">
+                <nz-tab nzTitle="Số lệnh trong ngày" >
+                    <div style="display: flex;">
+                        <nz-select nzShowSearch style="width: 17% !important;" nzPlaceHolder="Mã CP">
+                            <nz-option 
+                                *ngFor="let value of lstStockCode" 
+                                [nzLabel]="value.s"
+                                [nzValue]="value.s"
+                            >
+                            </nz-option>
+                        </nz-select>
+                        &nbsp;
+                        <nz-select style="width: 17% !important;" nzPlaceHolder="Chọn lệnh">
+                            <nz-option nzLabel="Mua" nzValue="Mua"></nz-option>
+                            <nz-option nzLabel="Bán" nzValue="Bán"></nz-option>
+                        </nz-select>
+                    </div>
+
+                    <nz-table>
+                        <thead>
+                            <tr>
+                                <th width='13%'>Thời gian</th>
+                                <th width='3%'>Mã</th>  
+                                <th width='3%'>Kiểu</th>
+                                <th width='3%'>SL Đặt</th>
+                                <th width='5%'>Giá Đặt</th>
+                                <th width='3%'>SL Khớp</th>
+                                <th width='5%'>Giá Khớp</th>
+                                <th width='6%'>Trạng thái</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>24/03/2022 09:55:57</td>
+                                <td>HDG</td>
+                                <td>MUA</td>
+                                <td>500</td>
+                                <td>72,400</td>
+                                <td>500</td>
+                                <td>72,400</td>
+                                <td>Khớp</td>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+                </nz-tab>
+                <nz-tab nzTitle="Lịch sử lệnh dừng">
+
+                    <div style="display: flex;">
+                        <nz-select nzShowSearch style="width: 17% !important;" nzPlaceHolder="Mã CP">
+                            <nz-option 
+                                *ngFor="let value of lstStockCode" 
+                                [nzLabel]="value.s"
+                                [nzValue]="value.s"
+                            >
+                            </nz-option>
+                        </nz-select>
+                        &nbsp;
+                        <nz-select style="width: 17% !important;" nzPlaceHolder="Chọn lệnh">
+                            <nz-option nzLabel="Mua" nzValue="Mua"></nz-option>
+                            <nz-option nzLabel="Bán" nzValue="Bán"></nz-option>
+                        </nz-select>
+                        &nbsp;
+                        <nz-select style="width: 17% !important;" nzPlaceHolder="Trạng thái">
+                            <nz-option nzValue="Chờ kích hoạt" nzLabel="Chờ kích hoạt"></nz-option>
+                            <nz-option nzValue="Đã kích hoạt" nzLabel="Đã kích hoạt"></nz-option>
+                            <nz-option nzValue="Đã hủy" nzLabel="Đã hủy"></nz-option>
+                            <nz-option nzValue="Kích hoạt lỗi" nzLabel="Kích hoạt lỗi"></nz-option>
+                            <nz-option nzValue="Tất cả" nzLabel="Tất cả"></nz-option>
+                        </nz-select>
+                        &nbsp;
+                        <nz-range-picker></nz-range-picker>
+                    </div>
+                    <nz-table>
+                        <thead>
+                            <tr>
+                                <th width='14%'>Ngày đặt</th>
+                                <th width='1%'>Mã</th>  
+                                <th width='3%'>Từ</th>
+                                <th width='3%'>Đến</th>
+                                <th width='1%'>Kiểu</th>
+                                <th width='5%'>SL Đặt</th>
+                                <th width='3%'>Dừng</th>
+                                <th width='5%'>Giới Hạn</th>
+                                <th width='6%'>Trạng thái</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>24/03/2022 09:55:57</td>
+                                <td>HDG</td>
+                                <td>MUA</td>
+                                <td>500</td>
+                                <td>72,400</td>
+                                <td>500</td>
+                                <td>72,400</td>
+                                <td>72,400</td>
+                                <td>Khớp</td>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+                </nz-tab>
+                <nz-tab nzTitle="Lịch sử lệnh đặt trước">
+
+                    <div style="display: flex;">
+                        <nz-select nzShowSearch style="width: 17% !important;" nzPlaceHolder="Mã CP">
+                            <nz-option 
+                                *ngFor="let value of lstStockCode" 
+                                [nzLabel]="value.s"
+                                [nzValue]="value.s"
+                            >
+                            </nz-option>
+                        </nz-select>
+                        &nbsp;
+                        <nz-select style="width: 17% !important;" nzPlaceHolder="Chọn lệnh">
+                            <nz-option nzLabel="Mua" nzValue="Mua"></nz-option>
+                            <nz-option nzLabel="Bán" nzValue="Bán"></nz-option>
+                        </nz-select>
+                        &nbsp;
+                        <nz-select style="width: 17% !important;" nzPlaceHolder="Chọn sàn">
+                            <nz-option nzLabel="Tất cả" nzValue="Tất cả"></nz-option>
+                            <nz-option nzLabel="HoSE" nzValue="HoSE"></nz-option>
+                            <nz-option nzLabel="Upcom" nzValue="Upcom"></nz-option>
+                            <nz-option nzLabel="HNX" nzValue="HNX"></nz-option>
+                        </nz-select>
+                    </div>
+                    <nz-table>
+                        <thead>
+                            <tr>
+                                <th width='13%'>Thời gian</th>
+                                <th width='5%'>Số hiệu lệnh</th>  
+                                <th width='3%'>Mã</th>  
+                                <th width='3%'>Kiểu</th>
+                                <th width='3%'>SL Đặt</th>
+                                <th width='5%'>Giá</th>
+                                <th width='3%'>Kiểu lệnh</th>
+                                <th width='5%'>Trạng thái</th>
+                                <th width='6%'>Người đặt</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>24/03/2022 09:55:57</td>
+                                <td>HDG</td>
+                                <td>MUA</td>
+                                <td>500</td>
+                                <td>72,400</td>
+                                <td>500</td>
+                                <td>72,400</td>
+                                <td>72,400</td>
+                                <td>Khớp</td>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+                </nz-tab>
+                <nz-tab nzTitle="Số dư CK">
+
+                    <nz-table>
+                        <thead>
+                            <tr>
+                                <th width='13%'>Thời gian</th>
+                                <th width='3%'>Mã</th>  
+                                <th width='3%'>Kiểu</th>
+                                <th width='3%'>SL Đặt</th>
+                                <th width='5%'>Giá Đặt</th>
+                                <th width='3%'>SL Khớp</th>
+                                <th width='5%'>Giá Khớp</th>
+                                <th width='6%'>Trạng thái</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>24/03/2022 09:55:57</td>
+                                <td>HDG</td>
+                                <td>MUA</td>
+                                <td>500</td>
+                                <td>72,400</td>
+                                <td>500</td>
+                                <td>72,400</td>
+                                <td>Khớp</td>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+                </nz-tab>
+                <nz-tab nzTitle="Lịch sử lệnh">
+
+                    <nz-table>
+                        <thead>
+                            <tr>
+                                <th width='13%'>Thời gian</th>
+                                <th width='3%'>Mã</th>  
+                                <th width='3%'>Kiểu</th>
+                                <th width='3%'>SL Đặt</th>
+                                <th width='5%'>Giá Đặt</th>
+                                <th width='3%'>SL Khớp</th>
+                                <th width='5%'>Giá Khớp</th>
+                                <th width='6%'>Trạng thái</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>24/03/2022 09:55:57</td>
+                                <td>HDG</td>
+                                <td>MUA</td>
+                                <td>500</td>
+                                <td>72,400</td>
+                                <td>500</td>
+                                <td>72,400</td>
+                                <td>Khớp</td>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+                </nz-tab>
+            </nz-tabset>
+        </nz-card>
     </div>
     <div class="col-md-12 col-lg-6">
+        <nz-card>    
+            <div nz-row>
+                <div nz-col nzSpan="12">
+                    <div nz-row [nzGutter]="16" style="margin-bottom: 20px;">
+                        <div nz-col class="gutter-row" [nzSpan]="6"><div class="inner-box">Giá dự kiến</div></div>
+                        <div nz-col class="gutter-row" [nzSpan]="6"><div class="inner-box">-</div></div>
+                        <div nz-col class="gutter-row" [nzSpan]="6"><div class="inner-box">T.Chiếu</div></div>
+                        <div nz-col class="gutter-row" [nzSpan]="6"><div class="inner-box">31,950</div></div>
+                    </div>
+                    <div nz-row [nzGutter]="16" style="margin-bottom: 20px;">
+                        <div nz-col class="gutter-row" [nzSpan]="6"><div class="inner-box">Thị giá</div></div>
+                        <div nz-col class="gutter-row" [nzSpan]="6"><div class="inner-box" style="color: rgb(196, 33, 39);">31,800</div></div>
+                        <div nz-col class="gutter-row" [nzSpan]="6"><div class="inner-box">Trần</div></div>
+                        <div nz-col class="gutter-row" [nzSpan]="6"><div class="inner-box" style="color: rgb(137, 31, 220);">34,150</div></div>
+                    </div>
+                    <div nz-row [nzGutter]="16" style="margin-bottom: 20px;">
+                        <div nz-col class="gutter-row" [nzSpan]="6"><div class="inner-box">Thay đổi</div></div>
+                        <div nz-col class="gutter-row" [nzSpan]="6"><div class="inner-box" style="color: rgb(196, 33, 39);">-150 (-0.47%)</div></div>
+                        <div nz-col class="gutter-row" [nzSpan]="6"><div class="inner-box">Sàn</div></div>
+                        <div nz-col class="gutter-row" [nzSpan]="6"><div class="inner-box" style="color: rgb(62, 151, 247);">29,750</div></div>
+                    </div>
+                    <div nz-row [nzGutter]="16" style="margin-bottom: 20px;">
+                        <div nz-col class="gutter-row" [nzSpan]="6"><div class="inner-box">Cao nhất</div></div>
+                        <div nz-col class="gutter-row" [nzSpan]="6"><div class="inner-box" style="color: rgb(0, 128, 85);">32,000</div></div>
+                        <div nz-col class="gutter-row" [nzSpan]="6"><div class="inner-box">Tổng KL</div></div>
+                        <div nz-col class="gutter-row" [nzSpan]="6"><div class="inner-box">5,511,700</div></div>
+                    </div>
+                    <div nz-row [nzGutter]="16" style="margin-bottom: 20px;">
+                        <div nz-col class="gutter-row" [nzSpan]="6"><div class="inner-box">Thấp nhất</div></div>
+                        <div nz-col class="gutter-row" [nzSpan]="6"><div class="inner-box">31,550</div></div>
+                        <div nz-col class="gutter-row" [nzSpan]="6"><div class="inner-box">NN Mua</div></div>
+                        <div nz-col class="gutter-row" [nzSpan]="6"><div class="inner-box">65,400</div></div>
+                    </div>
+                    <div nz-row [nzGutter]="16" style="margin-bottom: 20px;">
+                        <div nz-col class="gutter-row" [nzSpan]="6"><div class="inner-box">Bình quân</div></div>
+                        <div nz-col class="gutter-row" [nzSpan]="6"><div class="inner-box">31,750</div></div>
+                        <div nz-col class="gutter-row" [nzSpan]="6"><div class="inner-box">NN Bán</div></div>
+                        <div nz-col class="gutter-row" [nzSpan]="6"><div class="inner-box">758,100</div></div>
+                    </div>
+                </div>
+                <div nz-col nzSpan="12">
+                    <div class="css-1azd7rs">
+                        <div class="ant-row" style="color: rgb(51, 51, 51); font-weight: 600;">
+                            <div class="ant-col ant-col-3">
+
+                            </div>
+                            <div class="ant-col ant-col-18">
+                                <span style="color: rgb(51, 51, 51); font-weight: 600;">Dư mua</span>
+                                <span style="float: right;"> 
+                                    <span style="color: rgb(51, 51, 51); font-weight: 600;">Dư bán</span>
+                                </span>
+                            </div>
+                            <div class="ant-col ant-col-3"></div>
+                        </div>
+                        <div class="ant-row" style="margin-left: -5px; margin-right: -5px; display: flex; align-items: center; font-size: 12px; font-weight: 600;">
+                            <div class="ant-col ant-col-3" style="padding-left: 5px; padding-right: 5px; color: rgb(0, 55, 123); text-align: right;">68%</div>
+                            <div class="ant-col ant-col-18" style="padding-left: 5px; padding-right: 5px;">
+                                <div class="ant-progress ant-progress-line ant-progress-status-normal ant-progress-default customProgressOrder">
+                                    <div class="ant-progress-outer">
+                                        <div class="ant-progress-inner">
+                                            <div class="ant-progress-bg" style="width: 68%; height: 8px; border-radius: 0px; background: rgb(0, 55, 123);">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ant-col ant-col-3" style="padding-left: 5px; padding-right: 5px; color: rgb(196, 33, 39);">32%</div>
+                        </div>
+                        <div class="ant-list rightOrderSaleBuy ant-list-lg ant-list-split" style="font-weight: 500;">
+                            <div class="ant-spin-nested-loading">
+                                <div class="ant-spin-container">
+                                    <li class="ant-list-item">
+                                        <div class="ant-row" style="margin-left: 0px; margin-right: 0px; width: 100%;">
+                                            <div gutter="10" class="ant-col ant-col-12" style="padding-left: 15px; padding-right: 15px;">
+                                                <div class="ant-row">
+                                                    <div class="ant-col ant-col-14 textAlignRight" style="position: relative;">
+                                                        <div class="isBackground leftB" style="background-color: rgb(196, 33, 39); width: 27%;"></div>
+                                                        <span style="color: rgb(196, 33, 39);">82,000</span>
+                                                    </div>
+                                                    <div class="ant-col ant-col-10 textAlignRight">
+                                                        <span style="color: rgb(196, 33, 39); font-weight: 600; cursor: pointer;">31,650</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div gutter="10" class="ant-col ant-col-12" style="padding-left: 15px; padding-right: 15px;">
+                                                <div class="ant-row">
+                                                    <div class="ant-col ant-col-10">
+                                                        <span style="color: rgb(196, 33, 39); font-weight: 600; cursor: pointer;">31,700</span>
+                                                    </div>
+                                                    <div class="ant-col ant-col-14" style="position: relative;">
+                                                        <div class="isBackground rightB" style="background-color: rgb(196, 33, 39); width: 30%;"></div>
+                                                        <span style="color: rgb(51, 51, 51);">41,700</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="ant-list-item">
+                                        <div class="ant-row" style="margin-left: 0px; margin-right: 0px; width: 100%;">
+                                            <div gutter="10" class="ant-col ant-col-12" style="padding-left: 15px; padding-right: 15px;">
+                                                <div class="ant-row">
+                                                    <div class="ant-col ant-col-14 textAlignRight" style="position: relative;">
+                                                        <div class="isBackground leftB" style="background-color: rgb(196, 33, 39); width: 43%;"></div>
+                                                        <span style="color: rgb(51, 51, 51);">128,500</span>
+                                                    </div>
+                                                    <div class="ant-col ant-col-10 textAlignRight">
+                                                        <span style="color: rgb(196, 33, 39); font-weight: 600; cursor: pointer;">31,600</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div gutter="10" class="ant-col ant-col-12" style="padding-left: 15px; padding-right: 15px;">
+                                                <div class="ant-row">
+                                                    <div class="ant-col ant-col-10">
+                                                        <span style="color: rgb(196, 33, 39); font-weight: 600; cursor: pointer;">31,750</span>
+                                                    </div>
+                                                    <div class="ant-col ant-col-14" style="position: relative;">
+                                                        <div class="isBackground rightB" style="background-color: rgb(196, 33, 39); width: 29%;"></div>
+                                                        <span style="color: rgb(51, 51, 51);">40,000</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="ant-list-item">
+                                        <div class="ant-row" style="margin-left: 0px; margin-right: 0px; width: 100%;">
+                                            <div gutter="10" class="ant-col ant-col-12" style="padding-left: 15px; padding-right: 15px;">
+                                                <div class="ant-row">
+                                                    <div class="ant-col ant-col-14 textAlignRight" style="position: relative;">
+                                                        <div class="isBackground leftB" style="background-color: rgb(196, 33, 39); width: 29%;"></div>
+                                                        <span style="color: rgb(51, 51, 51);">87,900</span>
+                                                    </div>
+                                                    <div class="ant-col ant-col-10 textAlignRight">
+                                                        <span style="color: rgb(196, 33, 39); font-weight: 600; cursor: pointer;">31,550</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div gutter="10" class="ant-col ant-col-12" style="padding-left: 15px; padding-right: 15px;">
+                                                <div class="ant-row">
+                                                    <div class="ant-col ant-col-10">
+                                                        <span style="color: rgb(196, 33, 39); font-weight: 600; cursor: pointer;">31,800</span>
+                                                    </div>
+                                                    <div class="ant-col ant-col-14" style="position: relative;">
+                                                        <div class="isBackground rightB" style="background-color: rgb(196, 33, 39); width: 41%;">
+                                                        </div>
+                                                        <span style="color: rgb(51, 51, 51);">57,300</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+      
+            <!-- <div class="ant-row css-1xj7k9s" style="margin-left: -25px; margin-right: -25px;"><div class="ant-col p-top20 ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-12 ant-col-xl-12" style="padding-left: 25px; padding-right: 25px;"><div class="ant-row" style="margin-left: -15px; margin-right: -15px;"><div class="ant-col ant-col-12" style="padding-left: 15px; padding-right: 15px;"><div class="ant-row" style="margin-left: -2.5px; margin-right: -2.5px;"><div class="ant-col ant-col-14" style="padding-left: 2.5px; padding-right: 2.5px;">Giá dự kiến</div><div class="ant-col ant-col-10 textAlignRight" style="padding-left: 2.5px; padding-right: 2.5px;"><span style="color: rgb(51, 51, 51); cursor: pointer;">-</span></div></div></div><div class="ant-col ant-col-12" style="padding-left: 15px; padding-right: 15px;"><div class="ant-row" style="margin-left: -2.5px; margin-right: -2.5px;"><div class="ant-col ant-col-12" style="padding-left: 2.5px; padding-right: 2.5px;">T.Chiếu</div><div class="ant-col ant-col-12 textAlignRight" style="padding-left: 2.5px; padding-right: 2.5px;"><span style="color: rgb(51, 51, 51); cursor: pointer;">31,950</span></div></div></div><div class="ant-col ant-col-12 p-top10" style="padding-left: 15px; padding-right: 15px;"><div class="ant-row" style="margin-left: -2.5px; margin-right: -2.5px;"><div class="ant-col ant-col-14" style="padding-left: 2.5px; padding-right: 2.5px;">Thị giá</div><div class="ant-col ant-col-10 textAlignRight" style="padding-left: 2.5px; padding-right: 2.5px;"><span style="color: rgb(196, 33, 39); cursor: pointer;">31,800</span></div></div></div><div class="ant-col ant-col-12 p-top10" style="padding-left: 15px; padding-right: 15px;"><div class="ant-row" style="margin-left: -2.5px; margin-right: -2.5px;"><div class="ant-col ant-col-12" style="padding-left: 2.5px; padding-right: 2.5px;">Trần</div><div class="ant-col ant-col-12 textAlignRight" style="padding-left: 2.5px; padding-right: 2.5px;"><span style="color: rgb(137, 31, 220); cursor: pointer;">34,150</span></div></div></div><div class="ant-col ant-col-12 p-top10" style="padding-left: 15px; padding-right: 15px;"><div class="ant-row" style="margin-left: -2.5px; margin-right: -2.5px;"><div class="ant-col ant-col-10" style="padding-left: 2.5px; padding-right: 2.5px;">Thay đổi</div><div class="ant-col ant-col-14 textAlignRight" style="padding-left: 2.5px; padding-right: 2.5px;"><span style="color: rgb(196, 33, 39);">-150 (-0.47%)</span></div></div></div><div class="ant-col ant-col-12 p-top10" style="padding-left: 15px; padding-right: 15px;"><div class="ant-row" style="margin-left: -2.5px; margin-right: -2.5px;"><div class="ant-col ant-col-12" style="padding-left: 2.5px; padding-right: 2.5px;">Sàn</div><div class="ant-col ant-col-12 textAlignRight" style="padding-left: 2.5px; padding-right: 2.5px;"><span style="color: rgb(62, 151, 247); cursor: pointer;">29,750</span></div></div></div><div class="ant-col ant-col-12 p-top10" style="padding-left: 15px; padding-right: 15px;"><div class="ant-row" style="margin-left: -2.5px; margin-right: -2.5px;"><div class="ant-col ant-col-14" style="padding-left: 2.5px; padding-right: 2.5px;">Cao nhất</div><div class="ant-col ant-col-10 textAlignRight" style="padding-left: 2.5px; padding-right: 2.5px;"><span style="color: rgb(0, 128, 85); cursor: pointer;">32,000</span></div></div></div><div class="ant-col ant-col-12 p-top10" style="padding-left: 15px; padding-right: 15px;"><div class="ant-row" style="margin-left: -2.5px; margin-right: -2.5px;"><div class="ant-col ant-col-12" style="padding-left: 2.5px; padding-right: 2.5px;">Tổng KL</div><div class="ant-col ant-col-12 textAlignRight" style="padding-left: 2.5px; padding-right: 2.5px; overflow-wrap: break-word;"><span style="color: rgb(51, 51, 51);">5,511,700</span></div></div></div><div class="ant-col ant-col-12 p-top10" style="padding-left: 15px; padding-right: 15px;"><div class="ant-row" style="margin-left: -2.5px; margin-right: -2.5px;"><div class="ant-col ant-col-14" style="padding-left: 2.5px; padding-right: 2.5px;">Thấp nhất</div><div class="ant-col ant-col-10 textAlignRight" style="padding-left: 2.5px; padding-right: 2.5px;"><span style="color: rgb(196, 33, 39); cursor: pointer;">31,550</span></div></div></div><div class="ant-col ant-col-12 p-top10" style="padding-left: 15px; padding-right: 15px;"><div class="ant-row" style="margin-left: -2.5px; margin-right: -2.5px;"><div class="ant-col ant-col-12" style="padding-left: 2.5px; padding-right: 2.5px;">NN Mua</div><div class="ant-col ant-col-12 textAlignRight" style="padding-left: 2.5px; padding-right: 2.5px;"><span style="color: rgb(51, 51, 51);">65,400</span></div></div></div><div class="ant-col ant-col-12 p-top10" style="padding-left: 15px; padding-right: 15px;"><div class="ant-row" style="margin-left: -2.5px; margin-right: -2.5px;"><div class="ant-col ant-col-14" style="padding-left: 2.5px; padding-right: 2.5px;">Bình quân</div><div class="ant-col ant-col-10 textAlignRight" style="padding-left: 2.5px; padding-right: 2.5px;"><span style="color: rgb(51, 51, 51);">31,750</span></div></div></div><div class="ant-col ant-col-12 p-top10" style="padding-left: 15px; padding-right: 15px;"><div class="ant-row" style="margin-left: -2.5px; margin-right: -2.5px;"><div class="ant-col ant-col-12" style="padding-left: 2.5px; padding-right: 2.5px;">NN Bán</div><div class="ant-col ant-col-12 textAlignRight" style="padding-left: 2.5px; padding-right: 2.5px;"><span style="color: rgb(51, 51, 51);">758,100</span></div></div></div></div></div><div class="ant-col ant-col-xs-24 ant-col-sm-24 ant-col-md-24 ant-col-lg-12 ant-col-xl-12" style="padding-left: 25px; padding-right: 25px;"><div class="ant-row" style="color: rgb(51, 51, 51); font-weight: 600;"><div class="ant-col ant-col-3"></div><div class="ant-col ant-col-18"><span style="color: rgb(51, 51, 51); font-weight: 600;">Dư mua</span><span style="float: right;"> <span style="color: rgb(51, 51, 51); font-weight: 600;">Dư bán</span></span></div><div class="ant-col ant-col-3"></div></div><div class="ant-row" style="margin-left: -5px; margin-right: -5px; display: flex; align-items: center; font-size: 12px; font-weight: 600;"><div class="ant-col ant-col-3" style="padding-left: 5px; padding-right: 5px; color: rgb(0, 55, 123); text-align: right;">68%</div><div class="ant-col ant-col-18" style="padding-left: 5px; padding-right: 5px;"><div class="ant-progress ant-progress-line ant-progress-status-normal ant-progress-default customProgressOrder"><div class="ant-progress-outer"><div class="ant-progress-inner"><div class="ant-progress-bg" style="width: 68%; height: 8px; border-radius: 0px; background: rgb(0, 55, 123);"></div></div></div></div></div><div class="ant-col ant-col-3" style="padding-left: 5px; padding-right: 5px; color: rgb(196, 33, 39);">32%</div></div><div class="ant-list rightOrderSaleBuy ant-list-lg ant-list-split" style="font-weight: 500;"><div class="ant-spin-nested-loading"><div class="ant-spin-container"><li class="ant-list-item"><div class="ant-row" style="margin-left: 0px; margin-right: 0px; width: 100%;"><div gutter="10" class="ant-col ant-col-12" style="padding-left: 15px; padding-right: 15px;"><div class="ant-row"><div class="ant-col ant-col-14 textAlignRight" style="position: relative;"><div class="isBackground leftB" style="background-color: rgb(196, 33, 39); width: 15%;"></div><span style="color: rgb(51, 51, 51);">58,400</span></div><div class="ant-col ant-col-10 textAlignRight"><span style="color: rgb(196, 33, 39); font-weight: 600; cursor: pointer;">31,750</span></div></div></div><div gutter="10" class="ant-col ant-col-12" style="padding-left: 15px; padding-right: 15px;"><div class="ant-row"><div class="ant-col ant-col-10"><span style="color: rgb(196, 33, 39); font-weight: 600; cursor: pointer;">31,800</span></div><div class="ant-col ant-col-14" style="position: relative;"><div class="isBackground rightB" style="background-color: rgb(196, 33, 39); width: 30%;"></div><span style="color: rgb(51, 51, 51);">56,900</span></div></div></div></div></li><li class="ant-list-item"><div class="ant-row" style="margin-left: 0px; margin-right: 0px; width: 100%;"><div gutter="10" class="ant-col ant-col-12" style="padding-left: 15px; padding-right: 15px;"><div class="ant-row"><div class="ant-col ant-col-14 textAlignRight" style="position: relative;"><div class="isBackground leftB" style="background-color: rgb(196, 33, 39); width: 42%;"></div><span style="color: rgb(51, 51, 51);">165,800</span></div><div class="ant-col ant-col-10 textAlignRight"><span style="color: rgb(196, 33, 39); font-weight: 600; cursor: pointer;">31,700</span></div></div></div><div gutter="10" class="ant-col ant-col-12" style="padding-left: 15px; padding-right: 15px;"><div class="ant-row"><div class="ant-col ant-col-10"><span style="color: rgb(196, 33, 39); font-weight: 600; cursor: pointer;">31,850</span></div><div class="ant-col ant-col-14" style="position: relative;"><div class="isBackground rightB" style="background-color: rgb(196, 33, 39); width: 38%;"></div><span style="color: rgb(51, 51, 51);">71,000</span></div></div></div></div></li><li class="ant-list-item"><div class="ant-row" style="margin-left: 0px; margin-right: 0px; width: 100%;"><div gutter="10" class="ant-col ant-col-12" style="padding-left: 15px; padding-right: 15px;"><div class="ant-row"><div class="ant-col ant-col-14 textAlignRight" style="position: relative;"><div class="isBackground leftB" style="background-color: rgb(196, 33, 39); width: 43%;"></div><span style="color: rgb(51, 51, 51);">170,300</span></div><div class="ant-col ant-col-10 textAlignRight"><span style="color: rgb(196, 33, 39); font-weight: 600; cursor: pointer;">31,650</span></div></div></div><div gutter="10" class="ant-col ant-col-12" style="padding-left: 15px; padding-right: 15px;"><div class="ant-row"><div class="ant-col ant-col-10"><span style="color: rgb(196, 33, 39); font-weight: 600; cursor: pointer;">31,900</span></div><div class="ant-col ant-col-14" style="position: relative;"><div class="isBackground rightB" style="background-color: rgb(196, 33, 39); width: 31%;"></div><span style="color: rgb(51, 51, 51);">58,800</span></div></div></div></div></li></div></div></div></div></div> -->
+
+        </nz-card>
     </div>
 </div>

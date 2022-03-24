@@ -42,6 +42,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { StatisticsDashboardComponent } from './statistics/statistics-dashboard.component';
 import { ChatComponent } from './chat/chat.component';
 import { ReportDashboardComponent } from './report/report-dashboard.component';
+import { TradingDashboardComponent } from './trading/trading.component';
 
 const antdModule = [
     NzPopconfirmModule,
@@ -90,6 +91,7 @@ const antdModule = [
         UsersDashboardComponent,
         StatisticsDashboardComponent,
         ReportDashboardComponent,
+        TradingDashboardComponent,
         ChatComponent
     ],
     providers: [

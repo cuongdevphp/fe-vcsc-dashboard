@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="none" viewBox="0 0 17 17">
+    <circle cx="8.5" cy="8.5" r="8" stroke="#008055"/>
+    <mask id="prefix__a" fill="#fff">
+        <path fill-rule="evenodd" d="M9 8V4H8v4H4v1h4v4h1V9h4V8H9z" clip-rule="evenodd"/>
+    </mask>
+    <path fill="#00377B" fill-rule="evenodd" d="M9 8V4H8v4H4v1h4v4h1V9h4V8H9z" clip-rule="evenodd"/>
+    <path fill="#008055" d="M9 4h1V3H9v1zm0 4H8v1h1V8zM8 4V3H7v1h1zm0 4v1h1V8H8zM4 8V7H3v1h1zm0 1H3v1h1V9zm4 0h1V8H8v1zm0 4H7v1h1v-1zm1 0v1h1v-1H9zm0-4V8H8v1h1zm4 0v1h1V9h-1zm0-1h1V7h-1v1zM8 4v4h2V4H8zm0 1h1V3H8v2zm1 3V4H7v4h2zM4 9h4V7H4v2zm1 0V8H3v1h2zm3-1H4v2h4V8zm1 5V9H7v4h2zm0-1H8v2h1v-2zM8 9v4h2V9H8zm5-1H9v2h4V8zm-1 0v1h2V8h-2zM9 9h4V7H9v2z" mask="url(#prefix__a)"/>
+</svg>

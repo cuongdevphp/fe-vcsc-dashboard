@@ -1,4 +1,5 @@
 import { Component, Input, OnDestroy, OnInit, TemplateRef } from '@angular/core';
+import { TradingService } from 'src/app/shared/services/trading.service';
 import { ChartingLibraryWidgetOptions, IChartingLibraryWidget, LanguageCode, ResolutionString, widget } from 'src/assets/charting_library/charting_library.min';
 @Component({
     templateUrl: './trading.component.html',
@@ -6,7 +7,9 @@ import { ChartingLibraryWidgetOptions, IChartingLibraryWidget, LanguageCode, Res
 })
 
 export class TradingDashboardComponent implements OnInit, OnDestroy  {
-    private _symbol: ChartingLibraryWidgetOptions['symbol'] = 'VCI';
+    stockCode: any = 'VCI';
+
+    private _symbol: ChartingLibraryWidgetOptions['symbol'] = this.stockCode;
     private _interval: ChartingLibraryWidgetOptions['interval'] = 'D' as ResolutionString;
     // BEWARE: no trailing slash is expected in feed URL
     private _datafeedUrl = 'https://rest.vcsc.com.vn/api/v1/tradingview';
@@ -22,6 +25,7 @@ export class TradingDashboardComponent implements OnInit, OnDestroy  {
 
     
     constructor(
+        private tradingService: TradingService,
     ) {
 
     }
@@ -102,7 +106,7 @@ export class TradingDashboardComponent implements OnInit, OnDestroy  {
             charts_storage_api_version: this._chartsStorageApiVersion,
             client_id: this._clientId,
             user_id: this._userId,
-            theme: 'Dark',
+            theme: 'Light',
             fullscreen: this._fullscreen,
             autosize: this._autosize,
         };
@@ -125,12 +129,53 @@ export class TradingDashboardComponent implements OnInit, OnDestroy  {
         //         button.innerHTML = 'Check API';
         //     });
         // });
+        this.loadStockList();
     }
 
     ngOnDestroy() {
         if (this._tvWidget !== null) {
             this._tvWidget.remove();
             this._tvWidget = null;
+        }
+    }
+
+    typeOptionOrder: number = 0;
+    optionOrder (value) {
+        console.log(value, 'value');
+        this.typeOptionOrder = value;
+    }
+
+    lstStockCode: any = [];
+    loadStockList(): void {
+        this.tradingService.getStockList()
+        .subscribe(data => {
+            this.lstStockCode = data;
+            console.log(data, 'data');
+        });
+    }
+
+    changeStock (e): void {
+		if(this._tvWidget) {
+			this._tvWidget.setSymbol(e, 'D', () => {
+				//todo
+			});
+		}
+        this.stockCode = e;
+        console.log(e, 'e');
+    }
+
+    onChangTabs(args: any[]): void {
+        console.log(args[0].index);
+        switch (args[0].index) {
+            case 0:
+                console.log()
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            default:
+                break;
         }
     }
 }

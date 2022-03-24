@@ -7,7 +7,7 @@ import { ChartingLibraryWidgetOptions, IChartingLibraryWidget, LanguageCode, Res
 })
 
 export class TradingDashboardComponent implements OnInit, OnDestroy  {
-    stockCode: any = 'VCI';
+    stockCode: any = 'VND';
 
     private _symbol: ChartingLibraryWidgetOptions['symbol'] = this.stockCode;
     private _interval: ChartingLibraryWidgetOptions['interval'] = 'D' as ResolutionString;

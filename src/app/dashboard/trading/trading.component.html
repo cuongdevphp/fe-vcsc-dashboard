@@ -421,19 +421,32 @@
                         </div>
                         <div class="ant-row" style="margin-left: -5px; margin-right: -5px; display: flex; align-items: center; font-size: 12px; font-weight: 600;">
                             <div class="ant-col ant-col-3" style="padding-left: 5px; padding-right: 5px; color: rgb(0, 55, 123); text-align: right;">68%</div>
+                            <!-- <nz-progress 
+                                style="width: 68%; height: 8px; border-radius: 0px;" 
+                                [nzPercent]="100" 
+                                [nzStrokeColor]="{ '74%': 'rgb(0, 55, 123)', '32%': 'rgb(196, 33, 39)' }"
+                                [nzShowInfo]="false"
+                            ></nz-progress> -->
+                      
                             <div class="ant-col ant-col-18" style="padding-left: 5px; padding-right: 5px;">
                                 <div class="ant-progress ant-progress-line ant-progress-status-normal ant-progress-default customProgressOrder">
                                     <div class="ant-progress-outer">
                                         <div class="ant-progress-inner">
-                                            <div class="ant-progress-bg" style="width: 68%; height: 8px; border-radius: 0px; background: rgb(0, 55, 123);">
-                                            </div>
+                                            <!-- <div class="ant-progress-bg" style="width: 68%; height: 8px; border-radius: 0px; background: rgb(0, 55, 123);">
+                                            </div> -->
+                                            <nz-progress 
+                                                style="width: 68%; height: 8px; border-radius: 0px;" 
+                                                [nzPercent]="100"  
+                                                [nzStrokeColor]="{ '68%': 'rgb(196, 33, 39)', '32%': 'rgb(0, 55, 123)' }"
+                                                [nzShowInfo]="false"
+                                            ></nz-progress>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="ant-col ant-col-3" style="padding-left: 5px; padding-right: 5px; color: rgb(196, 33, 39);">32%</div>
                         </div>
-                        <div class="ant-list rightOrderSaleBuy ant-list-lg ant-list-split" style="font-weight: 500;">
+                        <div class="ant-list rightOrderSaleBuy ant-list-lg ant-list-split" style="font-weight: 500; text-align: center;">
                             <div class="ant-spin-nested-loading">
                                 <div class="ant-spin-container">
                                     <li class="ant-list-item">

@@ -31,10 +31,12 @@ export class ReportDashboardComponent implements OnInit {
     loadingQtyAccountTrade = false;
     loadingCommission = false;
     loadingTradingListedSecurities = false;
-    dateFormatQtyAcc = 'dd/MM/yyyy';
-    dateFormatQtyAccTrade = 'dd/MM/yyyy';
-    dateRangeQtyAcc = [new Date(new Date().setMonth(new Date().getMonth() - 1)), new Date(new Date().setDate(new Date().getDate() + 1))];
-    dateRangeQtyAccTrade = [new Date(new Date().setMonth(new Date().getMonth() - 1)), new Date(new Date().setDate(new Date().getDate() + 1))];
+
+    dateFormatQtyAcc = 'MM/yyyy';
+    dateRangeQtyAcc = new Date(new Date().setMonth(new Date().getMonth() - 1));
+
+    dateFormatQtyAccTrade = 'MM/yyyy';
+    dateRangeQtyAccTrade = new Date(new Date().setMonth(new Date().getMonth() - 1));
 
     dateFormatCommission = 'MM/yyyy';
     dateMonthCommission = new Date(new Date().setMonth(new Date().getMonth() - 1));
@@ -142,36 +144,49 @@ export class ReportDashboardComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        const startOfMonthCommission = moment(this.dateMonthCommission).startOf('month').toISOString();
-        const endOfMonthCommission   = moment(this.dateMonthCommission).endOf('month').toISOString();
-
-        const startOfMonthTradingListedSecurities = moment(this.dateMonthCommission).startOf('month').toISOString();
-        const endOfMonthTradingListedSecurities   = moment(this.dateMonthCommission).endOf('month').toISOString();
-        // let users = JSON.parse(localStorage.getItem('user')) || [];
-        // console.log(this.dateMonthCommission, 'users');
-        // console.log(startOfMonth, 'startOfMonth');
-        // console.log(endOfMonth, 'endOfMonth');
-        this.loadQtyAccount(this.dateRangeQtyAcc[0], this.dateRangeQtyAcc[1]);
-        this.loadQtyAccountTrade(this.dateRangeQtyAccTrade[0], this.dateRangeQtyAccTrade[1]);
-        
-        setTimeout(() => {
-            this.loadCommission(startOfMonthCommission, endOfMonthCommission);
-            this.loadTradingListedSecurities(startOfMonthTradingListedSecurities, endOfMonthTradingListedSecurities);
-        }, 1200);
+        const startOfMonthQtyAcc = moment(this.dateRangeQtyAcc).startOf('month').toISOString();
+        const endOfMonthQtyAcc   = moment(this.dateRangeQtyAcc).endOf('month').toISOString();
+        this.loadQtyAccount(startOfMonthQtyAcc, endOfMonthQtyAcc);
     }
     
-    onChangeDateRangeQtyAccTrade(result: Date[]): void {
-        if(result.length === 0) {
-            result = [new Date(new Date().setMonth(new Date().getMonth() - 1)), new Date()];
+    onChangTabs(args: any[]): void {
+        console.log(args[0].index);
+        switch (args[0].index) {
+            case 0:
+                const startOfMonthQtyAcc = moment(this.dateRangeQtyAcc).startOf('month').toISOString();
+                const endOfMonthQtyAcc   = moment(this.dateRangeQtyAcc).endOf('month').toISOString();
+                this.loadQtyAccount(startOfMonthQtyAcc, endOfMonthQtyAcc);
+                break;
+            case 1:
+                const startOfMonthQtyAccTrades = moment(this.dateRangeQtyAccTrade).startOf('month').toISOString();
+                const endOfMonthQtyAccTrade   = moment(this.dateRangeQtyAccTrade).endOf('month').toISOString();
+                this.loadQtyAccountTrade(startOfMonthQtyAccTrades, endOfMonthQtyAccTrade);
+                break;
+            case 2:
+                const startOfMonthCommission = moment(this.dateMonthCommission).startOf('month').toISOString();
+                const endOfMonthCommission   = moment(this.dateMonthCommission).endOf('month').toISOString();
+                this.loadCommission(startOfMonthCommission, endOfMonthCommission);
+                break;
+            case 3:
+                const startOfMonthTradingListedSecurities = moment(this.dateMonthCommission).startOf('month').toISOString();
+                const endOfMonthTradingListedSecurities   = moment(this.dateMonthCommission).endOf('month').toISOString();
+                this.loadTradingListedSecurities(startOfMonthTradingListedSecurities, endOfMonthTradingListedSecurities);
+                break;
+            default:
+                break;
         }
-        this.loadQtyAccountTrade(result[0], result[1]);
     }
 
-    onChangeDateRangeQtyAcc(result: Date[]): void {
-        if(result.length === 0) {
-            result = [new Date(new Date().setMonth(new Date().getMonth() - 1)), new Date()];
-        }
-        this.loadQtyAccount(result[0], result[1]);
+    onChangeDateRangeQtyAccTrade(result: Date): void {
+        const startOfMonth = moment(result).startOf('month').toISOString();
+        const endOfMonth   = moment(result).endOf('month').toISOString();
+        this.loadQtyAccountTrade(startOfMonth, endOfMonth);
+    }
+
+    onChangeDateRangeQtyAcc(result: Date): void {
+        const startOfMonth = moment(result).startOf('month').toISOString();
+        const endOfMonth   = moment(result).endOf('month').toISOString();
+        this.loadQtyAccount(startOfMonth, endOfMonth);
     }
 
     onChangeMonthRangeCommission(result: Date): void {
@@ -187,8 +202,8 @@ export class ReportDashboardComponent implements OnInit {
     }
 
     loadQtyAccount(
-        startDate: Date | null,
-        endDate: Date | null,
+        startDate: string | null,
+        endDate: string | null,
     ): void {
         this.loadingQtyAccount = true;
         this.reportService.getQtyAccount(startDate, endDate)
@@ -206,8 +221,8 @@ export class ReportDashboardComponent implements OnInit {
     }
 
     loadQtyAccountTrade(
-        startDate: Date | null,
-        endDate: Date | null,
+        startDate: string | null,
+        endDate: string | null,
     ): void {
         this.loadingQtyAccountTrade = true;
         this.reportService.getQtyAccountTrade(startDate, endDate)
@@ -321,5 +336,9 @@ export class ReportDashboardComponent implements OnInit {
     previousMonth = new Date(new Date().setMonth(new Date().getMonth() - 1));
     disabledDateFormatCommission = (current: Date): boolean => differenceInCalendarDays(current, this.previousMonth) > 0;
     disabledDateFormattradingListedSecurities = (current: Date): boolean => differenceInCalendarDays(current, this.previousMonth) > 0;
+
+    
+    disabledDateFormatQtyAcc = (current: Date): boolean => differenceInCalendarDays(current, this.previousMonth) > 0;
+    disabledDateFormatQtyAccTrade = (current: Date): boolean => differenceInCalendarDays(current, this.previousMonth) > 0;
 
 }

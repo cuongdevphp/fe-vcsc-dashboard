@@ -28,13 +28,25 @@ export class ReportDashboardComponent implements OnInit {
 
     allChecked:boolean = false;
     loadingQtyAccount = false;
+    loadingQtyAccountTrade = false;
     loadingCommission = false;
+    loadingTradingListedSecurities = false;
     dateFormatQtyAcc = 'dd/MM/yyyy';
+    dateFormatQtyAccTrade = 'dd/MM/yyyy';
     dateRangeQtyAcc = [new Date(new Date().setMonth(new Date().getMonth() - 1)), new Date(new Date().setDate(new Date().getDate() + 1))];
+    dateRangeQtyAccTrade = [new Date(new Date().setMonth(new Date().getMonth() - 1)), new Date(new Date().setDate(new Date().getDate() + 1))];
 
     dateFormatCommission = 'MM/yyyy';
     dateMonthCommission = new Date(new Date().setMonth(new Date().getMonth() - 1));
 
+    dateFormatTradingListedSecurities = 'MM/yyyy';
+    dateMonthTradingListedSecurities = new Date(new Date().setMonth(new Date().getMonth() - 1));
+
+    qtyAccountForeignOrgTrade:number = null;
+    qtyAccountForeignPerTrade:number = null;
+    qtyAccountVNOrgTrade:number = null;
+    qtyAccountVNPerTrade:number = null;
+    totalQtyAccountTrade: number = null;
 
     qtyAccountForeignOrg:number = null;
     qtyAccountForeignPer:number = null;
@@ -67,6 +79,49 @@ export class ReportDashboardComponent implements OnInit {
     rsTotalQtySellFundForeign:number = null;
     rsTotalValueBuyFundForeign:number = null;
     rsTotalValueSellFundForeign:number = null;
+    
+    rsTradeBuyStockPersonalVNHNX:number = null;
+    rsTradeBuyStockPersonalVNHSX:number = null;
+    rsTradeBuyStockPersonalVNUPCOM:number = null;
+    rsTradeSellStockPersonalVNHNX:number = null;
+    rsTradeSellStockPersonalVNHSX:number = null;
+    rsTradeSellStockPersonalVNUPCOM:number = null;
+    rsTradeBuyStockPersonalForeignHNX:number = null;
+    rsTradeBuyStockPersonalForeignHSX:number = null;
+    rsTradeBuyStockPersonalForeignUPCOM:number = null;
+    rsTradeSellStockPersonalForeignHNX:number = null;
+    rsTradeSellStockPersonalForeignHSX:number = null;
+    rsTradeSellStockPersonalForeignUPCOM:number = null;
+    rsTradeBuyFundCertificatePersonalVNHNX:number = null;
+    rsTradeBuyFundCertificatePersonalVNHSX:number = null;
+    rsTradeBuyFundCertificatePersonalVNUPCOM:number = null;
+    rsTradeSellFundCertificatePersonalVNHNX:number = null;
+    rsTradeSellFundCertificatePersonalVNHSX:number = null;
+    rsTradeSellFundCertificatePersonalVNUPCOM:number = null;
+    rsTradeBuyFundCertificatePersonalForeignHNX:number = null;
+    rsTradeBuyFundCertificatePersonalForeignHSX:number = null;
+    rsTradeBuyFundCertificatePersonalForeignUPCOM:number = null;
+    rsTradeSellFundCertificatePersonalForeignHNX:number = null;
+    rsTradeSellFundCertificatePersonalForeignHSX:number = null;
+    rsTradeSellFundCertificatePersonalForeignUPCOM:number = null;
+    rsTradeBuyStockOrgHNX:number = null;
+    rsTradeBuyStockOrgHSX:number = null;
+    rsTradeBuyStockOrgUPCOM:number = null;
+    rsTradeSellStockOrgHNX:number = null;
+    rsTradeSellStockOrgHSX:number = null;
+    rsTradeSellStockOrgUPCOM:number = null;
+    rsTradeBuyBondOrgHNX:number = null;
+    rsTradeBuyBondOrgHSX:number = null;
+    rsTradeBuyBondOrgUPCOM:number = null;
+    rsTradeSellBondOrgHNX:number = null;
+    rsTradeSellBondOrgHSX:number = null;
+    rsTradeSellBondOrgUPCOM:number = null;
+    rsTradeBuyFundCertificateOrgHNX:number = null;
+    rsTradeBuyFundCertificateOrgHSX:number = null;
+    rsTradeBuyFundCertificateOrgUPCOM:number = null;
+    rsTradeSellFundCertificateOrgHNX:number = null;
+    rsTradeSellFundCertificateOrgHSX:number = null;
+    rsTradeSellFundCertificateOrgUPCOM:number = null;
 
     selectedStatus: any = '';
     searchPhone: any = '';
@@ -87,19 +142,29 @@ export class ReportDashboardComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        const startOfMonthCommission = moment(this.dateMonthCommission).startOf('month').toISOString();
+        const endOfMonthCommission   = moment(this.dateMonthCommission).endOf('month').toISOString();
 
-        const startOfMonth = moment(this.dateMonthCommission).startOf('month').toISOString();
-        const endOfMonth   = moment(this.dateMonthCommission).endOf('month').toISOString();
-
+        const startOfMonthTradingListedSecurities = moment(this.dateMonthCommission).startOf('month').toISOString();
+        const endOfMonthTradingListedSecurities   = moment(this.dateMonthCommission).endOf('month').toISOString();
         // let users = JSON.parse(localStorage.getItem('user')) || [];
-        console.log(this.dateMonthCommission, 'users');
-        console.log(startOfMonth, 'startOfMonth');
-        console.log(endOfMonth, 'endOfMonth');
+        // console.log(this.dateMonthCommission, 'users');
+        // console.log(startOfMonth, 'startOfMonth');
+        // console.log(endOfMonth, 'endOfMonth');
         this.loadQtyAccount(this.dateRangeQtyAcc[0], this.dateRangeQtyAcc[1]);
+        this.loadQtyAccountTrade(this.dateRangeQtyAccTrade[0], this.dateRangeQtyAccTrade[1]);
         
         setTimeout(() => {
-            this.loadCommission(startOfMonth, endOfMonth);
+            this.loadCommission(startOfMonthCommission, endOfMonthCommission);
+            this.loadTradingListedSecurities(startOfMonthTradingListedSecurities, endOfMonthTradingListedSecurities);
         }, 1200);
+    }
+    
+    onChangeDateRangeQtyAccTrade(result: Date[]): void {
+        if(result.length === 0) {
+            result = [new Date(new Date().setMonth(new Date().getMonth() - 1)), new Date()];
+        }
+        this.loadQtyAccountTrade(result[0], result[1]);
     }
 
     onChangeDateRangeQtyAcc(result: Date[]): void {
@@ -114,7 +179,13 @@ export class ReportDashboardComponent implements OnInit {
         const endOfMonth   = moment(result).endOf('month').toISOString();
         this.loadCommission(startOfMonth, endOfMonth);
     }
-    
+
+    onChangeMonthRangeTradingListedSecurities(result: Date): void {
+        const startOfMonth = moment(result).startOf('month').toISOString();
+        const endOfMonth   = moment(result).endOf('month').toISOString();
+        this.loadTradingListedSecurities(startOfMonth, endOfMonth);
+    }
+
     loadQtyAccount(
         startDate: Date | null,
         endDate: Date | null,
@@ -130,6 +201,25 @@ export class ReportDashboardComponent implements OnInit {
                 this.qtyAccountVNPer = result.data.rsQtyAccountVNPer;
                 this.totalQtyAccount = this.qtyAccountForeignOrg + this.qtyAccountForeignPer + this.qtyAccountVNOrg + this.qtyAccountVNPer;
                 this.loadingQtyAccount = false;
+            }
+        });
+    }
+
+    loadQtyAccountTrade(
+        startDate: Date | null,
+        endDate: Date | null,
+    ): void {
+        this.loadingQtyAccountTrade = true;
+        this.reportService.getQtyAccountTrade(startDate, endDate)
+        .subscribe(result => {
+            console.log(result, 'messages');
+            if(result.success) {
+                this.qtyAccountForeignOrgTrade = result.data.rsQtyAccountForeignOrg;
+                this.qtyAccountForeignPerTrade = result.data.rsQtyAccountForeignPer;
+                this.qtyAccountVNOrgTrade = result.data.rsQtyAccountVNOrg;
+                this.qtyAccountVNPerTrade = result.data.rsQtyAccountVNPer;
+                this.totalQtyAccountTrade = this.qtyAccountForeignOrgTrade + this.qtyAccountForeignPerTrade + this.qtyAccountVNOrgTrade + this.qtyAccountVNPerTrade;
+                this.loadingQtyAccountTrade = false;
             }
         });
     }
@@ -167,25 +257,69 @@ export class ReportDashboardComponent implements OnInit {
                 this.rsTotalQtySellFundForeign = result.data.rsTotalQtySellFundForeign;
                 this.rsTotalValueBuyFundForeign = result.data.rsTotalValueBuyFundForeign;
                 this.rsTotalValueSellFundForeign = result.data.rsTotalValueSellFundForeign;
-                // this.totalQtyAccount = this.qtyAccountForeignOrg + this.qtyAccountForeignPer + this.qtyAccountVNOrg + this.qtyAccountVNPer;
                 this.loadingCommission = false;
             }
         });
     }
     
+    loadTradingListedSecurities(
+        startDate: string | null,
+        endDate: string | null,
+    ): void {
+        this.loadingTradingListedSecurities = true;
+        this.reportService.getTradingListedSecurities(startDate, endDate)
+        .subscribe(result => {
+            console.log(result, 'messages');
+            if(result.success) {
+                this.rsTradeBuyStockPersonalVNHNX = result.data.rsTradeBuyStockPersonalVNHNX;
+                this.rsTradeBuyStockPersonalVNHSX = result.data.rsTradeBuyStockPersonalVNHSX;
+                this.rsTradeBuyStockPersonalVNUPCOM = result.data.rsTradeBuyStockPersonalVNUPCOM;
+                this.rsTradeSellStockPersonalVNHNX = result.data.rsTradeSellStockPersonalVNHNX;
+                this.rsTradeSellStockPersonalVNHSX = result.data.rsTradeSellStockPersonalVNHSX;
+                this.rsTradeSellStockPersonalVNUPCOM = result.data.rsTradeSellStockPersonalVNUPCOM;
+                this.rsTradeBuyStockPersonalForeignHNX = result.data.rsTradeBuyStockPersonalForeignHNX;
+                this.rsTradeBuyStockPersonalForeignHSX = result.data.rsTradeBuyStockPersonalForeignHSX;
+                this.rsTradeBuyStockPersonalForeignUPCOM = result.data.rsTradeBuyStockPersonalForeignUPCOM;
+                this.rsTradeSellStockPersonalForeignHNX = result.data.rsTradeSellStockPersonalForeignHNX;
+                this.rsTradeSellStockPersonalForeignHSX = result.data.rsTradeSellStockPersonalForeignHSX;
+                this.rsTradeSellStockPersonalForeignUPCOM = result.data.rsTradeSellStockPersonalForeignUPCOM;
+                this.rsTradeBuyFundCertificatePersonalVNHNX = result.data.rsTradeBuyFundCertificatePersonalVNHNX;
+                this.rsTradeBuyFundCertificatePersonalVNHSX = result.data.rsTradeBuyFundCertificatePersonalVNHSX;
+                this.rsTradeBuyFundCertificatePersonalVNUPCOM = result.data.rsTradeBuyFundCertificatePersonalVNUPCOM;
+                this.rsTradeSellFundCertificatePersonalVNHNX = result.data.rsTradeSellFundCertificatePersonalVNHNX;
+                this.rsTradeSellFundCertificatePersonalVNHSX = result.data.rsTradeSellFundCertificatePersonalVNHSX;
+                this.rsTradeSellFundCertificatePersonalVNUPCOM = result.data.rsTradeSellFundCertificatePersonalVNUPCOM;
+                this.rsTradeBuyFundCertificatePersonalForeignHNX = result.data.rsTradeBuyFundCertificatePersonalForeignHNX;
+                this.rsTradeBuyFundCertificatePersonalForeignHSX = result.data.rsTradeBuyFundCertificatePersonalForeignHSX;
+                this.rsTradeBuyFundCertificatePersonalForeignUPCOM = result.data.rsTradeBuyFundCertificatePersonalForeignUPCOM;
+                this.rsTradeSellFundCertificatePersonalForeignHNX = result.data.rsTradeSellFundCertificatePersonalForeignHNX;
+                this.rsTradeSellFundCertificatePersonalForeignHSX = result.data.rsTradeSellFundCertificatePersonalForeignHSX;
+                this.rsTradeSellFundCertificatePersonalForeignUPCOM = result.data.rsTradeSellFundCertificatePersonalForeignUPCOM;
+                this.rsTradeBuyStockOrgHNX = result.data.rsTradeBuyStockOrgHNX;
+                this.rsTradeBuyStockOrgHSX = result.data.rsTradeBuyStockOrgHSX;
+                this.rsTradeBuyStockOrgUPCOM = result.data.rsTradeBuyStockOrgUPCOM;
+                this.rsTradeSellStockOrgHNX = result.data.rsTradeSellStockOrgHNX;
+                this.rsTradeSellStockOrgHSX = result.data.rsTradeSellStockOrgHSX;
+                this.rsTradeSellStockOrgUPCOM = result.data.rsTradeSellStockOrgUPCOM;
+                this.rsTradeBuyBondOrgHNX = result.data.rsTradeBuyBondOrgHNX;
+                this.rsTradeBuyBondOrgHSX = result.data.rsTradeBuyBondOrgHSX;
+                this.rsTradeBuyBondOrgUPCOM = result.data.rsTradeBuyBondOrgUPCOM;
+                this.rsTradeSellBondOrgHNX = result.data.rsTradeSellBondOrgHNX;
+                this.rsTradeSellBondOrgHSX = result.data.rsTradeSellBondOrgHSX;
+                this.rsTradeSellBondOrgUPCOM = result.data.rsTradeSellBondOrgUPCOM;
+                this.rsTradeBuyFundCertificateOrgHNX = result.data.rsTradeBuyFundCertificateOrgHNX;
+                this.rsTradeBuyFundCertificateOrgHSX = result.data.rsTradeBuyFundCertificateOrgHSX;
+                this.rsTradeBuyFundCertificateOrgUPCOM = result.data.rsTradeBuyFundCertificateOrgUPCOM;
+                this.rsTradeSellFundCertificateOrgHNX = result.data.rsTradeSellFundCertificateOrgHNX;
+                this.rsTradeSellFundCertificateOrgHSX = result.data.rsTradeSellFundCertificateOrgHSX;
+                this.rsTradeSellFundCertificateOrgUPCOM = result.data.rsTradeSellFundCertificateOrgUPCOM;
+                this.loadingTradingListedSecurities = false;
+            }
+        });
+    }
+
     previousMonth = new Date(new Date().setMonth(new Date().getMonth() - 1));
     disabledDateFormatCommission = (current: Date): boolean => differenceInCalendarDays(current, this.previousMonth) > 0;
+    disabledDateFormattradingListedSecurities = (current: Date): boolean => differenceInCalendarDays(current, this.previousMonth) > 0;
 
-    // searchPhoneNumber(): void {
-    //     setTimeout( async () =>{
-    //         this.loadMessageList(this.pageIndex, this.pageSize, null, null, this.searchPhone, this.selectedStatus, this.searchDate[0], this.searchDate[1]);
-    //     }, 500);
-    // }
-
-    // statusChange(value: string): void {
-    //     if(value === 'All') {
-    //         value = '';
-    //     }
-    //     this.loadMessageList(this.pageIndex, this.pageSize, null, null, this.searchPhone, value, this.searchDate[0], this.searchDate[1]);
-    // }
 }

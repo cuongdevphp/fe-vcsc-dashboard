@@ -2,12 +2,12 @@
 <nz-card>
     <div style="display: flex;">
         <div class="col-md-12 col-lg-4">
-            <nz-card style="height: 770px;">
+            <nz-card style="height: 720px;">
                 <div class="d-flex justify-content-between align-items-center">
                     <h5>Số lượng tài khoản</h5>
                 </div>
                 
-                <div class="m-v-60 text-center" style="height: 197px">
+                <div class="text-center">
                     <div style="text-align: right;">    
                         <nz-range-picker [nzFormat]="dateFormatQtyAcc" [(ngModel)]="dateRangeQtyAcc" (ngModelChange)="onChangeDateRangeQtyAcc($event)"></nz-range-picker>
                     </div>
@@ -55,12 +55,12 @@
             </nz-card>
         </div>
         <div class="col-md-12 col-lg-8">
-            <nz-card style="height: 770px;">
+            <nz-card style="height: 720px;">
                 <div class="d-flex justify-content-between align-items-center">
                     <h5>Tình hình giao dịch</h5>
                 </div>
                 
-                <div class="m-v-60 text-center" style="height: 197px">
+                <div class="text-center">
                     <div style="text-align: right;">
                         <nz-date-picker 
                             [nzDisabledDate]="disabledDateFormatCommission"
@@ -161,6 +161,174 @@
                                 <td>{{(rsTotalValueBuyStockVN + rsTotalValueBuyStockForeign + rsTotalValueBuyBondVN + rsTotalValueBuyBondForeign + rsTotalValueBuyFundVN + rsTotalValueBuyFundForeign) | number}}</td>
                                 <td>{{rsQtyTotalSellStockVN + rsTotalQtySellStockForeign + rsTotalQtySellBondVN + rsTotalQtySellBondForeign + rsTotalQtySellFundVN + rsTotalQtySellFundForeign}}</td>
                                 <td>{{(rsTotalValueSellStockVN + rsTotalValueSellStockForeign + rsTotalValueSellBondVN + rsTotalValueSellBondForeign + rsTotalValueSellFundVN + rsTotalValueSellFundForeign) | number}}</td>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+                </div>
+            </nz-card>
+        </div>
+    </div>
+    <div style="display: flex;">
+        <div class="col-md-12 col-lg-4">
+            <nz-card style="height: 720px;">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5>Số lượng tài khoản giao dịch chứng khoán của nhà đầu tư</h5>
+                </div>
+                
+                <div class="text-center">
+                    <div style="text-align: right;">    
+                        <nz-range-picker [nzFormat]="dateFormatQtyAccTrade" [(ngModel)]="dateRangeQtyAccTrade" (ngModelChange)="onChangeDateRangeQtyAccTrade($event)"></nz-range-picker>
+                    </div>
+                    <nz-table 
+                        style="padding-top: 20px;"
+                        nzBordered
+                        [nzLoading]="loadingQtyAccountTrade"
+                        [nzData]="['']"
+                        [nzFrontPagination]="false"
+                        nzShowSizeChanger
+                    >
+                        <thead>
+                            <tr>
+                                <th style="text-align: left;" colspan="2">Loại khách hàng</th>
+                                <th>Số lượng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="hidden-table">
+                                <td rowspan="2">Trong nước</td>
+                                <td>Cá nhân</td>
+                                <td>{{qtyAccountVNPerTrade}}</td>
+                            </tr>
+                            <tr class="hidden-table">
+                                <td>Tổ chức</td>
+                                <td>{{qtyAccountVNOrgTrade}}</td>
+                            </tr>
+                            <tr class="hidden-table">
+                                <td rowspan="2">Nước ngoài</td>
+                                <td>Cá nhân</td>
+                                <td>{{qtyAccountForeignPerTrade}}</td>
+                            </tr>
+                            <tr class="hidden-table">
+                                <td>Tổ chức</td>
+                                <td>{{qtyAccountForeignOrgTrade}}</td>
+                            </tr>
+                            <tr class="hidden-table">
+                                <td>Tổng</td>
+                                <td></td>
+                                <td>{{totalQtyAccountTrade}}</td>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+                </div>
+            </nz-card>
+        </div>
+        <div class="col-md-12 col-lg-8">
+            <nz-card style="height: 720px;">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5>Giao dịch chứng khoán niêm yết/ðãng ký giao dịch</h5>
+                </div>
+                
+                <div class="text-center">
+                    <div style="text-align: right;">
+                        <nz-date-picker 
+                            [nzDisabledDate]="disabledDateFormattradingListedSecurities"
+                            [nzFormat]="dateFormatTradingListedSecurities" 
+                            [(ngModel)]="dateMonthTradingListedSecurities" 
+                            (ngModelChange)="onChangeMonthRangeTradingListedSecurities($event)" 
+                            nzMode="month"
+                        ></nz-date-picker>
+                    </div>
+                    <nz-table 
+                        style="padding-top: 20px;"
+                        nzBordered
+                        [nzLoading]="loadingTradingListedSecurities"
+                        [nzData]="['']"
+                        [nzFrontPagination]="false"
+                        nzShowSizeChanger
+                    >
+                        <thead>
+                            <tr>
+                                <th colspan="2" rowspan="2">Loại chứng khoán</th>
+                                <th colspan="3">Mua</th>
+                                <th colspan="3">Bán</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>HNX</td>
+                                <td>HoSE</td>
+                                <td>UpCOM</td>
+                                <td>HNX</td>
+                                <td>HoSE</td>
+                                <td>UpCOM</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2" style="width: 21%;">Cổ phiếu</td>
+                                <td style="width: 20%;">Trong nước</td>
+                                <td>{{ rsTradeBuyStockPersonalVNHNX | number }}</td>
+                                <td>{{ rsTradeBuyStockPersonalVNHSX | number }}</td>
+                                <td>{{ rsTradeBuyStockPersonalVNUPCOM | number }}</td>
+                                <td>{{ rsTradeSellStockPersonalVNHNX | number }}</td>
+                                <td>{{ rsTradeSellStockPersonalVNHSX | number }}</td>
+                                <td>{{ rsTradeSellStockPersonalVNUPCOM | number }}</td>
+                            </tr>
+                            <tr>
+                                <td>Nước ngoài</td>
+                                <td>{{ rsTradeBuyStockPersonalForeignHNX | number }}</td>
+                                <td>{{ rsTradeBuyStockPersonalForeignHSX | number }}</td>
+                                <td>{{ rsTradeBuyStockPersonalForeignUPCOM | number }}</td>
+                                <td>{{ rsTradeSellStockPersonalForeignHNX | number }}</td>
+                                <td>{{ rsTradeSellStockPersonalForeignHSX | number }}</td>
+                                <td>{{ rsTradeSellStockPersonalForeignUPCOM | number }}</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2">Chứng chỉ quỹ</td>
+                                <td>Trong nước</td>
+                                <td>{{ rsTradeBuyFundCertificatePersonalVNHNX | number }}</td>
+                                <td>{{ rsTradeBuyFundCertificatePersonalVNHSX | number }}</td>
+                                <td>{{ rsTradeBuyFundCertificatePersonalVNUPCOM | number }}</td>
+                                <td>{{ rsTradeSellFundCertificatePersonalVNHNX | number }}</td>
+                                <td>{{ rsTradeSellFundCertificatePersonalVNHSX | number }}</td>
+                                <td>{{ rsTradeSellFundCertificatePersonalVNUPCOM | number }}</td>
+                            </tr>
+                            <tr>
+                                <td>Nước ngoài</td>
+                                <td>{{ rsTradeBuyFundCertificatePersonalForeignHNX | number }}</td>
+                                <td>{{ rsTradeBuyFundCertificatePersonalForeignHSX | number }}</td>
+                                <td>{{ rsTradeBuyFundCertificatePersonalForeignUPCOM | number }}</td>
+                                <td>{{ rsTradeSellFundCertificatePersonalForeignHNX | number }}</td>
+                                <td>{{ rsTradeSellFundCertificatePersonalForeignHSX | number }}</td>
+                                <td>{{ rsTradeSellFundCertificatePersonalForeignUPCOM | number }}</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="3">Tự doanh</td>
+                                <td>Cổ phiếu</td>
+                                <td>{{ rsTradeBuyStockOrgHNX | number }}</td>
+                                <td>{{ rsTradeBuyStockOrgHSX | number }}</td>
+                                <td>{{ rsTradeBuyStockOrgUPCOM | number }}</td>
+                                <td>{{ rsTradeSellStockOrgHNX | number }}</td>
+                                <td>{{ rsTradeSellStockOrgHSX | number }}</td>
+                                <td>{{ rsTradeSellStockOrgUPCOM | number }}</td>
+                            </tr>
+                            <tr>
+                                <td>Trái phiếu</td>
+                                <td>{{ rsTradeBuyBondOrgHNX | number }}</td>
+                                <td>{{ rsTradeBuyBondOrgHSX | number }}</td>
+                                <td>{{ rsTradeBuyBondOrgUPCOM | number }}</td>
+                                <td>{{ rsTradeSellBondOrgHNX | number }}</td>
+                                <td>{{ rsTradeSellBondOrgHSX | number }}</td>
+                                <td>{{ rsTradeSellBondOrgUPCOM | number }}</td>
+                            </tr>
+                            <tr>
+                                <td>Chứng chỉ quỹ</td>
+                                <td>{{ rsTradeBuyFundCertificateOrgHNX | number }}</td>
+                                <td>{{ rsTradeBuyFundCertificateOrgHSX | number }}</td>
+                                <td>{{ rsTradeBuyFundCertificateOrgUPCOM | number }}</td>
+                                <td>{{ rsTradeSellFundCertificateOrgHNX | number }}</td>
+                                <td>{{ rsTradeSellFundCertificateOrgHSX | number }}</td>
+                                <td>{{ rsTradeSellFundCertificateOrgUPCOM | number }}</td>
                             </tr>
                         </tbody>
                     </nz-table>

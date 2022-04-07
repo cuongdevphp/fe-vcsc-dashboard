@@ -24,7 +24,15 @@ export class ReportService {
     return this.http.get<any>(`${environment.apiUrl}/report/qtyAccount?startDate=${new Date(startDate).toISOString()}&endDate=${new Date(endDate).toISOString()}`);
   }
 
+  getQtyAccountTrade(startDate, endDate) {
+    return this.http.get<any>(`${environment.apiUrl}/report/qtyAccountTrade?startDate=${new Date(startDate).toISOString()}&endDate=${new Date(endDate).toISOString()}`);
+  }
+
   getCommission(startDate, endDate) {
     return this.http.get<any>(`${environment.apiUrl}/report/commission?startDate=${new Date(startDate).toISOString()}&endDate=${new Date(endDate).toISOString()}`);
+  }
+
+  getTradingListedSecurities(startDate, endDate) {
+    return this.http.get<any>(`${environment.apiUrl}/report/tradingListedSecurities?startDate=${new Date(startDate).toISOString()}&endDate=${new Date(endDate).toISOString()}`);
   }
 }

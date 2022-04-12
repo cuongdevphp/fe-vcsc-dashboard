@@ -49,14 +49,14 @@ let routes: Routes = [
             headerDisplay: "none"
         }
     },
-    {
-        path: 'trading',
-        component: TradingDashboardComponent,
-        data: {
-            title: 'Trading Dashboard',
-            headerDisplay: "none"
-        }
-    },
+    // {
+    //     path: 'trading',
+    //     component: TradingDashboardComponent,
+    //     data: {
+    //         title: 'Trading Dashboard',
+    //         headerDisplay: "none"
+    //     }
+    // },
     {
         path: 'report',
         component: ReportDashboardComponent,

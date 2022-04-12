@@ -27,7 +27,6 @@ export class HeaderComponent{
     }
 
     toggleFold() {
-        console.log(this.isFolded, 'this.isFolded');
         this.isFolded = !this.isFolded;
         this.themeService.toggleFold(this.isFolded);
     }

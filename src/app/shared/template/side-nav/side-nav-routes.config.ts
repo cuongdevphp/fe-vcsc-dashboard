@@ -18,15 +18,6 @@ export const ROUTES: SideNavInterface[] = [
                 name: 'home',
                 submenu: [],
             },
-            // {
-            //     path: '/dashboard/chat',
-            //     title: 'Chat',
-            //     iconType: 'nzIcon',
-            //     icon: 'message',
-            //     iconTheme: 'outline',
-            //     name: 'chat',
-            //     submenu: [],
-            // },
             {
                 path: '/dashboard/incom',
                 title: 'Incom',
@@ -45,15 +36,6 @@ export const ROUTES: SideNavInterface[] = [
                 name: 'users',
                 submenu: [],
             },
-            // {
-            //     path: '/dashboard/trading',
-            //     title: 'Trading',
-            //     iconType: 'nzIcon',
-            //     icon: 'pie-chart',
-            //     iconTheme: 'outline',
-            //     name: 'trading',
-            //     submenu: [],
-            // },
             {
                 path: '/dashboard/report',
                 title: 'Report',
@@ -65,4 +47,32 @@ export const ROUTES: SideNavInterface[] = [
             },
         ]
     },
+    {
+        path: '',
+        title: 'ZNS',
+        iconType: 'nzIcon',
+        iconTheme: 'outline',
+        icon: '/zalo-seeklogo.com',
+        name: 'zns',
+        submenu: [
+            {
+                path: '/zns/template',
+                title: 'Template',
+                iconType: 'nzIcon',
+                icon: 'book',
+                iconTheme: 'outline',
+                name: 'template',
+                submenu: [],
+            },
+            {
+                path: '/zns/follower',
+                title: 'Follower',
+                iconType: 'nzIcon',
+                icon: 'book',
+                iconTheme: 'outline',
+                name: 'follower',
+                submenu: [],
+            },
+        ]
+    }
 ]    

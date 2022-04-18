@@ -1,0 +1,122 @@
+<h2>Template</h2>
+<nz-card>
+    <div class="row m-b-30">
+        <div class="col-lg-10">
+            <!-- <div class="d-md-flex">
+                <div class="m-b-10 m-r-20">
+                    <nz-input-group [nzPrefix]="prefixTemplate">
+                        <input type="text" nz-input placeholder="Search Phone Number" [(ngModel)]="searchPhone" (ngModelChange)="searchPhoneNumber()">
+                    </nz-input-group>
+                    <ng-template #prefixTemplate>
+                        <i nz-icon nzType="search" class="opacity-05"></i>
+                    </ng-template>
+                </div> 
+                <div class="m-b-10 m-r-20 d-flex align-items-center">
+                    <nz-select 
+                        style="min-width: 220px;" 
+                        class="w-100" 
+                        nzPlaceHolder="Status" 
+                        [(ngModel)]="selectedStatus" 
+                        (ngModelChange)="statusChange($event)"
+                    >
+                        <nz-option nzLabel="All" nzValue="All"></nz-option>
+                        <nz-option nzLabel="Success" nzValue="1"></nz-option>
+                        <nz-option nzLabel="Fail" nzValue="0"></nz-option>
+                    </nz-select>
+                </div>
+                <div class="m-b-10 m-r-20 d-flex align-items-center">
+                    <nz-range-picker [nzFormat]="dateFormat" [(ngModel)]="searchDate" (ngModelChange)="onChangeDateRange($event)"></nz-range-picker>
+                </div>
+                <div class="m-b-10 m-r-20 d-flex align-items-center">
+                    <button nz-button nzType="primary" (click)="showStatisticModal(statisticContent)">
+                        <i nz-icon nzType="pie-chart" nzTheme="outline"></i>
+                        <span>Statistic</span>
+                    </button>
+                </div>
+            </div>           -->
+        </div>
+        <div class="col-lg-2 text-right">
+            <!-- <nz-upload
+                nzAction="/assets/upload"
+                nzAccept=".txt"
+                [nzHeaders]="{ authorization: 'authorization-text' }"
+                (nzChange)="uploadFile($event, sendMultipleMessageContent)"
+            >
+                <button nz-button><i nz-icon nzType="upload"></i>Upload</button>
+            </nz-upload>
+            <span style="margin-left: 3px"></span> -->
+            <button nz-button nzType="primary" (click)="createTemplateModal('', createTemplateContent)">
+                <i nz-icon nzType="plus"></i>
+                <span>Template</span>
+            </button>
+        </div>
+    </div>
+    <nz-table 
+        #templatesListTable 
+        [nzData]="templates"
+        [nzFrontPagination]="false"
+        nzShowSizeChanger
+        [nzLoading]="loading"
+        [nzTotal]="total"
+        [nzPageSize]="pageSize"
+        [nzPageIndex]="pageIndex"
+        (nzQueryParams)="onQueryParamsChange($event)"
+        [nzPageSizeOptions] = "[5, 10, 20, 30, 40, 50]"
+    >
+        <thead>
+            <tr>
+                <th width='1%'>ID</th>
+                <th width='15%'>Name</th>
+                <th width='40%'>Content</th>
+                <th width='15%'>Create date</th>
+                <th width='10%'>Created by</th>
+                <th width='10%'>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of templatesListTable.data; let i=index">
+                <td>{{item.id}}</td>
+                <td>
+                    {{item.name}}
+                </td>
+                <td>
+                    {{item.template}}
+                </td>
+                <td>
+                    {{ convertDDMMYYYYHHMM(item.createDate) }}
+                </td>
+                <td>
+                    {{item.createdBy}}
+                </td>
+                <td>
+                    <button class="m-r-5" (click)="editTemplateModal(item, createTemplateContent)" nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Edit" >
+                        <i nz-icon nzType="edit" theme="outline"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+
+    <ng-template #createTemplateContent>
+        <form nz-form nzLayout="vertical">
+            <nz-form-item>
+                <nz-form-label nzRequired>Name</nz-form-label>
+                <nz-form-control>
+                    <input type="text" name="editTemplate.name" [(ngModel)]="editTemplate.name" nz-input placeholder="Please input phone number" />
+                    <nz-form-explain *ngIf="requiredForm.phoneNumber" style="color: red;">
+                        Please input name!
+                    </nz-form-explain>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label nzRequired>Content</nz-form-label>
+                <nz-form-control style="height: 130px !important; display: inline;">
+                    <textarea  name="editTemplate.template" [(ngModel)]="editTemplate.template" placeholder="Please input content message" nz-input></textarea>
+                </nz-form-control>
+                <nz-form-explain *ngIf="requiredForm.content" style="color: red;">
+                    Please input content message!
+                </nz-form-explain>
+            </nz-form-item>
+        </form>
+    </ng-template>
+</nz-card>

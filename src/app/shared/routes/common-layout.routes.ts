@@ -10,5 +10,12 @@ export const CommonLayout_ROUTES: Routes = [
         canActivate: [AuthGuard]
     },
 
+    //ZNS
+    {
+        path: 'zns',
+        loadChildren: () => import('../../zns/zns.module').then(m => m.ZnsModule),
+        canActivate: [AuthGuard]
+    },
+
 
 ];

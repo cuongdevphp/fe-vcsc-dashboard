@@ -26,6 +26,26 @@ export class IncomService {
     return this.http.get<MessageIncom>(`${environment.apiUrl}/incom/sendMessageList?offset=${pageIndex}&page=${pageSize}&phonenumber=${filterPhone}&status=${filterStatus}&startDate=${new Date(startDate).toISOString()}&endDate=${new Date(endDate).toISOString()}`);
   }
 
+  getTemplates(pageIndex, pageSize) {
+    return this.http.get<MessageIncom>(`${environment.apiUrl}/incom/template?offset=${pageIndex}&page=${pageSize}`);
+  }
+
+  createTemplate(data) {
+    const params = {
+      'name': data.name, 
+      'template': data.template
+    }
+    return this.http.post<any>(`${environment.apiUrl}/incom/template`, { ...params })
+  }
+
+  editTemplate(id, data) {
+    const params = {
+      'name': data.name, 
+      'template': data.template
+    }
+    return this.http.put<any>(`${environment.apiUrl}/incom/template/${id}`, { ...params })
+  }
+
   sendMessage(phoneNumber, contentMessage) {
     const params = {
       'phonenumber': phoneNumber, 

@@ -224,25 +224,35 @@ export class DefaultDashboardComponent implements OnInit {
                 const quayWeekRange = [];
                 const techxWeekRange = [];
                 const dateWeekRange = [];
-                for(const i of result.data.week) {
-                    webWeekRange.push(i.web);
-                    iosWeekRange.push(i.ios);
-                    androidWeekRange.push(i.android);
-                    vproWeekRange.push(i.vpro);
-                    quayWeekRange.push(i.quay);
-                    ipadWeekRange.push(i.ipad);
-                    techxWeekRange.push(i.techx);
-                    dateWeekRange.push(i.dateChart);
+
+                let monTotal = 0;
+                let tueTotal = 0;
+                let wedTotal = 0;
+                let thuTotal = 0;
+                let friTotal = 0;
+                let staTotal = 0;
+                let sunTotal = 0;
+
+                if(result.data.week.length > 0) {
+                    for(const i of result.data.week) {
+                        webWeekRange.push(i.web);
+                        iosWeekRange.push(i.ios);
+                        androidWeekRange.push(i.android);
+                        vproWeekRange.push(i.vpro);
+                        quayWeekRange.push(i.quay);
+                        ipadWeekRange.push(i.ipad);
+                        techxWeekRange.push(i.techx);
+                        dateWeekRange.push(i.dateChart);
+                    }
+                    monTotal = techxWeekRange[0] + webWeekRange[0] + iosWeekRange[0] + androidWeekRange[0] + vproWeekRange[0] + quayWeekRange[0] + ipadWeekRange[0];
+                    tueTotal = techxWeekRange[1] + webWeekRange[1] + iosWeekRange[1] + androidWeekRange[1] + vproWeekRange[1] + quayWeekRange[1] + ipadWeekRange[1];
+                    wedTotal = techxWeekRange[2] + webWeekRange[2] + iosWeekRange[2] + androidWeekRange[2] + vproWeekRange[2] + quayWeekRange[2] + ipadWeekRange[2];
+                    thuTotal = techxWeekRange[3] + webWeekRange[3] + iosWeekRange[3] + androidWeekRange[3] + vproWeekRange[3] + quayWeekRange[3] + ipadWeekRange[3];
+                    friTotal = techxWeekRange[4] + webWeekRange[4] + iosWeekRange[4] + androidWeekRange[4] + vproWeekRange[4] + quayWeekRange[4] + ipadWeekRange[4];
+                    staTotal = techxWeekRange[5] + webWeekRange[5] + iosWeekRange[5] + androidWeekRange[5] + vproWeekRange[5] + quayWeekRange[5] + ipadWeekRange[5];
+                    sunTotal = techxWeekRange[6] + webWeekRange[6] + iosWeekRange[6] + androidWeekRange[6] + vproWeekRange[6] + quayWeekRange[6] + ipadWeekRange[6];
+                    
                 }
-                console.log(techxWeekRange, 'techxWeekRange');
-                const monTotal = techxWeekRange[0] + webWeekRange[0] + iosWeekRange[0] + androidWeekRange[0] + vproWeekRange[0] + quayWeekRange[0] + ipadWeekRange[0];
-                const tueTotal = techxWeekRange[1] + webWeekRange[1] + iosWeekRange[1] + androidWeekRange[1] + vproWeekRange[1] + quayWeekRange[1] + ipadWeekRange[1];
-                const wedTotal = techxWeekRange[2] + webWeekRange[2] + iosWeekRange[2] + androidWeekRange[2] + vproWeekRange[2] + quayWeekRange[2] + ipadWeekRange[2];
-                const thuTotal = techxWeekRange[3] + webWeekRange[3] + iosWeekRange[3] + androidWeekRange[3] + vproWeekRange[3] + quayWeekRange[3] + ipadWeekRange[3];
-                const friTotal = techxWeekRange[4] + webWeekRange[4] + iosWeekRange[4] + androidWeekRange[4] + vproWeekRange[4] + quayWeekRange[4] + ipadWeekRange[4];
-                const staTotal = techxWeekRange[5] + webWeekRange[5] + iosWeekRange[5] + androidWeekRange[5] + vproWeekRange[5] + quayWeekRange[5] + ipadWeekRange[5];
-                const sunTotal = techxWeekRange[6] + webWeekRange[6] + iosWeekRange[6] + androidWeekRange[6] + vproWeekRange[6] + quayWeekRange[6] + ipadWeekRange[6];
-                
                 this.barChartData = [
                     {
                         data: iosWeekRange,
@@ -293,24 +303,25 @@ export class DefaultDashboardComponent implements OnInit {
                         showLines: false,
                     }
                 ];
-
-                this.doughnutWeb = result.data.today[0].web;
-                this.doughnutiOS = result.data.today[0].ios;
-                this.doughnutiPad = result.data.today[0].ipad;
-                this.doughnutAndroid = result.data.today[0].android;
-                this.doughnutQuay = result.data.today[0].quay;
-                this.doughnutvPro = result.data.today[0].vpro;
-                this.doughnutTechx = result.data.today[0].techx;
-
-                this.customersChartData = [
-                    result.data.today[0].ios, 
-                    result.data.today[0].android, 
-                    result.data.today[0].vpro, 
-                    result.data.today[0].web, 
-                    result.data.today[0].quay, 
-                    result.data.today[0].ipad,
-                    result.data.today[0].techx,
-                ];
+                if(result.data.today.length > 0) {
+                    this.doughnutWeb = result.data.today[0].web;
+                    this.doughnutiOS = result.data.today[0].ios;
+                    this.doughnutiPad = result.data.today[0].ipad;
+                    this.doughnutAndroid = result.data.today[0].android;
+                    this.doughnutQuay = result.data.today[0].quay;
+                    this.doughnutvPro = result.data.today[0].vpro;
+                    this.doughnutTechx = result.data.today[0].techx;
+    
+                    this.customersChartData = [
+                        result.data.today[0].ios, 
+                        result.data.today[0].android, 
+                        result.data.today[0].vpro, 
+                        result.data.today[0].web, 
+                        result.data.today[0].quay, 
+                        result.data.today[0].ipad,
+                        result.data.today[0].techx,
+                    ];
+                }
 
                 this.lineChartLabels = dateDateRange;
                 this.barMax = 500;

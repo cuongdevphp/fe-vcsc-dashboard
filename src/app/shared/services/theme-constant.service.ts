@@ -6,7 +6,7 @@ export class ThemeConstantService {
     
     // Theme Config
     isMenuFolded: boolean = false;
-    isSideNavDark: boolean = true;
+    isSideNavDark: boolean = false;
     headerColor: string = 'default';
     private colorConfig: any = {
         colors: {

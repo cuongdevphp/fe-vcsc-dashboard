@@ -1,4 +1,4 @@
-<h2>Template</h2>
+<h2>Send Notification Follower</h2>
 <nz-card>
     <div class="row m-b-30">
         <div class="col-lg-10">
@@ -47,13 +47,13 @@
             <span style="margin-left: 3px"></span> -->
             <button nz-button nzType="primary" (click)="createTemplateModal('', createTemplateContent)">
                 <i nz-icon nzType="plus"></i>
-                <span>Template</span>
+                <span>Send</span>
             </button>
         </div>
     </div>
     <nz-table 
-        #templatesListTable 
-        [nzData]="templates"
+        #dataMessageFollowerListTable 
+        [nzData]="dataMessageFollower"
         [nzFrontPagination]="false"
         nzShowSizeChanger
         [nzLoading]="loading"
@@ -67,55 +67,113 @@
             <tr>
                 <th width='1%'>ID</th>
                 <th width='15%'>Name</th>
-                <th width='40%'>Content</th>
-                <th width='15%'>Create date</th>
+                <th width='10%'>Image</th>
+                <th width='15%'>Link</th>
+                <th width='10%'>Create Date</th>
                 <th width='10%'>Created by</th>
-                <th width='10%'>Action</th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of templatesListTable.data; let i=index">
+            <tr *ngFor="let item of dataMessageFollowerListTable.data; let i=index">
                 <td>{{item.id}}</td>
                 <td>
                     {{item.name}}
                 </td>
                 <td>
-                    {{item.template}}
+                    <img
+                        (click)="showImage(item.image, imageContent)"
+                        width="100px"
+                        height="100px"
+                        src={{item.image}}
+                        alt=""
+                    />
+                </td>
+                <td>
+                    <a href={{item.url}} target="_blank">Xem chi tiết</a>
                 </td>
                 <td>
                     {{ convertDDMMYYYYHHMM(item.createDate) }}
                 </td>
                 <td>
-                    {{item.createdBy}}
-                </td>
-                <td>
-                    <button class="m-r-5" (click)="editTemplateModal(item, createTemplateContent)" nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Edit" >
-                        <i nz-icon nzType="edit" theme="outline"></i>
-                    </button>
+                    {{item.createBy}}
                 </td>
             </tr>
         </tbody>
     </nz-table>
 
+    <ng-template #imageContent>
+        <img
+            src={{imageMessageFollow}}
+            alt=""
+        />
+    </ng-template>
+
     <ng-template #createTemplateContent>
-        <form nz-form nzLayout="vertical">
+        <form nz-form nzLayout="vertical" >
+            <div class="row">
+                <div class="col-md-6">
+                    <nz-form-item class="relative">
+                        <nz-form-label nzRequired>Template</nz-form-label>
+                        <nz-form-control nzErrorTip="Please input username!">
+                            <nz-input-group>
+                                <nz-select 
+                                    [(ngModel)]="templateMessageFollowerId"
+                                    name="templateMessageFollowerId" 
+                                    nzShowSearch class="w-100" nzPlaceHolder="Chọn template"
+                                >
+                                    <nz-option 
+                                        *ngFor="let value of lstTemplate" 
+                                        [nzLabel]="value.name"
+                                        [nzValue]="value.id"
+                                    >
+                                    
+                                    </nz-option>
+                                </nz-select>
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <!-- <Input id="file-upload-excel" accept="image/*" type="file" (change)="uploadImage($event)" /> -->
+
+                <div class="col-md-6">
+                    <nz-form-item class="relative">
+                        <nz-form-label nzRequired>Image</nz-form-label>
+                        <nz-form-control nzErrorTip="Please input name!">
+                            <nz-input-group>
+                                <nz-upload
+                                    nzAccept='.png,.jpeg,.jpg'
+                                    nzAction="http://localhost:3001/incom/uploadImage"
+                                    nzListType="picture-card"
+                                    [(nzFileList)]="fileList"
+                                    [nzShowButton]="fileList.length < 1"
+                                    [nzPreview]="handlePreview"
+                                    (nzChange)="uploadImages($event)"
+                                >
+                                    <div>
+                                        <i nz-icon nzType="plus"></i>
+                                        <div style="margin-top: 8px">Upload</div>
+                                    </div>
+                                </nz-upload>
+                                <nz-modal
+                                    [nzVisible]="previewVisible"
+                                    [nzContent]="modalContent"
+                                    [nzFooter]="null"
+                                    (nzOnCancel)="previewVisible = false"
+                                >
+                                    <ng-template #modalContent>
+                                    <img [src]="previewImage" [ngStyle]="{ width: '100%' }" />
+                                    </ng-template>
+                                </nz-modal>
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
             <nz-form-item>
-                <nz-form-label nzRequired>Name</nz-form-label>
+                <nz-form-label nzRequired>Link</nz-form-label>
                 <nz-form-control>
-                    <input type="text" name="editTemplate.name" [(ngModel)]="editTemplate.name" nz-input placeholder="Please input phone number" />
-                    <nz-form-explain *ngIf="requiredForm.phoneNumber" style="color: red;">
-                        Please input phone number!
-                    </nz-form-explain>
+                    <input type="text" name="link" [(ngModel)]="link" nz-input placeholder="Please input link" />
                 </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
-                <nz-form-label nzRequired>Content</nz-form-label>
-                <nz-form-control>
-                    <textarea name="editTemplate.template" [(ngModel)]="editTemplate.template" placeholder="Please input content message" nz-input></textarea>
-                </nz-form-control>
-                <nz-form-explain *ngIf="requiredForm.content" style="color: red;">
-                    Please input content message!
-                </nz-form-explain>
             </nz-form-item>
         </form>
     </ng-template>

@@ -70,7 +70,7 @@ export const ROUTES: SideNavInterface[] = [
                 iconType: 'nzIcon',
                 icon: 'book',
                 iconTheme: 'outline',
-                name: 'follower',
+                name: '',
                 submenu: [],
             },
         ]

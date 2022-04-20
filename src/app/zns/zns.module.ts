@@ -32,10 +32,12 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzImageModule } from 'ng-zorro-antd/image';
 import { FollowerComponent } from './follower/follower.component';
 
 const antdModule= [
     NzPopconfirmModule,
+    NzImageModule,
     NzButtonModule,
     NzCardModule,
     NzSwitchModule,

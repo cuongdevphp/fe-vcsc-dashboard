@@ -225,6 +225,7 @@ export class FollowerComponent implements OnInit {
         this.requiredImage = false;
     }
     uploadImages(e) {
+        console.log(environment.apiUrl, 'environment.apiUrl');
         if(e.type === 'progress') {
             const formData = new FormData();
             formData.append('image', e.fileList[0].originFileObj);

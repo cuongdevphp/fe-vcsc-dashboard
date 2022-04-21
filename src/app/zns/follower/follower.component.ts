@@ -233,6 +233,7 @@ export class FollowerComponent implements OnInit {
             const req = new HttpRequest('POST', `${environment.apiUrl}/incom/uploadImage`, formData, {
             // reportProgress: true
             });
+            console.log(req, 'req');
                 
             this.http
             .request(req)

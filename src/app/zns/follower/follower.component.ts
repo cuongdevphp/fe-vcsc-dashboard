@@ -9,12 +9,14 @@ import * as common from '../../shared/common/common';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { HttpClient, HttpRequest, HttpResponse } from '@angular/common/http';
 import { filter } from 'rxjs/operators';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 declare var $: any; // JQuery
 @Component({
     templateUrl: './follower.component.html'
 })
 
 export class FollowerComponent implements OnInit {
+    sendMessageFollowerForm: FormGroup;
     loadingSendMessageFollowerModal: boolean = false;
     allChecked:boolean = false;
     loading = false;
@@ -36,12 +38,14 @@ export class FollowerComponent implements OnInit {
     editTemplate: any = null;
     contentMessage: any = '';
     loadingTemplateModal = false;
-    requiredForm: any = {
-        phoneNumber: false,
-        content: false
-    };
+    submitted = false;
+    requiredImage = false;
+    fileList: NzUploadFile[] = [];
+    previewImage: string | undefined = '';
+    previewVisible = false;
     
     constructor(
+        private fb: FormBuilder,
         private incomService: IncomService,
         private modalService: NzModalService,
         private notification: NzNotificationService,
@@ -50,13 +54,17 @@ export class FollowerComponent implements OnInit {
         //this.displayData = this.productsList
     }
 
+    get f() { return this.sendMessageFollowerForm.controls; }
     ngOnInit(): void {
+        this.sendMessageFollowerForm = this.fb.group({
+            link: [ null, [ Validators.required ] ],
+            templateMessageFollowerId: [ null, [ Validators.required ] ],
+        });
         let users = JSON.parse(localStorage.getItem('user')) || [];
-        //console.log(users, 'users');
         this.loadsendMessageFollowerList(this.pageIndex, this.pageSize);
         this.loadTemplateList();
     }
-
+    
     onQueryParamsChange(params: NzTableQueryParams): void {
         const { pageSize, pageIndex } = params;
         this.loadsendMessageFollowerList(pageIndex, pageSize);
@@ -66,7 +74,6 @@ export class FollowerComponent implements OnInit {
         this.incomService.getTemplates(0, 100)
         .subscribe(templates => {
             if(templates.success) {
-                //this.loading = false;
                 this.lstTemplate = templates.data.data;
             }
         });
@@ -80,11 +87,9 @@ export class FollowerComponent implements OnInit {
         if(pageIndex !== 1) {
             page = pageSize * (pageIndex - 1);
         }
-        //this.loading = true;
         this.incomService.getSendMessageFollower(page, pageSize)
         .subscribe(data => {
             if(data.success) {
-                //this.loading = false;
                 this.dataMessageFollower = data.data.data;
                 this.total = data.data.total;
                 this.pageSize = pageSize;
@@ -95,49 +100,11 @@ export class FollowerComponent implements OnInit {
 
     editTemplateModal = (value, createTemplateContent) => {
         this.editTemplate = cloneDeep(value);
-        this.showTemplateModal(value, createTemplateContent);
+        this.showSendMessageFollowerModal(value, createTemplateContent);
     }
 
     convertDDMMYYYYHHMM = (date) => {
         return moment(new Date(date)).format('DD/MM/YYYY HH:mm');
-    }
-
-    createTemplate(name: string, template: string): void {
-        this.loadingTemplateModal = true;
-        const data = {
-            name,
-            template
-        }
-        this.incomService.createTemplate(data).subscribe(result => {
-            // if(result.success) {
-            this.notification.create(
-                'success',
-                'Notification',
-                'Send message success'
-            );
-            this.loadsendMessageFollowerList(this.pageIndex, this.pageSize);
-            // } else {
-            //     this.notification.create(
-            //         'error',
-            //         'Send message fail',
-            //         `${result.code}`
-            //     );
-            // }
-            this.modalService.closeAll();
-            this.resetTemplateModal();
-        });
-    }
-
-    resetTemplateModal(): void {
-        this.loadingTemplateModal = false;
-        this.editTemplate = {
-            name: '',
-            template: ''
-        };
-        // this.requiredForm = {
-        //     phoneNumber: false,
-        //     content: false
-        // };
     }
 
     createTemplateModal = (value, createTemplateContent) => {
@@ -146,7 +113,7 @@ export class FollowerComponent implements OnInit {
             name: '',
             template: ''
         };
-        this.showTemplateModal(this.editTemplate, createTemplateContent);
+        this.showSendMessageFollowerModal(this.editTemplate, createTemplateContent);
     }
 
     showImage = (value, imageContent) => {
@@ -161,55 +128,14 @@ export class FollowerComponent implements OnInit {
             nzWidth: 800,
             nzOnOk: () => console.log('Info OK')
         });
-      
-        // this.modalService.create({
-        //     nzMaskClosable: false,
-        //     nzTitle: 'Image',
-        //     nzOnCancel: () => {
-        //         // this.resetTemplateModal();
-        //     },
-        //     nzContent: imageContent,
-        //     nzFooter: [
-        //         {
-        //             label: 'OK',
-        //             type: 'primary',
-        //             onClick: () => {
-        //                 // if(typeof this.editTemplate.id !== 'undefined') {
-        //                 //     this.edit(this.editTemplate.id, this.editTemplate.name, this.editTemplate.template);
-        //                 // } else {
-        //                 //     this.create(data.name, data.template);
-        //                 // }
-        //             },
-        //         },
-        //     ],
-        //     nzWidth: 700,
-        // })
-    }
-    create(name: string, template: string): void {
-        this.loadingTemplateModal = true;
-        const data = {
-            name, template
-        };
-        this.incomService.createTemplate(data)
-        .subscribe(result => {
-            // if(result.success) {
-            this.notification.create(
-                'success',
-                'Notification',
-                'Create template success'
-            );
-            this.loadsendMessageFollowerList(this.pageIndex, this.pageSize);
-            this.modalService.closeAll();
-            this.resetTemplateModal();
-        });
     }
 
-    showTemplateModal(data, createTemplateContent: TemplateRef<{}>) {
+    showSendMessageFollowerModal(data, createTemplateContent: TemplateRef<{}>) {
         this.modalService.create({
             nzMaskClosable: false,
             nzTitle: 'Send Message Follower',
             nzOnCancel: () => {
-                this.resetTemplateModal();
+                this.resetSendModal();
             },
             nzContent: createTemplateContent,
             nzFooter: [
@@ -218,11 +144,15 @@ export class FollowerComponent implements OnInit {
                     type: 'primary',
                     loading: () => this.loadingSendMessageFollowerModal,
                     onClick: () => {
-                        console.log(this.link);
-                        console.log(this.imageUrl);
-                        console.log(this.templateMessageFollowerId);
+                        this.submitted = true;
+                        if (this.sendMessageFollowerForm.invalid) {
+                            return;
+                        }
+                        if(this.imageUrl === '') {
+                            this.requiredImage = true;
+                            return;
+                        }
                         const objTemplate = this.lstTemplate.find(o => o.id === this.templateMessageFollowerId);
-                        console.log(objTemplate, 'objTemplate');
                         
                         const params = {
                             'image_url': this.imageUrl, 
@@ -239,9 +169,6 @@ export class FollowerComponent implements OnInit {
         })
     }
 
-    fileList: NzUploadFile[] = [];
-    previewImage: string | undefined = '';
-    previewVisible = false;
     
     handlePreview = async (file: NzUploadFile): Promise<void> => {
         if (!file.url && !file.preview) {
@@ -251,33 +178,25 @@ export class FollowerComponent implements OnInit {
         this.previewVisible = true;
     };
 
-    async uploadImage(e) {
-        console.log(e.target.files[0], 'e');
-
-        // if(e.type === 'progress') {
-            const formData = new FormData();
-            // let files: FileList = e.target.files;
-            // let file : File = files[0];
-            // console.log(file, 'file');
-            formData.append('dasdasdas', 'dsadasddsa');
-            formData.append('image', e.target.files[0]);
-            // You can use any AJAX library you like
-            const req = new HttpRequest('POST', 'http://localhost:3001/incom/uploadImage', formData, {
-            // reportProgress: true
-            });
-            this.http
-            .request(req)
-            .pipe(filter(e => e instanceof HttpResponse))
-            .subscribe(
-                () => {
-                console.log('upload successfully.');
-                },
-                () => {
-                console.log('upload failed.');
-                }
-            );
-        // }
-    }
+    // async uploadImage(e) {
+    //     const formData = new FormData();
+    //     formData.append('dasdasdas', 'dsadasddsa');
+    //     formData.append('image', e.target.files[0]);
+    //     const req = new HttpRequest('POST', 'http://localhost:3001/incom/uploadImage', formData, {
+    //         // reportProgress: true
+    //     });
+    //     this.http
+    //     .request(req)
+    //     .pipe(filter(e => e instanceof HttpResponse))
+    //     .subscribe(
+    //         () => {
+    //         console.log('upload successfully.');
+    //         },
+    //         () => {
+    //         console.log('upload failed.');
+    //         }
+    //     );
+    // }
 
     sendMessageFollower(data): void {
         this.loadingSendMessageFollowerModal = true;
@@ -294,22 +213,6 @@ export class FollowerComponent implements OnInit {
             }
             this.modalService.closeAll();
             this.resetSendModal();
-            console.log(result, 'resultdadsad')
-            // if(result.success) {
-            // this.notification.create(
-            //     'success',
-            //     'Notification',
-            //     'Send message success'
-            // );
-            // } else {
-            //     this.notification.create(
-            //         'error',
-            //         'Send message fail',
-            //         `${result.code}`
-            //     );
-            // }
-            // this.modalService.closeAll();
-            // this.resetSendModal();
         });
     }
 
@@ -319,14 +222,10 @@ export class FollowerComponent implements OnInit {
         this.link = '';
         this.templateMessageFollowerId = '';
         this.fileList = [];
-        // this.requiredForm = {
-        //     phoneNumber: false,
-        //     content: false
-        // };
+        this.requiredImage = false;
     }
     uploadImages(e) {
         if(e.type === 'progress') {
-            console.log(e.fileList[0].originFileObj, 'e');
             const formData = new FormData();
             formData.append('image', e.fileList[0].originFileObj);
             // You can use any AJAX library you like

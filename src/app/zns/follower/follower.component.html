@@ -2,49 +2,8 @@
 <nz-card>
     <div class="row m-b-30">
         <div class="col-lg-10">
-            <!-- <div class="d-md-flex">
-                <div class="m-b-10 m-r-20">
-                    <nz-input-group [nzPrefix]="prefixTemplate">
-                        <input type="text" nz-input placeholder="Search Phone Number" [(ngModel)]="searchPhone" (ngModelChange)="searchPhoneNumber()">
-                    </nz-input-group>
-                    <ng-template #prefixTemplate>
-                        <i nz-icon nzType="search" class="opacity-05"></i>
-                    </ng-template>
-                </div> 
-                <div class="m-b-10 m-r-20 d-flex align-items-center">
-                    <nz-select 
-                        style="min-width: 220px;" 
-                        class="w-100" 
-                        nzPlaceHolder="Status" 
-                        [(ngModel)]="selectedStatus" 
-                        (ngModelChange)="statusChange($event)"
-                    >
-                        <nz-option nzLabel="All" nzValue="All"></nz-option>
-                        <nz-option nzLabel="Success" nzValue="1"></nz-option>
-                        <nz-option nzLabel="Fail" nzValue="0"></nz-option>
-                    </nz-select>
-                </div>
-                <div class="m-b-10 m-r-20 d-flex align-items-center">
-                    <nz-range-picker [nzFormat]="dateFormat" [(ngModel)]="searchDate" (ngModelChange)="onChangeDateRange($event)"></nz-range-picker>
-                </div>
-                <div class="m-b-10 m-r-20 d-flex align-items-center">
-                    <button nz-button nzType="primary" (click)="showStatisticModal(statisticContent)">
-                        <i nz-icon nzType="pie-chart" nzTheme="outline"></i>
-                        <span>Statistic</span>
-                    </button>
-                </div>
-            </div>           -->
         </div>
         <div class="col-lg-2 text-right">
-            <!-- <nz-upload
-                nzAction="/assets/upload"
-                nzAccept=".txt"
-                [nzHeaders]="{ authorization: 'authorization-text' }"
-                (nzChange)="uploadFile($event, sendMultipleMessageContent)"
-            >
-                <button nz-button><i nz-icon nzType="upload"></i>Upload</button>
-            </nz-upload>
-            <span style="margin-left: 3px"></span> -->
             <button nz-button nzType="primary" (click)="createTemplateModal('', createTemplateContent)">
                 <i nz-icon nzType="plus"></i>
                 <span>Send</span>
@@ -109,16 +68,16 @@
     </ng-template>
 
     <ng-template #createTemplateContent>
-        <form nz-form nzLayout="vertical" >
+        <form nz-form nzLayout="vertical" [formGroup]="sendMessageFollowerForm">
             <div class="row">
                 <div class="col-md-6">
                     <nz-form-item class="relative">
                         <nz-form-label nzRequired>Template</nz-form-label>
-                        <nz-form-control nzErrorTip="Please input username!">
+                        <nz-form-control nzErrorTip="Please select template!">
                             <nz-input-group>
-                                <nz-select 
-                                    [(ngModel)]="templateMessageFollowerId"
-                                    name="templateMessageFollowerId" 
+                                <nz-select  
+                                    formControlName="templateMessageFollowerId"
+                                    [(ngModel)]="templateMessageFollowerId" 
                                     nzShowSearch class="w-100" nzPlaceHolder="Chọn template"
                                 >
                                     <nz-option 
@@ -133,7 +92,6 @@
                         </nz-form-control>
                     </nz-form-item>
                 </div>
-                <!-- <Input id="file-upload-excel" accept="image/*" type="file" (change)="uploadImage($event)" /> -->
 
                 <div class="col-md-6">
                     <nz-form-item class="relative">
@@ -165,14 +123,18 @@
                                     </ng-template>
                                 </nz-modal>
                             </nz-input-group>
+                            <nz-form-explain *ngIf="requiredImage" style="color: red;">
+                                Please upload image!
+                            </nz-form-explain>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
             </div>
             <nz-form-item>
                 <nz-form-label nzRequired>Link</nz-form-label>
-                <nz-form-control>
-                    <input type="text" name="link" [(ngModel)]="link" nz-input placeholder="Please input link" />
+                <nz-form-control nzErrorTip="Please input link!">
+                    <input type="text" 
+                    formControlName="link" [(ngModel)]="link" nz-input placeholder="Please input link" />
                 </nz-form-control>
             </nz-form-item>
         </form>

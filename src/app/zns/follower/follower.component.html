@@ -100,7 +100,7 @@
                             <nz-input-group>
                                 <nz-upload
                                     nzAccept='.png,.jpeg,.jpg'
-                                    nzAction="http://localhost:3001/incom/uploadImage"
+                                    nzAction={{pathUploadImage}}
                                     nzListType="picture-card"
                                     [(nzFileList)]="fileList"
                                     [nzShowButton]="fileList.length < 1"

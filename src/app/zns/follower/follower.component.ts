@@ -43,6 +43,7 @@ export class FollowerComponent implements OnInit {
     fileList: NzUploadFile[] = [];
     previewImage: string | undefined = '';
     previewVisible = false;
+    pathUploadImage = `${environment.apiUrl}/incom/uploadImage`;
     
     constructor(
         private fb: FormBuilder,
@@ -225,7 +226,6 @@ export class FollowerComponent implements OnInit {
         this.requiredImage = false;
     }
     uploadImages(e) {
-        console.log(environment.apiUrl, 'environment.apiUrl');
         if(e.type === 'progress') {
             const formData = new FormData();
             formData.append('image', e.fileList[0].originFileObj);
@@ -233,7 +233,6 @@ export class FollowerComponent implements OnInit {
             const req = new HttpRequest('POST', `${environment.apiUrl}/incom/uploadImage`, formData, {
             // reportProgress: true
             });
-            console.log(req, 'req');
                 
             this.http
             .request(req)

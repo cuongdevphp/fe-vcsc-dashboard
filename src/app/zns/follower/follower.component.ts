@@ -5,10 +5,10 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { IncomService } from 'src/app/shared/services/incom.service';
 import { cloneDeep } from "lodash";
-import * as common from '../../shared/common/common';
+
+import { environment } from '../../../environments/environment';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
-import { HttpClient, HttpRequest, HttpResponse } from '@angular/common/http';
-import { filter } from 'rxjs/operators';
+import { HttpClient, HttpRequest } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 declare var $: any; // JQuery
 @Component({
@@ -229,7 +229,7 @@ export class FollowerComponent implements OnInit {
             const formData = new FormData();
             formData.append('image', e.fileList[0].originFileObj);
             // You can use any AJAX library you like
-            const req = new HttpRequest('POST', 'http://localhost:3001/incom/uploadImage', formData, {
+            const req = new HttpRequest('POST', `${environment.apiUrl}/incom/uploadImage`, formData, {
             // reportProgress: true
             });
                 

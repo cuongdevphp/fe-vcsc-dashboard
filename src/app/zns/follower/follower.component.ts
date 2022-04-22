@@ -43,7 +43,7 @@ export class FollowerComponent implements OnInit {
     fileList: NzUploadFile[] = [];
     previewImage: string | undefined = '';
     previewVisible = false;
-    pathUploadImage = `${environment.apiUrl}/incom/uploadImage`;
+    pathUploadImage = `${environment.apiUrlProd}/incom/uploadImage`;
     
     constructor(
         private fb: FormBuilder,
@@ -224,22 +224,23 @@ export class FollowerComponent implements OnInit {
         this.templateMessageFollowerId = '';
         this.fileList = [];
         this.requiredImage = false;
+        this.sendMessageFollowerForm.reset();
     }
     uploadImages(e) {
         if(e.type === 'progress') {
             const formData = new FormData();
             formData.append('image', e.fileList[0].originFileObj);
             // You can use any AJAX library you like
-            const req = new HttpRequest('POST', `${environment.apiUrl}/incom/uploadImage`, formData, {
-            // reportProgress: true
+            const req = new HttpRequest('POST', `${environment.apiUrlProd}/incom/uploadImage`, formData, {
+                // reportProgress: true
             });
-                
+
             this.http
             .request(req)
             .subscribe(
                 (result) => {
                     if(result['status'] === 200) {
-                        this.imageUrl = result['body']['path'];
+                        this.imageUrl = `http://zns.vcsc.com.vn:3001/assets/zns/uploads/${result['body']['path']}` ;
                         console.log('upload successfully.');
                     }
                 },

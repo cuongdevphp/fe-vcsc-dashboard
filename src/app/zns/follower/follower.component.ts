@@ -211,6 +211,12 @@ export class FollowerComponent implements OnInit {
                     'Send message success'
                 );
                 this.loadsendMessageFollowerList(this.pageIndex, this.pageSize);
+            } else {
+                this.notification.create(
+                    'error',
+                    'Send notify ZNS fail',
+                    'url is not valid'
+                );
             }
             this.modalService.closeAll();
             this.resetSendModal();

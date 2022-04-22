@@ -58,7 +58,7 @@ export class FollowerComponent implements OnInit {
     get f() { return this.sendMessageFollowerForm.controls; }
     ngOnInit(): void {
         this.sendMessageFollowerForm = this.fb.group({
-            link: [ null, [ Validators.required ] ],
+            link: [ null, [ Validators.required, Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?') ] ],
             templateMessageFollowerId: [ null, [ Validators.required ] ],
         });
         let users = JSON.parse(localStorage.getItem('user')) || [];
@@ -226,6 +226,11 @@ export class FollowerComponent implements OnInit {
         this.requiredImage = false;
         this.sendMessageFollowerForm.reset();
     }
+    // checkLink (e) {
+    //     const reg = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
+    //     Validators.pattern(reg)
+    //     console.log(e, 'fds');
+    // }
     uploadImages(e) {
         if(e.type === 'progress') {
             const formData = new FormData();

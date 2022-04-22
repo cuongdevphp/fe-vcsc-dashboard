@@ -215,7 +215,7 @@ export class FollowerComponent implements OnInit {
                 this.notification.create(
                     'error',
                     'Send notify ZNS fail',
-                    'url is not valid'
+                    result.message
                 );
             }
             this.modalService.closeAll();

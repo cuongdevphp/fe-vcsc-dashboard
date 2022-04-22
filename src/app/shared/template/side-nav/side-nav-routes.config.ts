@@ -68,7 +68,7 @@ export const ROUTES: SideNavInterface[] = [
                 path: '/zns/follower',
                 title: 'Follower',
                 iconType: 'nzIcon',
-                icon: 'book',
+                icon: 'send',
                 iconTheme: 'outline',
                 name: '',
                 submenu: [],

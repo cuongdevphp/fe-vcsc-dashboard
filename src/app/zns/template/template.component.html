@@ -111,7 +111,7 @@
             <nz-form-item>
                 <nz-form-label nzRequired>Content</nz-form-label>
                 <nz-form-control style="height: 130px !important; display: inline;">
-                    <textarea  name="editTemplate.template" [(ngModel)]="editTemplate.template" placeholder="Please input content message" nz-input></textarea>
+                    <textarea  name="editTemplate.template"  [nzAutosize]="{ minRows: 4, maxRows: 6 }" [(ngModel)]="editTemplate.template" placeholder="Please input content message" nz-input></textarea>
                 </nz-form-control>
                 <nz-form-explain *ngIf="requiredForm.content" style="color: red;">
                     Please input content message!

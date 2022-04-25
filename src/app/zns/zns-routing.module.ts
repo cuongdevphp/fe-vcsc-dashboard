@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { FollowerComponent } from './follower/follower.component';
+import { IncomComponent } from './incom/incom.component';
 
 import { TemplateComponent } from './template/template.component';
 
@@ -17,6 +18,13 @@ const routes: Routes = [
         component: FollowerComponent,
         data: {
             title: 'Follower'
+        }
+    },
+    {
+        path: 'incom',
+        component: IncomComponent,
+        data: {
+            title: 'Incom'
         }
     },
 ];

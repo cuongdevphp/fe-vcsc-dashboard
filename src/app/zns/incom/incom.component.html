@@ -1,0 +1,296 @@
+<h2>Incom</h2>
+<nz-card>
+    <div class="row m-b-30">
+        <div class="col-lg-10">
+            <div class="d-md-flex">
+                <div class="m-b-10 m-r-20">
+                    <nz-input-group [nzPrefix]="prefixTemplate">
+                        <input type="text" nz-input placeholder="Search Phone Number" [(ngModel)]="searchPhone" (ngModelChange)="searchPhoneNumber()">
+                    </nz-input-group>
+                    <ng-template #prefixTemplate>
+                        <i nz-icon nzType="search" class="opacity-05"></i>
+                    </ng-template>
+                </div> 
+                <div class="m-b-10 m-r-20 d-flex align-items-center">
+                    <nz-select 
+                        style="min-width: 220px;" 
+                        class="w-100" 
+                        nzPlaceHolder="Status" 
+                        [(ngModel)]="selectedStatus" 
+                        (ngModelChange)="statusChange($event)"
+                    >
+                        <nz-option nzLabel="All" nzValue="All"></nz-option>
+                        <nz-option nzLabel="Success" nzValue="1"></nz-option>
+                        <nz-option nzLabel="Fail" nzValue="0"></nz-option>
+                    </nz-select>
+                </div>
+                <div class="m-b-10 m-r-20 d-flex align-items-center">
+                    <nz-range-picker [nzFormat]="dateFormat" [(ngModel)]="searchDate" (ngModelChange)="onChangeDateRange($event)"></nz-range-picker>
+                </div>
+                <div class="m-b-10 m-r-20 d-flex align-items-center">
+                    <button nz-button nzType="primary" (click)="showStatisticModal(statisticContent)">
+                        <i nz-icon nzType="pie-chart" nzTheme="outline"></i>
+                        <span>Statistic</span>
+                    </button>
+                </div>
+            </div>          
+        </div>
+        <div class="col-lg-2 text-right" style="display: flex;">
+            <nz-upload
+                nzAction="/assets/upload"
+                nzAccept=".txt"
+                [nzHeaders]="{ authorization: 'authorization-text' }"
+                (nzChange)="uploadFile($event, sendMultipleMessageContent)"
+            >
+                <button nz-button><i nz-icon nzType="upload"></i>Upload</button>
+            </nz-upload>
+            <span style="margin-left: 3px"></span>
+            <button nz-button nzType="primary" (click)="showSendMessageModal(sendMessageContent)">
+                <i nz-icon nzType="plus"></i>
+                <span>Message</span>
+            </button>
+        </div>
+    </div>
+    <nz-table 
+        #messagesListTable 
+        [nzData]="messages"
+        [nzFrontPagination]="false"
+        nzShowSizeChanger
+        [nzLoading]="loading"
+        [nzTotal]="total"
+        [nzPageSize]="pageSize"
+        [nzPageIndex]="pageIndex"
+        (nzQueryParams)="onQueryParamsChange($event)"
+        [nzPageSizeOptions] = "[5, 10, 20, 30, 40, 50]"
+    >
+        <thead>
+            <tr>
+                <th width='1%'>ID</th>
+                <th width='12%'>Phone Number</th>
+                <!-- <th width='9%'>Route Rule</th> -->
+                <th width='12%'>Template</th>
+                <th width='25%'>Content</th>
+                <th width='9%'>ID Omni</th>
+                <th width='5%'>Channel</th>
+                <th width='17%'>Time Send</th>
+                <th width='14%'>Created by</th>
+                <th width='2%'>Status</th>
+                <!-- <th width='30%'>Action</th> -->
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of messagesListTable.data; let i=index">
+                <td>{{item.id}}</td>
+                <td>
+                    {{item.phonenumber}}
+                </td>
+                <!-- <td>
+                    <span *ngFor="let rule of item.routerule">
+                        <nz-tag [nzColor]="'cyan'">
+                            <span *ngIf="rule == '1'">ZNS</span>
+                            <span *ngIf="rule == '2'">Autocall</span>
+                            <span *ngIf="rule == '3'">SMS Brandname</span>
+                        </nz-tag>
+                        <br/>
+                    </span>
+                </td> -->
+                <td>{{item.templatecode}}</td>
+                <td>
+                    <span 
+                        *ngIf="
+                            item.templatecode === 'VCSC02' || 
+                            item.templatecode === 'VCSC04' || 
+                            item.templatecode === 'VCSC07'
+                        ">
+                        VCSC: KQKL CKPS NGAY {{item.list_param.day}}
+                        CUA QUI KHACH TK {{item.list_param.account}}
+                        {{item.list_param.type}} {{item.list_param.serie}}
+                        KL {{item.list_param.quantity}}
+                        GIA {{item.list_param.price}}
+                        <span 
+                            *ngIf="item.templatecode === 'VCSC04' || item.templatecode === 'VCSC07'">
+                            Thời gian khớp lệnh {{item.list_param.time}}
+                        </span>
+                        <span 
+                            *ngIf="
+                                item.templatecode === 'VCSC07'
+                            ">
+                            Số hiệu lệnh {{item.list_param.id}}
+                        </span>
+                    </span>
+                    <span 
+                        *ngIf="
+                            item.templatecode === 'VCSC06' || 
+                            item.templatecode === 'VCSC05' || 
+                            item.templatecode === 'VCSC08'
+                        ">
+                        VCSC: {{item.list_param.day}}
+                        YOUR MATCHING RESULT ACC 
+                        {{item.list_param.account}} 
+                        {{item.list_param.type}} DIG 
+                        VOL {{item.list_param.quantity}} 
+                        PRICE {{item.list_param.price}}  
+                        <span 
+                            *ngIf="item.templatecode === 'VCSC05' || item.templatecode === 'VCSC08'">
+                            FILLED AT {{item.list_param.time}}
+                        </span>
+                        <span 
+                            *ngIf="
+                                item.templatecode === 'VCSC08'
+                            ">
+                             {{item.list_param.id}}
+                        </span>
+                    </span>
+                    <span *ngIf="item.templatecode === 'VCSC01' || item.templatecode === 'VCSC_OTP_VN' || item.templatecode === 'VCSC_OTP_EN'">
+                        Otp: {{item.list_param.otp}}
+                    </span>
+                    <span *ngIf="item.templatecode === 'vcsc-freetemp'">
+                        {{item.list_param.sendstr}}
+                    </span>
+                </td>
+                <td>{{item.id_omni}}</td>
+                <td>
+                    <span *ngIf="item.templatecode === 'vcsc-freetemp'">BRANDNAMESMS</span>
+                    <span *ngIf="item.templatecode !== 'vcsc-freetemp'">{{item.channel}}</span>
+                </td>
+                <td>{{item.timesend}}</td>
+                <td>{{item.created_by}}</td>
+                <td style="text-align: center;">
+                    <nz-badge *ngIf="item.complete == '1'" nzStatus="success"></nz-badge>
+                    <nz-badge *ngIf="item.complete != '1'" nzStatus="error"  nz-tooltip nzTooltipTitle="error code {{item.error_code}}"></nz-badge>
+                </td>
+                <!-- <td class="text-md-right">
+                    <a class="m-r-5" nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Edit" >
+                        <i nz-icon nzType="edit" theme="outline"></i>
+                    </a>
+                </td> -->
+            </tr>
+        </tbody>
+    </nz-table>
+    
+    <ng-template #statisticContent>
+        <nz-card>
+            <div class="d-flex justify-content-between align-items-center">
+                <!-- <h5>Total Revenue</h5> -->
+                <div>
+                    <nz-radio-group
+                        [(ngModel)]="revenueChartFormat" 
+                        (ngModelChange)="momentChange($event)"
+                    >
+                        <label nz-radio-button nzValue="revenueMonth">Month</label>
+                        <label nz-radio-button nzValue="revenueYear">Year</label>
+                    </nz-radio-group>
+                </div>
+                <div>
+                    <a class="text-dark font-size-20" nz-dropdown [nzTrigger]="'click'" [nzPlacement]="'bottomRight'" [nzDropdownMenu]="projectCompletionDropDown">
+                        <i nz-icon nzType="ellipsis" theme="outline"></i>
+                    </a>
+                    <nz-dropdown-menu #projectCompletionDropDown="nzDropdownMenu">
+                        <ul nz-menu>
+                            <li nz-menu-item>
+                                <i nz-icon nzType="printer" theme="outline"></i>
+                                <span class="m-l-5">Print</span>
+                            </li>
+                            <li nz-menu-item>
+                                <i nz-icon nzType="download" theme="outline"></i>
+                                <span class="m-l-5">Download</span>
+                            </li>
+                            <li nz-menu-item>
+                                <i nz-icon nzType="file-excel" theme="outline"></i>
+                                <span class="m-l-5">Export</span>
+                            </li>
+                            <li nz-menu-item>
+                                <i nz-icon nzType="reload" theme="outline"></i>
+                                <span class="m-l-5">Refresh</span>
+                            </li>
+                        </ul>
+                    </nz-dropdown-menu>
+                </div>
+            </div>
+            <div class="m-t-50" style="height: 330px">
+                <nz-code-box
+                    nzTitle="Line Chart"
+                    [nzId]="'charts-chartjs-line-chart'"
+                    [nzLink]="'components-chartjs-line-chart'"
+                    nzComponentName="Line Chart"
+                    nzIframeSource="null"
+                    nzIframeHeight="null"
+                    [nzHref]="''">
+                    <div demo>
+                        
+                        <canvas ngChartjs 
+                            [datasets]="lineChartData" 
+                            [labels]="lineChartLabels"
+                            [options]="lineChartOptions" 
+                            [colors]="lineChartColors" 
+                            [legend]="lineChartLegend"
+                            [chartType]="lineChartType">
+                        </canvas>
+                    </div>
+                </nz-code-box>
+            </div>
+        </nz-card>
+    </ng-template>
+
+    <ng-template #sendMessageContent>
+        <form nz-form nzLayout="vertical">
+            <nz-form-item>
+                <nz-form-label nzRequired>Phone number</nz-form-label>
+                <nz-form-control>
+                    <nz-input-group [nzSuffix]="suffixTemplateInfo" [nzPrefix]="prefixPhone">
+                        <input type="text" name="phoneNumber" [(ngModel)]="phoneNumber" nz-input placeholder="Please input phone number" />
+                    </nz-input-group>
+                    <ng-template #prefixPhone><i nz-icon nzType="phone"></i></ng-template>
+                    <nz-form-explain *ngIf="requiredForm.phoneNumber" style="color: red;">
+                        Please input phone number!
+                    </nz-form-explain>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label nzRequired>Content</nz-form-label>
+                <nz-form-control>
+                    <textarea name="contentMessage" [(ngModel)]="contentMessage" placeholder="Please input content message" nz-input></textarea>
+                </nz-form-control>
+                <nz-form-explain *ngIf="requiredForm.content" style="color: red;">
+                    Please input content message!
+                </nz-form-explain>
+            </nz-form-item>
+        </form>
+    </ng-template>
+    <ng-template #sendMultipleMessageContent>
+        <nz-table 
+            #messagesMultipleListTable 
+            [nzData]="messagesList"
+            [nzFrontPagination]="false"
+            [nzShowPagination]="false"              
+        >
+            <thead>
+                <tr>
+                    <th width='1%' style="text-align: center;">
+                    </th>
+                    <th width='3%'>Phone Number</th>
+                    <th width='25%'>Content</th>
+                    <th width='1%' style="text-align: right;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of messagesMultipleListTable.data; let i=index;">
+                    <td>
+                        {{i + 1}}
+                    </td>
+                    <td>
+                        <input type="text"  name="phoneNumber" [(ngModel)]="item.phoneNumber"  nz-input placeholder="Please input phone number" />
+                    </td>
+                    <td>
+                        <textarea rows="2" name="contentMessage" [(ngModel)]="item.content" placeholder="Please input content message" nz-input></textarea>
+                    </td>
+                    <td class="text-md-right">
+                        <button nz-button nzType="default" (click)="removeMessageList(i)" nzShape="circle" nz-tooltip nzTooltipTitle="Delete">
+                            <i nz-icon nzType="delete" theme="outline"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </ng-template>
+</nz-card>

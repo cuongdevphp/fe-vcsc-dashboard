@@ -34,6 +34,7 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzImageModule } from 'ng-zorro-antd/image';
 import { FollowerComponent } from './follower/follower.component';
+import { IncomComponent } from './incom/incom.component';
 
 const antdModule= [
     NzPopconfirmModule,
@@ -77,6 +78,7 @@ const antdModule= [
     ],
     declarations: [
         TemplateComponent,
+        IncomComponent,
         FollowerComponent
     ]
 })

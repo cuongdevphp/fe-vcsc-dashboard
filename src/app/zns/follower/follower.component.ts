@@ -238,6 +238,7 @@ export class FollowerComponent implements OnInit {
     //     console.log(e, 'fds');
     // }
     uploadImages(e) {
+        console.log(e.type, 'e.type');
         if(e.type === 'progress') {
             const formData = new FormData();
             formData.append('image', e.fileList[0].originFileObj);
@@ -260,6 +261,9 @@ export class FollowerComponent implements OnInit {
                     console.log('upload failed.');
                 }
             );
+        } else if (e.type === 'removed') {
+            this.requiredImage = true;
+            this.imageUrl = `` ;
         }
     }
 }

@@ -253,6 +253,7 @@ export class FollowerComponent implements OnInit {
                     if(result['status'] === 200) {
                         this.imageUrl = `http://zns.vcsc.com.vn:3001/assets/zns/uploads/${result['body']['path']}` ;
                         console.log('upload successfully.');
+                        this.requiredImage = false;
                     }
                 },
                 () => {

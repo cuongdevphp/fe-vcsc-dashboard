@@ -142,10 +142,18 @@
                         </span>
                     </span>
                     <span *ngIf="item.templatecode === 'VCSC01' || item.templatecode === 'VCSC_OTP_VN' || item.templatecode === 'VCSC_OTP_EN'">
-                        Otp: {{item.list_param.otp}}
+                        OTP: {{item.list_param.otp}}
                     </span>
                     <span *ngIf="item.templatecode === 'vcsc-freetemp'">
                         {{item.list_param.sendstr}}
+                    </span>
+                    <span *ngIf="item.templatecode === 'VCSC9' || item.templatecode === 'VCSC10' ">
+                        sOTP: {{item.list_param.sotp}}
+                    </span>
+                    <span *ngIf="item.templatecode === 'VCSC11' || item.templatecode === 'VCSC12' ">
+                        Account: {{item.list_param.account}} 
+                        <br/>
+                        Pincode: {{item.list_param.pincode}}
                     </span>
                 </td>
                 <td>{{item.id_omni}}</td>

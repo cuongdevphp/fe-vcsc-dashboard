@@ -67,17 +67,17 @@
         <thead>
             <tr>
                 <th width='1%'>ID</th>
-                <th width='5%'>Account</th>
+                <th width='2%'>Account</th>
                 <th width='1%'>Sub</th>
-                <th width='10%'>Amount</th>
-                <th width='1%'>Bank</th>
+                <th width='9%'>Amount</th>
+                <th width='11%'>Bank</th>
                 <th width='25%'>Content</th>
-                <th width='8%'>Transaction</th>
+                <th width='7%'>Transaction</th>
                 <th width='15%'>Name Deposit</th>
                 <!-- <th width='14%'>Account Deposit</th> -->
                 <th width='15%'>Error Message</th>
                 <th width='1%'>Status</th>
-                <th width='20%'>CreateDate</th>
+                <th width='25%'>CreateDate</th>
             </tr>
         </thead>
         <tbody>
@@ -88,7 +88,10 @@
                 </td>
                 <td>{{item.subNumber}}</td>
                 <td>{{item.amount | number}}</td>
-                <td>{{item.bankCode}}</td>
+                <td>
+                    <img width="20" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtkPl9K8UymJ4WJkK4UDG8JjXfV1hEgNjoFGKSFxCmDvWK2G6KCvtg03B7nVuiWr8ehUI&usqp=CAU" />
+                    Techcombank
+                </td>
                 <td>{{item.message}}</td>
                 <td>{{item.transactionId}}</td>
                 <td>{{item.nameDeposit}}</td>

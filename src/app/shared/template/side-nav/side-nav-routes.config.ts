@@ -45,6 +45,15 @@ export const ROUTES: SideNavInterface[] = [
                 name: 'report',
                 submenu: [],
             },
+            {
+                path: '/dashboard/payment',
+                title: 'Payment',
+                iconType: 'nzIcon',
+                icon: 'money-collect',
+                iconTheme: 'outline',
+                name: 'payment',
+                submenu: [],
+            },
         ]
     },
     {

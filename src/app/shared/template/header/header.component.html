@@ -26,17 +26,17 @@
                     <i nz-icon [nzType]="isExpand? 'menu-fold': 'menu-unfold'" theme="outline"></i>
                 </a>
             </li>
-            <li>
+            <!-- <li>
                 <a (click)="searchToggle()">
                     <i nz-icon nzType="search" theme="outline"></i>
                 </a>
                 <nz-drawer [nzWidth]="380" nzTitle="Search" [nzVisible]="searchVisible" nzPlacement="left" (nzOnClose)="searchToggle()">
                     <app-search></app-search>
                 </nz-drawer>
-            </li>
+            </li> -->
         </ul>
         <ul class="nav-right">
-            <li>
+            <!-- <li>
                 <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="popNotification" [nzPlacement]="'bottomRight'">
                     <nz-badge nzDot>
                         <i nz-icon nzType="bell" theme="outline"></i>
@@ -72,7 +72,7 @@
                         </perfect-scrollbar>
                     </div>
                 </nz-dropdown-menu>
-            </li>
+            </li> -->
             <li>
                 <span class="p-h-10 pointer" nz-dropdown [nzDropdownMenu]="profile" [nzTrigger]="'click'" [nzPlacement]="'bottomRight'">
                     <nz-avatar *ngIf="user.image" [nzIcon]="'user'" nzSrc="http://10.10.25.150:3001/assets/profile/{{user.image}}"></nz-avatar>
@@ -129,7 +129,7 @@
                     </ul>
                 </nz-dropdown-menu >
             </li>
-            <li>
+            <!-- <li>
                 <a (click)="quickViewToggle()">
                     <i nz-icon nzType="appstore" theme="outline"></i>
                 </a>
@@ -138,7 +138,7 @@
                         <app-quick-view></app-quick-view>
                     </ng-container>
                 </nz-drawer>
-            </li>
+            </li> -->
         </ul>
     </div>
 </div>    

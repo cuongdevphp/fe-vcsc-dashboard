@@ -6,6 +6,7 @@ import { DefaultDashboardComponent } from './default/default-dashboard.component
 import { IncomDashboardComponent } from './incom/incom-dashboard.component';
 import { ReportDashboardComponent } from './report/report-dashboard.component';
 import { PaymentDashboardComponent } from './payment/payment-dashboard.component';
+import { QrcodeDashboardComponent } from './qrcode/qrcode-dashboard.component';
 import { StatisticsDashboardComponent } from './statistics/statistics-dashboard.component';
 import { TradingDashboardComponent } from './trading/trading.component';
 import { UsersDashboardComponent } from './users/users.component';
@@ -71,6 +72,14 @@ let routes: Routes = [
         component: PaymentDashboardComponent,
         data: {
             title: 'Payment Dashboard',
+            headerDisplay: "none"
+        }
+    },
+    {
+        path: 'qrcode',
+        component: QrcodeDashboardComponent,
+        data: {
+            title: 'Qrcode Dashboard',
             headerDisplay: "none"
         }
     },

@@ -27,6 +27,7 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { DefaultDashboardComponent } from './default/default-dashboard.component';
 import { IncomDashboardComponent } from './incom/incom-dashboard.component';
 import { PaymentDashboardComponent } from './payment/payment-dashboard.component';
+import { QrcodeDashboardComponent } from './qrcode/qrcode-dashboard.component';
 import { TableService } from '../shared/services/table.service';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzFormModule } from 'ng-zorro-antd/form';
@@ -92,6 +93,7 @@ const antdModule = [
         UsersDashboardComponent,
         StatisticsDashboardComponent,
         ReportDashboardComponent,
+        QrcodeDashboardComponent,
         TradingDashboardComponent,
         PaymentDashboardComponent,
         ChatComponent

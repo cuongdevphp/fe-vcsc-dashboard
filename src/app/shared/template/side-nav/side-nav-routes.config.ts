@@ -54,6 +54,15 @@ export const ROUTES: SideNavInterface[] = [
                 name: 'payment',
                 submenu: [],
             },
+            {
+                path: '/dashboard/qrcode',
+                title: 'VietQr',
+                iconType: 'nzIcon',
+                icon: 'money-collect',
+                iconTheme: 'outline',
+                name: 'qrcode',
+                submenu: [],
+            },
         ]
     },
     {

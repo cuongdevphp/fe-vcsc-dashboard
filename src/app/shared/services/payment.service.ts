@@ -25,4 +25,19 @@ export class PaymentService {
     return this.http.get(`${environment.apiUrl}/payment/getList?offset=${pageIndex}&page=${pageSize}&accountNumber=${accountNumber}&subNumber=${subNumber}&startDate=${new Date(startDate).toISOString()}&endDate=${new Date(endDate).toISOString()}`);
   }
 
+  getBanks() {
+    return this.http.get(`https://api.vietqr.io/v2/banks`);
+  }
+
+  generateVietQrCode(data) {
+    const params = {
+      "accountNo": data.accountNo,
+      "accountName": data.accountName,
+      "acqId": data.acqId,
+      "addInfo": data.addInfo,
+      "amount": data.amount,
+      "template": "compact2"
+    }
+    return this.http.post<any>(`https://api.vietqr.io/v2/generate`, { ...params })
+  }
 }

@@ -71,13 +71,13 @@
                 <th width='1%'>Sub</th>
                 <th width='9%'>Amount</th>
                 <th width='11%'>Bank</th>
-                <th width='23%'>Content</th>
+                <th width='21%'>Content</th>
                 <th width='7%'>Transaction</th>
                 <th width='15%'>Name Deposit</th>
                 <!-- <th width='14%'>Account Deposit</th> -->
                 <th width='16%'>Error Message</th>
                 <th width='1%'>Status</th>
-                <th width='25%'>CreateDate</th>
+                <th width='30%'>CreateDate</th>
             </tr>
         </thead>
         <tbody>
@@ -101,7 +101,7 @@
                     <nz-badge *ngIf="item.status == 'SUCCESS'" nzStatus="success"></nz-badge>
                     <nz-badge *ngIf="item.status == 'MANUAL'" nzStatus="warning" nz-tooltip nzTooltipTitle="{{item.status}}"></nz-badge>
                 </td>
-                <td>{{item.createDate  | date:'dd/MM/YYYY hh:mm:ss'}}</td>
+                <td>{{item.createDate  | date:'dd/MM/YYYY hh:mm:ss a'}}</td>
             </tr>
         </tbody>
     </nz-table>

@@ -1,0 +1,167 @@
+<h2>VietQr</h2>
+
+<div class="row">
+    <div class="col-md-12 col-lg-9">
+        <nz-card>
+            <form nz-form nzLayout="vertical" [formGroup]="qrcodeForm">
+                <div class="row">
+                    <div class="col-md-4">
+                        <nz-form-item class="relative">
+                            <nz-form-label nzRequired>Tài khoản chứng khoán</nz-form-label>
+                            <nz-form-control nzErrorTip="Please input account number!">
+                                <nz-input-group>
+                                    <input type="text" nz-input [(ngModel)]="accountNumber"  formControlName="accountNumber" placeholder="Please input account number">
+                                </nz-input-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div class="col-md-4">
+                        <nz-form-item class="relative">
+                            <nz-form-label nzRequired>Tiểu khoản</nz-form-label>
+                            <nz-form-control nzErrorTip="Please input account name!">
+                                <nz-input-group>
+                                    <nz-select 
+                                        style="min-width: 220px;" 
+                                        class="w-100" 
+                                        nzPlaceHolder="Please input sub number" 
+                                        [(ngModel)]="subNumber" 
+                                        formControlName="subNumber" 
+                                    >
+                                        <nz-option nzLabel="00" nzValue="00"></nz-option>
+                                        <nz-option nzLabel="01" nzValue="01"></nz-option>
+                                        <nz-option nzLabel="80" nzValue="80"></nz-option>
+                                    </nz-select>
+                                </nz-input-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div class="col-md-4">
+                        <nz-form-item class="relative">
+                            <nz-form-label nzRequired>Tên chủ tài khoản</nz-form-label>
+                            <nz-form-control nzErrorTip="Please input account name!">
+                                <nz-input-group>
+                                    <input type="text" nz-input [(ngModel)]="accountName" formControlName="accountName" placeholder="Please input account name">
+                                </nz-input-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        
+                        <nz-form-item class="relative">
+                            <nz-form-label nzRequired>Chi nhánh</nz-form-label>
+                            <nz-form-control nzErrorTip="Please select branch!">
+                                <nz-input-group>
+                                    <nz-select 
+                                        style="min-width: 220px;" 
+                                        class="w-100" 
+                                        formControlName="branch"
+                                        nzPlaceHolder="Branch" 
+                                        [(ngModel)]="branch" 
+                                        (ngModelChange)="changeBranch($event)"
+                                    >
+                                        <nz-option nzLabel="Hồ Chí Minh" nzValue="01"></nz-option>
+                                        <nz-option nzLabel="Hà Nội" nzValue="00"></nz-option>
+                                    </nz-select>
+                                </nz-input-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+    
+                    <div class="col-md-6">
+
+                        <nz-form-item class="relative">
+                            <nz-form-label nzRequired>Ngân hàng</nz-form-label>
+                            <nz-form-control nzErrorTip="Please select bank!">
+                                <nz-input-group>
+                                    <nz-select 
+                                        style="min-width: 220px;" 
+                                        class="w-100" 
+                                        formControlName="bankCode"
+                                        nzPlaceHolder="Branch" 
+                                        [(ngModel)]="bankCode" 
+                                        (ngModelChange)="onChangeContent()"
+                                    >
+                                        <nz-option 
+                                            nzCustomContent 
+                                            *ngFor="let value of banksFilter" 
+                                            [nzLabel]="value.name"
+                                            [nzValue]="value.id"
+                                        >
+                                            <img style='width: 60px;' src={{value.logo}}> 
+                                            {{value.name}}
+                                        </nz-option>
+                                    </nz-select>
+                                </nz-input-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <nz-form-item class="relative">
+                            <nz-form-label nzRequired>Số tiền</nz-form-label>
+                            <nz-form-control nzErrorTip="Please input money!">
+                                <nz-input-group>
+                                    <!-- <input  type="text" class="form-control" [ngModel]="money | number : '1.2-2'" formControlName="money" > -->
+                                    <input
+                                        type="text"
+                                        formControlName="money"
+                                        #inputElement
+                                        nz-input
+                                        nz-tooltip
+                                        nzTooltipTrigger="focus"
+                                        nzTooltipPlacement="topLeft"
+                                        nzOverlayClassName="numeric-input"
+                                        [ngModel]="money"
+                                        [nzTooltipTitle]="title"
+                                        placeholder="Please input money"
+                                        (ngModelChange)="onChange($event)"
+                                        (blur)="onBlur()"
+                                    />
+                                </nz-input-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+    
+                    <div class="col-md-6">
+                        <nz-form-item class="relative">
+                            <nz-form-label nzRequired>Nội dung nộp tiền</nz-form-label>
+                            <nz-form-control nzErrorTip="Please input money!">
+                                <nz-input-group>
+                                    <textarea formControlName="content" [(ngModel)]="content" placeholder="Please input content message" nz-input></textarea>
+                                </nz-input-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+
+                    </div>
+                    <div class="col-md-6">
+                        <button style="float: right; margin-top: 50px;" (click)="generate();" nz-button nzType="primary"  nzShape="circle" nz-tooltip nzTooltipTitle="Generate">
+                            <i nz-icon nzType="qrcode" nzTheme="outline"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </nz-card>
+    </div>
+    <div class="col-md-12 col-lg-3">
+        <nz-card> 
+            <div class="row">
+                <div class="col-md-12">
+                    <img width="100%" src={{qrcode}} />  <br /><br />
+                    <div style="color: #3f87f5; text-align: center;">
+                        <a href="{{qrcode}}" target="_self" download>
+                            <i nz-tooltip nzTooltipTitle="Download" style="font-size: 30px; cursor: pointer;" nz-icon nzType="cloud-download" nzTheme="outline">
+                            </i>
+                        </a>
+                    </div> 
+                </div>
+            </div>
+        </nz-card>
+    </div>
+</div>

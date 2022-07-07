@@ -17,5 +17,10 @@ export const CommonLayout_ROUTES: Routes = [
         canActivate: [AuthGuard]
     },
 
+    {
+        path: 'external',
+        loadChildren: () => import('../../external/external.module').then(m => m.ExternalModule),
+        canActivate: []
+    },
 
 ];

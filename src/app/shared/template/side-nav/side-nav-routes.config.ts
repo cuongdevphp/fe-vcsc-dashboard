@@ -101,5 +101,24 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: [],
             },
         ]
+    },
+    {
+        path: '',
+        title: 'External',
+        iconType: 'nzIcon',
+        iconTheme: 'outline',
+        icon: '/zalo-seeklogo.com',
+        name: 'external',
+        submenu: [
+            {
+                path: '/external/qrcode',
+                title: 'qrcode',
+                iconType: 'nzIcon',
+                icon: 'book',
+                iconTheme: 'outline',
+                name: 'qrcode',
+                submenu: [],
+            },
+        ]
     }
 ]    

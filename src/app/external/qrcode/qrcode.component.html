@@ -1,5 +1,4 @@
-<h2>VietQr</h2>
-
+<h2>QR Code</h2>
 <div class="row">
     <div class="col-md-12 col-lg-9">
         <nz-card>
@@ -20,7 +19,7 @@
                             <nz-form-label nzRequired>Tiểu khoản</nz-form-label>
                             <nz-form-control nzErrorTip="Please input account name!">
                                 <nz-input-group>
-                                    <input type="text" nz-input [(ngModel)]="subNumber"  formControlName="subNumber" placeholder="Please input sub number">
+                                    <input type="number" nz-input [(ngModel)]="subNumber"  formControlName="subNumber" placeholder="Please input sub number">
 
                                     <!-- <nz-select 
                                         style="min-width: 220px;" 
@@ -100,27 +99,21 @@
                         </nz-form-item>
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="col-md-6">
                         <nz-form-item class="relative">
                             <nz-form-label nzRequired>Số tiền</nz-form-label>
                             <nz-form-control nzErrorTip="Please input money!">
                                 <nz-input-group>
-                                    <!-- <input  type="text" class="form-control" [ngModel]="money | number : '1.2-2'" formControlName="money" > -->
                                     <input
+                                        inputWithComma
                                         type="text"
                                         formControlName="money"
-                                        #inputElement
                                         nz-input
-                                        nz-tooltip
-                                        nzTooltipTrigger="focus"
-                                        nzTooltipPlacement="topLeft"
-                                        nzOverlayClassName="numeric-input"
                                         [ngModel]="money"
-                                        [nzTooltipTitle]="title"
                                         placeholder="Please input money"
-                                        (ngModelChange)="onChange($event)"
-                                        (blur)="onBlur()"
+                                        (ngModelChange)="onChangeMoney($event)"
                                     />
                                 </nz-input-group>
                             </nz-form-control>

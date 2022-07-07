@@ -11,9 +11,13 @@ export class ErrorInterceptor implements HttpInterceptor {
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         if(request.url.search('/login') === -1) {
+            let token = '';
+            if( this.accountService.userValue !== null) {
+                token = this.accountService.userValue.token;
+            }
             request = request.clone({
                 setHeaders: {
-                    'Authorization': `Bearer ${this.accountService.userValue.token}`,
+                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 }
             });

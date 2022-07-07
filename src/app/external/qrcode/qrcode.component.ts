@@ -1,5 +1,6 @@
 import { Component, OnInit,  } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { PaymentService } from 'src/app/shared/services/payment.service';
 declare var $: any; // JQuery
 @Component({
@@ -44,6 +45,7 @@ export class QrcodeComponent implements OnInit {
     constructor(
         private fb: FormBuilder,
         private paymentService: PaymentService,
+        private notification: NzNotificationService,
     ) {
         //this.displayData = this.productsList
     }
@@ -99,6 +101,12 @@ export class QrcodeComponent implements OnInit {
         .subscribe(result => {
             if(result.code === '00') {
                 this.qrcode = result.data.qrDataURL;
+            } else {
+                this.notification.create(
+                    'error',
+                    'Generate QR Code fail',
+                    `${result.desc}`
+                );
             }
             console.log(result);
         });

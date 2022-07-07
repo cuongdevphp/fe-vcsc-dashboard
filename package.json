@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "serve": "ng serve",
-    "start": "export NODE_OPTIONS=--openssl-legacy-provider && ng serve --host 0.0.0.0 --port 4202 -o --disable-host-check --source-map=false",
+    "start": " ng serve --host 0.0.0.0 --port 4202 -o --disable-host-check --source-map=false",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

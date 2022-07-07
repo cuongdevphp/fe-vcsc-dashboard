@@ -90,7 +90,7 @@ export class QrcodeComponent implements OnInit {
         console.log(money, "money12141343");
         const data = {
             "accountNo": this.accountNo,
-            "accountName": `${this.accountName} Cong ty co phan chung khoan Ban Viet`,
+            "accountName": `${this.accountName} @ CTCPCK BAN VIET`,
             "acqId": this.banks.find(x => x.id === this.bankCode).bin,
             "addInfo": this.content,
             "amount": money,

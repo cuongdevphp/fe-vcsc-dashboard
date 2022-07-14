@@ -1,4 +1,4 @@
-<h2>QR Code</h2>
+<h2>TẠO QRCODE NỘP TIỀN VÀO TK CHỨNG KHOÁN TẠI VCSC</h2>
 <div class="row">
     <div class="col-md-12 col-lg-9">
         <nz-card>
@@ -9,7 +9,14 @@
                             <nz-form-label nzRequired>Tài khoản chứng khoán</nz-form-label>
                             <nz-form-control nzErrorTip="Please input account number!">
                                 <nz-input-group>
-                                    <input type="text" nz-input [(ngModel)]="accountNumber" formControlName="accountNumber" placeholder="Please input account number">
+                                    <input 
+                                        (change)="onChangeAccountNumber()" 
+                                        type="text" 
+                                        nz-input 
+                                        [(ngModel)]="accountNumber" 
+                                        formControlName="accountNumber" 
+                                        placeholder="Please input account number"
+                                    >
                                 </nz-input-group>
                             </nz-form-control>
                         </nz-form-item>
@@ -71,7 +78,6 @@
                     </div>
     
                     <div class="col-md-6">
-
                         <nz-form-item class="relative">
                             <nz-form-label nzRequired>Ngân hàng</nz-form-label>
                             <nz-form-control nzErrorTip="Please select bank!">

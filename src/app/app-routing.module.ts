@@ -6,7 +6,7 @@ import { CommonLayout_ROUTES } from "./shared/routes/common-layout.routes";
 
 const loginModule = () => import('./login/login.module').then(x => x.LoginModule);
 const appRoutes: Routes = [
-    { path: 'login', loadChildren: loginModule },
+    // { path: 'login', loadChildren: loginModule },
     {
         path: '',
         redirectTo: '/dashboard/home',

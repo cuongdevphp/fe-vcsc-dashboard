@@ -18,7 +18,7 @@ export const CommonLayout_ROUTES: Routes = [
     },
 
     {
-        path: 'external',
+        path: '',
         loadChildren: () => import('../../external/external.module').then(m => m.ExternalModule),
         canActivate: []
     },

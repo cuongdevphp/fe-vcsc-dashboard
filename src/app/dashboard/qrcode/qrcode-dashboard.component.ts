@@ -71,7 +71,7 @@ export class QrcodeDashboardComponent implements OnInit {
     loadBanks(): void {
         this.paymentService.getBanks()
         .subscribe((result:any) => {
-            console.log(result, 'result');
+            // console.log(result, 'result');
             if(result.code === '00') {
 
                 this.banks = result.data;
@@ -91,13 +91,13 @@ export class QrcodeDashboardComponent implements OnInit {
             "amount": this.money,
             "template": "compact2"
         };
-        console.log(data, 'data');
+        // console.log(data, 'data');
         this.paymentService.generateVietQrCode(data)
         .subscribe(result => {
             if(result.code === '00') {
                 this.qrcode = result.data.qrDataURL;
             }
-            console.log(result);
+            // console.log(result);
         });
     }
 
@@ -181,7 +181,7 @@ export class QrcodeDashboardComponent implements OnInit {
       }
     
     formatNumber(value: string): string {
-        console.log(value, 'value');
+        // console.log(value, 'value');
         const stringValue = `${value}`;
         const list = stringValue.split('.');
         const prefix = list[0].charAt(0) === '-' ? '-' : '';

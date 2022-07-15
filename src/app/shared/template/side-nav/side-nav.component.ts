@@ -32,7 +32,7 @@ export class SideNavComponent{
         //     }
         // }
         
-        this.menuItems = ROUTES.filter(menuItem => menuItem);
+        // this.menuItems = ROUTES.filter(menuItem => menuItem);
         this.themeService.isMenuFoldedChanges.subscribe(isFolded => this.isFolded = isFolded);
         this.themeService.isExpandChanges.subscribe(isExpand => this.isExpand = isExpand);
         this.themeService.isSideNavDarkChanges.subscribe(isDark => this.isSideNavDark = isDark);

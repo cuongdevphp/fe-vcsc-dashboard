@@ -53,8 +53,6 @@ export class QrcodeComponent implements OnInit {
     get f() { return this.qrcodeForm.controls; }
     ngOnInit(): void {
         const isIEOrEdge = /msie\s|trident\/|edge\//i.test(window.navigator.userAgent);
-        console.log(isIEOrEdge);
-        console.log(window.navigator.userAgent);
         this.qrcodeForm = this.fb.group({
             subNumber: [ null, [ Validators.required ] ],
             accountNumber: [ null, [ Validators.required ] ],
@@ -75,7 +73,6 @@ export class QrcodeComponent implements OnInit {
     loadBanks(): void {
         this.paymentService.getBanks()
         .subscribe((result:any) => {
-            console.log(result, 'result');
             if(result.code === '00') {
 
                 this.banks = result.data;
@@ -89,7 +86,6 @@ export class QrcodeComponent implements OnInit {
 
     generate(): void {
         if (this.qrcodeForm.invalid) {
-            console.log(this.qrcodeForm, 'this.qrcodeForm');
             if(this.qrcodeForm.value.accountNumber === '068C') {
                 this.notification.create(
                     'warning',
@@ -133,7 +129,7 @@ export class QrcodeComponent implements OnInit {
                     `${result.desc}`
                 );
             }
-            console.log(result);
+            // console.log(result);
         });
     }
 
@@ -170,7 +166,6 @@ export class QrcodeComponent implements OnInit {
     }
 
     onChangeAccountNumber (): void {
-        console.log("fdsfsdf");
         this.onChangeContent();
     }
 

@@ -85,7 +85,7 @@ export class QrcodeDashboardComponent implements OnInit {
         }
         const data = {
             "accountNo": this.accountNo,
-            "accountName": `${this.accountName} &minus; Cong ty co phan chung khoan Ban Viet`,
+            "accountName": `${this.accountName} &#45; Cong ty co phan chung khoan Ban Viet`,
             "acqId": this.banks.find(x => x.id === this.bankCode).bin,
             "addInfo": this.content,
             "amount": this.money,

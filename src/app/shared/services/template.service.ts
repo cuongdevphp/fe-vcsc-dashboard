@@ -45,7 +45,7 @@ export class TemplateService {
       }),
       ...body,
     };
-    return this.http.put<any>(`${environment.apiUrl}/template/email/${id}`, params)
+    return this.http.post<any>(`${environment.apiUrl}/template/email/${id}`, params)
   }
 
   createUser(params) {

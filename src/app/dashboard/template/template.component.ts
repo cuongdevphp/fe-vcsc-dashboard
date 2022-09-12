@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
@@ -10,10 +10,11 @@ const ClassicEditor = CKSource.ClassicEditor;
 
 declare var $: any; // JQuery
 @Component({
-    templateUrl: './template.component.html'
+    templateUrl: './template.component.html',
 })
 
 export class TemplateDashboardComponent implements OnInit {
+    // @ViewChild('useThisTemplateVar') elRef: ElementRef; 
 //     public config = {    toolbar: {
 //         items: [ 'bold', 'italic', '|', 'undo', 'redo' ],    
 //         shouldNotGroupWhenFull: false
@@ -137,13 +138,18 @@ export class TemplateDashboardComponent implements OnInit {
     
     
     showCreateUserModal(data, templateFormContent: TemplateRef<{}>) {
-        this.template_name = data.template_name;
-        this.template_code = data.template_code;
-        this.idTemplate = data.id;
-        this.language = data.language;
-        this.subject = data.subject;
-        this.html = data.html;
-        console.log(data, 'data');
+        setTimeout(() =>{
+            (document.querySelector('.ck-toolbar_grouping') as HTMLElement).style.fontSize = '11px';
+        }, 250)
+        this.idTemplate = '0';
+        if(data) {
+            this.template_name = data.template_name;
+            this.template_code = data.template_code;
+            this.idTemplate = data.id; 
+            this.language = data.language;
+            this.subject = data.subject;
+            this.html = data.html;
+        }
         this.modalService.create({
             nzMaskClosable: false,
             nzTitle: (data ? 'Edit Template' : 'New Template'),
@@ -226,19 +232,13 @@ export class TemplateDashboardComponent implements OnInit {
         if(pageIndex !== 1) {
             page = pageSize * (pageIndex - 1);
         }
-        //this.loading = true;
+        // this.loading = true;
         this.templateService.getTemplates(page, pageSize)
         .subscribe(template => {
             console.log(template, 'users');
             if(template.success) {
                 this.templates = template.data.data;
-                // this.users.forEach(item => {
-                //     this.editCache[item.id] = {
-                //         edit: false,
-                //         data: { ...item }
-                //     };
-                // });
-                // this.total = users.data.total;
+                this.total = template.data.total;
                 // this.filterTeamData = users.data.filterData.team;
                 // this.filterBranchData = users.data.filterData.branch;
                 // this.filterRoomData = users.data.filterData.room;

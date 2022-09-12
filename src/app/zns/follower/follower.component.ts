@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import * as moment from 'moment';
+// import * as moment from 'moment';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
@@ -43,7 +43,7 @@ export class FollowerComponent implements OnInit {
     fileList: NzUploadFile[] = [];
     previewImage: string | undefined = '';
     previewVisible = false;
-    pathUploadImage = `${environment.apiUrlProd}/incom/uploadImage`;
+    // pathUploadImage = `${environment.apiUrlProd}/incom/uploadImage`;
     
     constructor(
         private fb: FormBuilder,
@@ -105,7 +105,7 @@ export class FollowerComponent implements OnInit {
     }
 
     convertDDMMYYYYHHMM = (date) => {
-        return moment(new Date(date)).format('DD/MM/YYYY HH:mm');
+        // return moment(new Date(date)).format('DD/MM/YYYY HH:mm');
     }
 
     createTemplateModal = (value, createTemplateContent) => {
@@ -239,32 +239,32 @@ export class FollowerComponent implements OnInit {
     // }
     uploadImages(e) {
         console.log(e.type, 'e.type');
-        if(e.type === 'progress') {
-            const formData = new FormData();
-            formData.append('image', e.fileList[0].originFileObj);
-            // You can use any AJAX library you like
-            const req = new HttpRequest('POST', `${environment.apiUrlProd}/incom/uploadImage`, formData, {
-                // reportProgress: true
-            });
+        // if(e.type === 'progress') {
+        //     const formData = new FormData();
+        //     formData.append('image', e.fileList[0].originFileObj);
+        //     // You can use any AJAX library you like
+        //     const req = new HttpRequest('POST', `${environment.apiUrlProd}/incom/uploadImage`, formData, {
+        //         // reportProgress: true
+        //     });
 
-            this.http
-            .request(req)
-            .subscribe(
-                (result) => {
-                    if(result['status'] === 200) {
-                        this.imageUrl = `http://zns.vcsc.com.vn:3001/assets/zns/uploads/${result['body']['path']}` ;
-                        console.log('upload successfully.');
-                        this.requiredImage = false;
-                    }
-                },
-                () => {
-                    console.log('upload failed.');
-                }
-            );
-        } else if (e.type === 'removed') {
-            this.requiredImage = true;
-            this.imageUrl = `` ;
-        }
+        //     this.http
+        //     .request(req)
+        //     .subscribe(
+        //         (result) => {
+        //             if(result['status'] === 200) {
+        //                 this.imageUrl = `http://zns.vcsc.com.vn:3001/assets/zns/uploads/${result['body']['path']}` ;
+        //                 console.log('upload successfully.');
+        //                 this.requiredImage = false;
+        //             }
+        //         },
+        //         () => {
+        //             console.log('upload failed.');
+        //         }
+        //     );
+        // } else if (e.type === 'removed') {
+        //     this.requiredImage = true;
+        //     this.imageUrl = `` ;
+        // }
     }
 }
 

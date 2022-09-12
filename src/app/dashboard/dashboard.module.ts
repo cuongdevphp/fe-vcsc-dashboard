@@ -45,6 +45,8 @@ import { StatisticsDashboardComponent } from './statistics/statistics-dashboard.
 import { ChatComponent } from './chat/chat.component';
 import { ReportDashboardComponent } from './report/report-dashboard.component';
 import { TradingDashboardComponent } from './trading/trading.component';
+import { TemplateDashboardComponent } from './template/template.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 const antdModule = [
     NzPopconfirmModule,
@@ -82,6 +84,7 @@ const antdModule = [
         CommonModule,
         SharedModule,
         DashboardRoutingModule,
+		CKEditorModule,
         ReactiveFormsModule,
         NgChartjsModule,
         ...antdModule
@@ -96,6 +99,7 @@ const antdModule = [
         QrcodeDashboardComponent,
         TradingDashboardComponent,
         PaymentDashboardComponent,
+        TemplateDashboardComponent,
         ChatComponent
     ],
     providers: [

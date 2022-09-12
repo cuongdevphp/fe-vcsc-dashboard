@@ -18,7 +18,7 @@ import { FullLayoutComponent } from './layouts/full-layout/full-layout.component
 import { NgChartjsModule } from 'ng-chartjs';
 import { ThemeConstantService } from './shared/services/theme-constant.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ErrorInterceptor, fakeBackendProvider, JwtInterceptor } from './shared/_helpers';
+import { ErrorInterceptor, JwtInterceptor } from './shared/_helpers';
 import { NotFoundComponent } from './not-found/not-found.component';
 
 registerLocaleData(en);

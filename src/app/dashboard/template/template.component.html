@@ -1,0 +1,191 @@
+<h2>Email Template</h2>
+<nz-card>
+    <!-- <div *ngIf="localStorageUser.permission !== '0'" class="row m-b-30"> -->
+    <div class="row m-b-30">
+        <div class="col-lg-10">
+            <div class="d-md-flex">
+                <!-- <div class="m-b-10 m-r-20">
+                    <nz-input-group [nzPrefix]="prefixTemplate">
+                        <input type="text" nz-input placeholder="Search Username" [(ngModel)]="searchUser" (ngModelChange)="searchUsername()">
+                    </nz-input-group>
+                    <ng-template #prefixTemplate>
+                        <i nz-icon nzType="search" class="opacity-05"></i>
+                    </ng-template>
+                </div>
+                <div class="m-b-10 m-r-20 d-flex align-items-center">
+                    <nz-select 
+                        style="min-width: 100px;" 
+                        class="w-100" 
+                        nzPlaceHolder="Branch" 
+                        [(ngModel)]="selectedBranch" 
+                        (ngModelChange)="branchChange($event)"
+                    >
+                        <nz-option nzLabel="All" nzValue="All"></nz-option>
+                        <nz-option *ngFor="let value of filterBranchData" [nzLabel]="value" [nzValue]="value"></nz-option>
+                    </nz-select>
+                </div>
+                <div class="m-b-10 m-r-20 d-flex align-items-center">
+                    <nz-select 
+                        style="min-width: 100px;" 
+                        class="w-100" 
+                        nzPlaceHolder="Room" 
+                        [(ngModel)]="selectedRoom" 
+                        (ngModelChange)="roomChange($event)"
+                    >
+                        <nz-option nzLabel="All" nzValue="All"></nz-option>
+                        <nz-option *ngFor="let value of filterRoomData" [nzLabel]="value" [nzValue]="value"></nz-option>
+                    </nz-select>
+                </div>
+                <div class="m-b-10 m-r-20 d-flex align-items-center">
+                    <nz-select 
+                        style="min-width: 100px;" 
+                        class="w-100" 
+                        nzPlaceHolder="Team" 
+                        [(ngModel)]="selectedTeam" 
+                        (ngModelChange)="teamChange($event)"
+                    >
+                        <nz-option nzLabel="All" nzValue="All"></nz-option>
+                        <nz-option *ngFor="let value of filterTeamData" [nzLabel]="value" [nzValue]="value"></nz-option>
+                    </nz-select>
+                </div> -->
+            </div>          
+        </div>
+        <div class="col-lg-2 text-right">
+            <!-- <button nz-button nzType="primary" (click)="showCreateUserModal('', templateFormContent)">
+                <i nz-icon nzType="plus"></i>
+                <span>User</span>
+            </button> -->
+            <ng-template #templateFormContent>
+                <form 
+                    nz-form 
+                    nzLayout="vertical" 
+                    [formGroup]="templateForm" 
+                    (ngSubmit)="submitCreateUser()"
+                >
+                    <div class="row">
+                        <div class="col-md-12">
+                            <nz-form-item class="relative">
+                                <nz-form-label nzRequired>Template name</nz-form-label>
+                                <nz-form-control nzErrorTip="Please input template name!">
+                                    <nz-input-group>
+                                        <input type="text" [(ngModel)]="template_name" nz-input formControlName="template_name" placeholder="Please input template name">
+                                    </nz-input-group>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <nz-form-item class="relative">
+                                <nz-form-label nzRequired>Subject</nz-form-label>
+                                <nz-form-control nzErrorTip="Please input subject!">
+                                    <nz-input-group>
+                                        <input type="text" [(ngModel)]="subject" nz-input formControlName="subject" placeholder="Please input subject">
+                                    </nz-input-group>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <nz-form-item>
+                                <nz-form-label nzRequired>Code</nz-form-label>
+                                <nz-form-control nzErrorTip="Please input template code!">
+                                    <nz-input-group>
+                                        <input type="text" [(ngModel)]="template_code" nz-input formControlName="template_code" placeholder="Please input template code">
+                                    </nz-input-group>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div class="col-md-6">
+                            <nz-form-item class="relative">
+                                <nz-form-label nzRequired>Language</nz-form-label>
+                                <nz-form-control nzErrorTip="Please input language!">
+                                    <nz-select 
+                                        formControlName="language" 
+                                        nzPlaceHolder="Select Language"
+                                        class="w-100" 
+                                        nzPlaceHolder="Language" 
+                                        [(ngModel)]="language" 
+                                    >
+                                        <nz-option nzLabel="Tiếng Việt" nzValue="vi"></nz-option>
+                                        <nz-option nzLabel="English" nzValue="en"></nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <nz-form-item class="relative">
+                                <nz-form-label nzRequired>HTML</nz-form-label>
+                                <ckeditor
+                                    formControlName="html" 
+                                    [(ngModel)]="html" 
+                                    [data]="html"
+                                    [editor]="Editor"
+                                    id="editor"
+                                    name="classic-editor"
+                                    (ready)="onReady()"
+                                    (change)="onChange()"
+                                    (focus)="onFocus()"
+                                    (error)="onError()"
+                                    (blur)="onBlur()">
+                                </ckeditor>
+                            </nz-form-item>
+                        </div>
+                    </div>
+                </form>
+                
+            </ng-template>
+        </div>
+    </div>
+    
+    <!-- <ckeditor
+        [config]="config"
+        [data]="editorData"
+        [editor]="Editor"
+        id="classic-editor"
+        name="classic-editor"
+
+        (ready)="onReady()"
+        (change)="onChange()"
+        (focus)="onFocus()"
+        (error)="onError()"
+        (blur)="onBlur()">
+    </ckeditor> -->
+    <nz-table 
+        nzTableLayout="fixed"
+        #templatesListTable 
+        [nzData]="templates"
+        [nzFrontPagination]="false"
+        nzShowSizeChanger
+        [nzLoading]="loading"
+        [nzTotal]="total"
+        [nzPageSize]="pageSize"
+        [nzPageIndex]="pageIndex"
+        (nzQueryParams)="onQueryParamsChange($event)"
+        [nzPageSizeOptions] = "[5, 10, 20, 30, 40, 50]"
+    >
+        <thead>
+            <tr>
+                <th width='2%'>ID</th>
+                <th width='10%'>Template Name</th>
+                <th width='10%'>Subject</th>
+                <th width='10%'>Template Code</th>
+                <th width='10%'>Language</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of templatesListTable.data; let i=index">
+                <td>{{item.id}}</td>
+                <td>
+                    <a (click)="showCreateUserModal(item, templateFormContent)">{{item.template_name}}</a>
+                </td>
+                <td>{{item.subject}}</td>
+                <td>{{item.template_code}}</td>
+                <td>{{item.language}}</td>
+            </tr>
+        </tbody>
+    </nz-table>
+</nz-card>

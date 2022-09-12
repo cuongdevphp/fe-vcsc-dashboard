@@ -9,7 +9,7 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { ThemeConstantService } from './services/theme-constant.service';
 import { SearchPipe } from './pipes/search.pipe';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
-
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 @NgModule({
     exports: [
         CommonModule,
@@ -26,7 +26,8 @@ import { NzNotificationModule } from 'ng-zorro-antd/notification';
         CommonModule,
         NzIconModule,
         NzToolTipModule,
-        PerfectScrollbarModule
+        PerfectScrollbarModule,
+        CKEditorModule
     ],
     declarations: [
         SearchPipe

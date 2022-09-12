@@ -10,6 +10,7 @@ import { QrcodeDashboardComponent } from './qrcode/qrcode-dashboard.component';
 import { StatisticsDashboardComponent } from './statistics/statistics-dashboard.component';
 import { TradingDashboardComponent } from './trading/trading.component';
 import { UsersDashboardComponent } from './users/users.component';
+import { TemplateDashboardComponent } from './template/template.component';
 let routes: Routes = [
     {
         path: 'home',
@@ -40,6 +41,14 @@ let routes: Routes = [
         component: UsersDashboardComponent,
         data: {
             title: 'Users Dashboard ',
+            headerDisplay: "none"
+        }
+    },
+    {
+        path: 'template',
+        component: TemplateDashboardComponent,
+        data: {
+            title: 'Template Dashboard ',
             headerDisplay: "none"
         }
     },

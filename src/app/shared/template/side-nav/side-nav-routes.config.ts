@@ -28,6 +28,15 @@ export const ROUTES: SideNavInterface[] = [
             //     submenu: [],
             // },
             {
+                path: '/dashboard/template',
+                title: 'Mail',
+                iconType: 'nzIcon',
+                icon: 'user',
+                iconTheme: 'outline',
+                name: 'users',
+                submenu: [],
+            },
+            {
                 path: '/dashboard/users',
                 title: 'Users',
                 iconType: 'nzIcon',

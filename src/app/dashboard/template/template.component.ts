@@ -140,7 +140,7 @@ export class TemplateDashboardComponent implements OnInit {
     showCreateUserModal(data, templateFormContent: TemplateRef<{}>) {
         setTimeout(() =>{
             (document.querySelector('.ck-toolbar_grouping') as HTMLElement).style.fontSize = '11px';
-        }, 250)
+        }, 400)
         this.idTemplate = '0';
         if(data) {
             this.template_name = data.template_name;

@@ -84,13 +84,26 @@ export class QrcodeDashboardComponent implements OnInit {
             return;
         }
         const data = {
+            "accountName": this.accountName,
             "accountNo": this.accountNo,
-            "accountName": `${this.accountName} &#45; Cong ty co phan chung khoan Ban Viet`,
-            "acqId": this.banks.find(x => x.id === this.bankCode).bin,
-            "addInfo": this.content,
             "amount": this.money,
-            "template": "compact2"
+            "addInfo": this.content,
+            "branch": this.branch,
+            "bankId": this.bankCode
+            // "accountName": `${this.accountName} &#45; Cong ty co phan chung khoan Ban Viet`,
+            // "accountNo": this.accountNo,
+            // "acqId": this.banks.find(x => x.id === this.bankCode).bin,
+            // "addInfo": this.content,
+            // "amount": this.money,
+            // "template": "compact2"
         };
+
+        
+    //   "accountName": data.accountName,
+    //   "accountNo": data.accountNo,
+    //   "amount": data.amount,
+    //   "branch": data.branch,
+    //   "bankId": data.bankId
         // console.log(data, 'data');
         this.paymentService.generateVietQrCode(data)
         .subscribe(result => {

@@ -21,23 +21,50 @@ export class PaymentService {
 
   }
 
-  getPayments(pageIndex, pageSize, sortField, sortOrder, accountNumber, subNumber, startDate, endDate) {
-    return this.http.get(`${environment.apiUrl}/payment/getList?offset=${pageIndex}&page=${pageSize}&accountNumber=${accountNumber}&subNumber=${subNumber}&startDate=${new Date(startDate).toISOString()}&endDate=${new Date(endDate).toISOString()}`);
-  }
-
   getBanks() {
     return this.http.get(`https://api.vietqr.io/v2/banks`);
   }
+  // "accountName": "cuongdev",
+  // "accountNo": "068C01816200",
+  // "amount": 10000,
+  // "branch": "01",
+  // "bankId": 38
+//   generateVietQrCode(data) {
+//     // const params = {
+//     //   "accountNo": data.accountNo,
+//     //   "accountName": data.accountName,
+//     //   "acqId": data.acqId,
+//     //   "addInfo": data.addInfo,
+//     //   "amount": data.amount,
+//     //   "template": "compact2"
+//     // }
+//     const params = {
+//       const params = {
+//         headers: new HttpHeaders({
+//           'Content-Type': 'application/json',
+//         }),
+//         ...data,
+//       };
+//       return this.http.post<any>(`${environment.apiUrl}/internal/user/${id}`, params)
+  
 
-  generateVietQrCode(data) {
+//     //   "accountName": data.accountName,
+//     //   "accountNo": data.accountNo,
+//     //   "amount": data.amount,
+//     //   "branch": data.branch,
+//     //   "bankId": data.bankId
+//     // }
+//     // return this.http.post<any>(`https://api.vietqr.io/v2/generate`, { ...params })
+//   // }
+// }
+  generateVietQrCode(body) {
     const params = {
-      "accountNo": data.accountNo,
-      "accountName": data.accountName,
-      "acqId": data.acqId,
-      "addInfo": data.addInfo,
-      "amount": data.amount,
-      "template": "compact2"
-    }
-    return this.http.post<any>(`https://api.vietqr.io/v2/generate`, { ...params })
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'x-api-key': '7D459aF8551Db7603bF7997C0357C95169F43c76'
+      }),
+      ...body,
+    };
+    return this.http.post<any>(`http://10.11.0.8:3001/qrcode`, params)
   }
 }

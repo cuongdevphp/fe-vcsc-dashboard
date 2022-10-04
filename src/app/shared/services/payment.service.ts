@@ -58,13 +58,12 @@ export class PaymentService {
 //   // }
 // }
   generateVietQrCode(body) {
-    const params = {
+    const headers = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'x-api-key': '7D459aF8551Db7603bF7997C0357C95169F43c76'
       }),
-      ...body,
     };
-    return this.http.post<any>(`http://10.11.0.8:3001/qrcode`, params)
+    return this.http.post<any>(`http://10.11.0.8:3001/qrcode`, { headers: headers}, ...body)
   }
 }

@@ -29,41 +29,42 @@ export class PaymentService {
   // "amount": 10000,
   // "branch": "01",
   // "bankId": 38
-//   generateVietQrCode(data) {
-//     // const params = {
-//     //   "accountNo": data.accountNo,
-//     //   "accountName": data.accountName,
-//     //   "acqId": data.acqId,
-//     //   "addInfo": data.addInfo,
-//     //   "amount": data.amount,
-//     //   "template": "compact2"
-//     // }
-//     const params = {
-//       const params = {
-//         headers: new HttpHeaders({
-//           'Content-Type': 'application/json',
-//         }),
-//         ...data,
-//       };
-//       return this.http.post<any>(`${environment.apiUrl}/internal/user/${id}`, params)
+  generateVietQrCode(data) {
+    const params = {
+      "accountNo": data.accountNo,
+      "accountName": data.accountName,
+      "acqId": data.acqId,
+      "addInfo": data.addInfo,
+      "amount": data.amount,
+      "template": "compact2"
+    }
+    // const params = {
+    //   const params = {
+    //     headers: new HttpHeaders({
+    //       'Content-Type': 'application/json',
+    //     }),
+    //     ...data,
+    //   };
+    //   return this.http.post<any>(`${environment.apiUrl}/internal/user/${id}`, params)
   
 
-//     //   "accountName": data.accountName,
-//     //   "accountNo": data.accountNo,
-//     //   "amount": data.amount,
-//     //   "branch": data.branch,
-//     //   "bankId": data.bankId
-//     // }
-//     // return this.http.post<any>(`https://api.vietqr.io/v2/generate`, { ...params })
-//   // }
-// }
-  generateVietQrCode(body) {
-    const headers = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'x-api-key': '7D459aF8551Db7603bF7997C0357C95169F43c76'
-      }),
-    };
-    return this.http.post<any>(`http://10.11.0.8:3001/qrcode`, { headers: headers}, ...body)
-  }
+    //   "accountName": data.accountName,
+    //   "accountNo": data.accountNo,
+    //   "amount": data.amount,
+    //   "branch": data.branch,
+    //   "bankId": data.bankId
+    // }
+    return this.http.post<any>(`https://api.vietqr.io/v2/generate`, { ...params })
+  // }
+}
+  // generateVietQrCode(body) {
+  //   const headers = {
+  //     headers: new HttpHeaders({
+  //       'Content-Type': 'application/json',
+  //       'x-api-key': '7D459aF8551Db7603bF7997C0357C95169F43c76'
+  //     }),
+  //   };
+  //   const params = {...body};
+  //   return this.http.post<any>(`http://10.11.0.8:3001/qrcode`, params, ...headers)
+  // }
 }

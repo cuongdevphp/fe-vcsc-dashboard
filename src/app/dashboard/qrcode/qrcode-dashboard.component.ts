@@ -84,18 +84,18 @@ export class QrcodeDashboardComponent implements OnInit {
             return;
         }
         const data = {
-            "accountName": this.accountName,
-            "accountNo": this.accountNo,
-            "amount": this.money,
-            "addInfo": this.content,
-            "branch": this.branch,
-            "bankId": this.bankCode
-            // "accountName": `${this.accountName} &#45; Cong ty co phan chung khoan Ban Viet`,
+            // "accountName": this.accountName,
             // "accountNo": this.accountNo,
-            // "acqId": this.banks.find(x => x.id === this.bankCode).bin,
-            // "addInfo": this.content,
             // "amount": this.money,
-            // "template": "compact2"
+            // "addInfo": this.content,
+            // "branch": this.branch,
+            // "bankId": this.bankCode
+            "accountName": `${this.accountName} &#45; Cong ty co phan chung khoan Ban Viet`,
+            "accountNo": this.accountNo,
+            "acqId": this.banks.find(x => x.id === this.bankCode).bin,
+            "addInfo": this.content,
+            "amount": this.money,
+            "template": "compact2"
         };
 
         

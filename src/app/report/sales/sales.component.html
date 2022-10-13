@@ -143,6 +143,9 @@
                 <td *ngIf="parseInt(item.YJ1) >= 50000000">
                     {{item.ACNT_NO}}{{ convertDDMM() }}
                 </td>
+                <td *ngIf="parseInt(item.YJ1) < 50000000">
+                    
+                </td>
             </tr>
         </tbody>
     </nz-table>

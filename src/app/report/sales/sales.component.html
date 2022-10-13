@@ -30,7 +30,7 @@
                         <nz-option nzLabel="100,000,000" nzValue="100000000"></nz-option>
                     </nz-select>
                 </div>
-                <div class="m-b-10 m-r-20 d-flex align-items-center">
+                <div class="m-b-10 m-r-20 d-flex align-items-center" *ngIf="this.users.length > 0">
                     <nz-select 
                         nzShowSearch 
                         nzAllowClear

@@ -45,6 +45,7 @@ export class SalesComponent implements OnInit {
 
     ngOnInit(): void {this.users
         let users = JSON.parse(localStorage.getItem('user')) || [];
+        console.log(users, 'users');
         const sEmployee = users.username;
         // if(this.users) {
 
@@ -83,8 +84,9 @@ export class SalesComponent implements OnInit {
 
     employeeChange(value: string): void {
         if(value === 'All' || value === null) {
-            value = '';
+            value = JSON.parse(localStorage.getItem('user')).username;
         }
+        console.log(value, 'value');
         this.loadReportTradingList(this.pageIndex, this.pageSize, this.searchAccountNumber, this.searchBranch, value, this.searchRoom, this.totalTradeValue, this.searchDate[0], this.searchDate[1]);
     }
 

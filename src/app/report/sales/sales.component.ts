@@ -29,6 +29,7 @@ export class SalesComponent implements OnInit {
     searchEmployee: any = '';
     searchRoom: any = '';
     searchBranch: any = '';
+    totalTradeValue: any = '';
 
     filterBranchData: any = null;
     filterUserData: any = null;
@@ -50,48 +51,56 @@ export class SalesComponent implements OnInit {
         // } 
         // console.log(users, 'users');
         // console.log(this.users, 'this.users');
-        this.loadReportTradingList(this.pageIndex, this.pageSize, this.searchAccountNumber, this.searchBranch, sEmployee, this.searchRoom, this.searchDate[0], this.searchDate[1]);
+        this.loadReportTradingList(this.pageIndex, this.pageSize, this.searchAccountNumber, this.searchBranch, sEmployee, this.searchRoom, this.totalTradeValue, this.searchDate[0], this.searchDate[1]);
         this.loadUsersList();
     }
 
     accountNumberChange(): void {
         setTimeout( async () => {
-            this.loadReportTradingList(this.pageIndex, this.pageSize, this.searchAccountNumber, this.searchBranch, this.searchEmployee, this.searchRoom, this.searchDate[0], this.searchDate[1]);
+            this.loadReportTradingList(this.pageIndex, this.pageSize, this.searchAccountNumber, this.searchBranch, this.searchEmployee, this.searchRoom, this.totalTradeValue, this.searchDate[0], this.searchDate[1]);
         }, 800);
     }
 
     onQueryParamsChange(params: NzTableQueryParams): void {
         const { pageSize, pageIndex } = params;
         console.log(params, 'params');
-        this.loadReportTradingList(pageIndex, pageSize, this.searchAccountNumber, this.searchBranch, this.searchEmployee, this.searchRoom, this.searchDate[0], this.searchDate[1]);
+        this.loadReportTradingList(pageIndex, pageSize, this.searchAccountNumber, this.searchBranch, this.searchEmployee, this.searchRoom, this.totalTradeValue, this.searchDate[0], this.searchDate[1]);
     }
     
     branchChange(value: string): void {
         if(value === 'All') {
             value = '';
         }
-        this.loadReportTradingList(this.pageIndex, this.pageSize, this.searchAccountNumber, value, this.searchEmployee, this.searchRoom, this.searchDate[0], this.searchDate[1]);
+        this.loadReportTradingList(this.pageIndex, this.pageSize, this.searchAccountNumber, value, this.searchEmployee, this.searchRoom, this.totalTradeValue, this.searchDate[0], this.searchDate[1]);
     }
     
     roomChange(value: string): void {
         if(value === 'All') {
             value = '';
         }
-        this.loadReportTradingList(this.pageIndex, this.pageSize, this.searchAccountNumber, this.searchBranch, this.searchEmployee, value, this.searchDate[0], this.searchDate[1]);
+        this.loadReportTradingList(this.pageIndex, this.pageSize, this.searchAccountNumber, this.searchBranch, this.searchEmployee, value, this.totalTradeValue, this.searchDate[0], this.searchDate[1]);
     }
 
     employeeChange(value: string): void {
         if(value === 'All' || value === null) {
             value = '';
         }
-        this.loadReportTradingList(this.pageIndex, this.pageSize, this.searchAccountNumber, this.searchBranch, value, this.searchRoom, this.searchDate[0], this.searchDate[1]);
+        this.loadReportTradingList(this.pageIndex, this.pageSize, this.searchAccountNumber, this.searchBranch, value, this.searchRoom, this.totalTradeValue, this.searchDate[0], this.searchDate[1]);
     }
 
+    totalTradeValueChange(value: string): void {
+        if(value === 'All') {
+            value = '';
+        }
+        this.loadReportTradingList(this.pageIndex, this.pageSize, this.searchAccountNumber, this.searchBranch, this.searchEmployee, this.searchRoom, value, this.searchDate[0], this.searchDate[1]);
+    }
+
+     
     onChangeDateRange(result: Date[]): void {
         if(result.length === 0) {
             result = [new Date(), new Date()];
         }
-        this.loadReportTradingList(this.pageIndex, this.pageSize, this.searchAccountNumber, this.searchBranch, this.searchEmployee, this.searchRoom, result[0], result[1]);
+        this.loadReportTradingList(this.pageIndex, this.pageSize, this.searchAccountNumber, this.searchBranch, this.searchEmployee, this.searchRoom, this.totalTradeValue, result[0], result[1]);
     }
 
     loadReportTradingList(
@@ -101,6 +110,7 @@ export class SalesComponent implements OnInit {
         branch: string,
         emp_no: string,
         room: string,
+        totalTradeValue: string,
         startDate: Date | null,
         endDate: Date | null,
     ): void {
@@ -111,7 +121,7 @@ export class SalesComponent implements OnInit {
         this.loading = true;
         const sDate = moment(new Date(startDate)).format('YYYYMMDD');
         const eDate = moment(new Date(endDate)).format('YYYYMMDD');
-        this.reportService.getTradingReport(page, pageSize, accountNumber, branch, room, emp_no, sDate, eDate)
+        this.reportService.getTradingReport(page, pageSize, accountNumber, branch, room, emp_no, totalTradeValue, sDate, eDate)
         .subscribe(result => {
             if(result.success) {
                 this.loading = false;
@@ -124,6 +134,7 @@ export class SalesComponent implements OnInit {
                 this.searchBranch = branch;
                 this.searchEmployee = emp_no;
                 this.searchRoom = room;
+                this.totalTradeValue = totalTradeValue;
             }
         });
     }
@@ -138,5 +149,12 @@ export class SalesComponent implements OnInit {
                 this.filterUserData = users.data.data
             }
         });
+    }
+    convertDDMM = () => {
+        return moment(new Date()).format('DDMM');
+    }
+
+    parseInt = (num) => {
+        return parseInt(num);
     }
 }

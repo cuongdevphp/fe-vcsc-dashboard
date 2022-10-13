@@ -17,6 +17,19 @@
                         <i nz-icon nzType="search" class="opacity-05"></i>
                     </ng-template>
                 </div>
+                <div class="m-b-10 m-r-20">
+                    <nz-select 
+                        style="min-width: 140px;" 
+                        class="w-100" 
+                        nzPlaceHolder=">= Total Trade Value" 
+                        [(ngModel)]="totalTradeValue" 
+                        (ngModelChange)="totalTradeValueChange($event)"
+                    >
+                        <nz-option nzLabel="All" nzValue="All"></nz-option>
+                        <nz-option nzLabel="50,000,000" nzValue="50000000"></nz-option>
+                        <nz-option nzLabel="100,000,000" nzValue="100000000"></nz-option>
+                    </nz-select>
+                </div>
                 <div class="m-b-10 m-r-20 d-flex align-items-center">
                     <nz-select 
                         nzShowSearch 
@@ -100,12 +113,13 @@
     >
         <thead>
             <tr>
-                <th width='5%'>#</th>
+                <th width='3%'>#</th>
                 <th width='15%'>Account Number</th>
-                <th width='30%'>Account Name</th>
+                <th width='25%'>Account Name</th>
                 <th width='15%'>Employee No</th>
                 <th width='15%'>Total trade value</th>
                 <th width='15%'>Fee</th>
+                <th width='15%'>Ref Code</th>
             </tr>
         </thead>
         <tbody>
@@ -125,6 +139,9 @@
                 </td>
                 <td>
                     {{item.PF_AMT1 | number}}
+                </td>
+                <td *ngIf="parseInt(item.YJ1) >= 50000000">
+                    {{item.ACNT_NO}}{{ convertDDMM() }}
                 </td>
             </tr>
         </tbody>

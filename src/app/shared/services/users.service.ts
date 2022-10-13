@@ -39,13 +39,13 @@ export class UsersService {
   }
 
   updateUser(id, body) {
-    const params = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-      ...body,
-    };
-    return this.http.put<any>(`${environment.apiUrl}/internal/user/${id}`, params)
+    // const params = {
+    //   headers: new HttpHeaders({
+    //     'Content-Type': 'application/json',
+    //   }),
+    //   ...body,
+    // };
+    return this.http.put<any>(`${environment.apiUrl}/internal/user/${id}`, body)
   }
 
   createUser(params) {

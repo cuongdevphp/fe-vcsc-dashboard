@@ -26,7 +26,7 @@ export class LoginComponent {
         this.accountService.login(this.f.userName.value, this.f.password.value)
             .pipe(first())
             .subscribe({
-                next: () => {
+                next: (result) => {
                     this.notification.create(
                         'success',
                         'Notification',
@@ -37,7 +37,13 @@ export class LoginComponent {
                     // this.router.navigateByUrl("/dashboard/default")
                     // get return url from query parameters or default to home page
                     //const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard/default';
-                    this.router.navigate(['/dashboard/home']);
+                    console.log(result, 'result');
+                    if(result.department !== 'IT') {
+                        console.log('redasdasdsadasdsult');
+                        this.router.navigate(['/report/sales']);
+                    } else {
+                        this.router.navigate(['/dashboard/home']);
+                    }
                     //this.router.navigateByUrl(returnUrl);
                 },
                 error: (e: HttpErrorResponse) => {

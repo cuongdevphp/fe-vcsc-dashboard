@@ -110,5 +110,24 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: [],
             },
         ]
+    },
+    {
+        path: '',
+        title: 'Report',
+        iconType: 'nzIcon',
+        iconTheme: 'outline',
+        icon: 'money-collect',
+        name: 'report',
+        submenu: [
+            {
+                path: '/report/sales',
+                title: 'Sales',
+                iconType: 'nzIcon',
+                icon: 'book',
+                iconTheme: 'outline',
+                name: 'sales',
+                submenu: [],
+            },
+        ]
     }
 ]    

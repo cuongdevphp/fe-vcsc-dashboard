@@ -1,0 +1,132 @@
+<h2>Thống kê doanh số giao dịch của TK trong ngày</h2>
+<nz-card>
+    <div class="row m-b-30">
+        <div class="col-lg-10">
+            <div class="d-md-flex">
+                <div class="m-b-10 m-r-20">
+                    <nz-input-group [nzPrefix]="prefixTemplate">
+                        <input 
+                            type="text" 
+                            nz-input 
+                            placeholder="Account Number" 
+                            [(ngModel)]="searchAccountNumber" 
+                            (ngModelChange)="accountNumberChange()"
+                        >
+                    </nz-input-group>
+                    <ng-template #prefixTemplate>
+                        <i nz-icon nzType="search" class="opacity-05"></i>
+                    </ng-template>
+                </div>
+                <div class="m-b-10 m-r-20 d-flex align-items-center">
+                    <nz-select 
+                        nzShowSearch 
+                        nzAllowClear
+                        style="min-width: 150px;" 
+                        class="w-100" 
+                        nzPlaceHolder="Employee" 
+                        [(ngModel)]="searchEmployee" 
+                        (ngModelChange)="employeeChange($event)"
+                    >
+                        <nz-option nzLabel="All" nzValue="All"></nz-option>
+                        <nz-option *ngFor="let value of filterUserData" [nzLabel]="value.username" [nzValue]="value.username"></nz-option>
+                    </nz-select>
+                </div>
+                <div class="m-b-10 m-r-20 d-flex align-items-center">
+                    <nz-select 
+                        style="min-width: 100px;" 
+                        class="w-100" 
+                        nzPlaceHolder="Branch" 
+                        [(ngModel)]="searchBranch" 
+                        (ngModelChange)="branchChange($event)"
+                    >
+                        <nz-option nzLabel="All" nzValue="All"></nz-option>
+                        <nz-option *ngFor="let value of filterBranchData" [nzLabel]="value" [nzValue]="value"></nz-option>
+                    </nz-select>
+                </div>
+                <div class="m-b-10 m-r-20 d-flex align-items-center">
+                    <nz-select 
+                        style="min-width: 100px;" 
+                        class="w-100" 
+                        nzPlaceHolder="Room" 
+                        [(ngModel)]="searchRoom" 
+                        (ngModelChange)="roomChange($event)"
+                    >
+                        <nz-option nzLabel="All" nzValue="All"></nz-option>
+                        <nz-option *ngFor="let value of filterRoomData" [nzLabel]="value" [nzValue]="value"></nz-option>
+                    </nz-select>
+                </div>
+                <!-- <div class="m-b-10 m-r-20 d-flex align-items-center">
+                    <nz-select 
+                        style="min-width: 100px;" 
+                        class="w-100" 
+                        nzPlaceHolder="Team" 
+                        [(ngModel)]="selectedTeam" 
+                        (ngModelChange)="teamChange($event)"
+                    >
+                        <nz-option nzLabel="All" nzValue="All"></nz-option>
+                        <nz-option *ngFor="let value of filterTeamData" [nzLabel]="value" [nzValue]="value"></nz-option>
+                    </nz-select>
+                </div> -->
+                <div class="m-b-10 m-r-20 d-flex align-items-center">
+                    <nz-range-picker [nzFormat]="dateFormat" [(ngModel)]="searchDate" (ngModelChange)="onChangeDateRange($event)"></nz-range-picker>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 text-right">
+            <!-- <nz-upload
+                nzAction="/assets/upload"
+                nzAccept=".txt"
+                [nzHeaders]="{ authorization: 'authorization-text' }"
+                (nzChange)="uploadFile($event, sendMultipleMessageContent)"
+            >
+                <button nz-button><i nz-icon nzType="upload"></i>Upload</button>
+            </nz-upload>
+            <span style="margin-left: 3px"></span> -->
+        </div>
+    </div>
+
+    <nz-table 
+        nzTableLayout="fixed"
+        #templatesListTable 
+        [nzData]="sales"
+        [nzFrontPagination]="false"
+        nzShowSizeChanger
+        [nzLoading]="loading"
+        [nzTotal]="total"
+        [nzPageSize]="pageSize"
+        [nzPageIndex]="pageIndex"
+        (nzQueryParams)="onQueryParamsChange($event)"
+        [nzPageSizeOptions] = "[5, 10, 20, 30, 40, 50]"
+    >
+        <thead>
+            <tr>
+                <th width='5%'>#</th>
+                <th width='15%'>Account Number</th>
+                <th width='30%'>Account Name</th>
+                <th width='15%'>Employee No</th>
+                <th width='15%'>Total trade value</th>
+                <th width='15%'>Fee</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of templatesListTable.data; let i=index">
+                <td>{{i + 1}}</td>
+                <td>
+                    {{item.ACNT_NO}}
+                </td>
+                <td>
+                    {{item.CUST_NM}}
+                </td>
+                <td>
+                    {{item.EMP_NO}}
+                </td>
+                <td>
+                    {{item.YJ1 | number}}
+                </td>
+                <td>
+                    {{item.PF_AMT1 | number}}
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</nz-card>

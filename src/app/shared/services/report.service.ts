@@ -35,4 +35,8 @@ export class ReportService {
   getTradingListedSecurities(startDate, endDate) {
     return this.http.get<any>(`${environment.apiUrl}/report/tradingListedSecurities?startDate=${new Date(startDate).toISOString()}&endDate=${new Date(endDate).toISOString()}`);
   }
+
+  getTradingReport(pageIndex, pageSize, accountNumber, branch, room, emp_no, startDate, endDate) {
+    return this.http.get<any>(`${environment.apiUrl}/report/sales?offset=${pageIndex}&page=${pageSize}&startDate=${startDate}&endDate=${endDate}&accountNumber=${accountNumber}&branch=${branch}&room=${room}&emp_no=${emp_no}`);
+  }
 }

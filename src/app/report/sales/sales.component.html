@@ -40,7 +40,7 @@
                         [(ngModel)]="searchEmployee" 
                         (ngModelChange)="employeeChange($event)"
                     >
-                        <nz-option nzLabel="All" nzValue="All" *ngIf="filterUserData.length > 1"></nz-option>
+                        <!-- <nz-option nzLabel="All" nzValue="All" *ngIf="filterUserData.length > 1"></nz-option> -->
                         <nz-option *ngFor="let value of filterUserData" [nzLabel]="value.username" [nzValue]="value.username"></nz-option>
                     </nz-select>
                 </div>

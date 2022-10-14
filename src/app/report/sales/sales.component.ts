@@ -152,8 +152,9 @@ export class SalesComponent implements OnInit {
             }
         });
     }
-    convertDDMM = () => {
-        return moment(new Date()).format('DDMM');
+    
+    convertDDMM = (date) => {
+        return `${date.substring(6, 8)}${date.substring(4, 6)}`;
     }
 
     parseInt = (num) => {

@@ -1,10 +1,6 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
-import { NzModalService } from 'ng-zorro-antd/modal';
-import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
-import { IncomService } from 'src/app/shared/services/incom.service';
-import { cloneDeep } from "lodash";
 import * as common from '../../shared/common/common';
 import { ReportService } from 'src/app/shared/services/report.service';
 import { UsersService } from 'src/app/shared/services/users.service';
@@ -36,24 +32,24 @@ export class SalesComponent implements OnInit {
     filterRoomData: any = null;
     
     constructor(
-        // private incomService: IncomService,
         private reportService: ReportService,
         private usersService: UsersService,
     ) {
         //this.displayData = this.productsList
     }
 
-    ngOnInit(): void {this.users
+    ngOnInit(): void {
         let users = JSON.parse(localStorage.getItem('user')) || [];
-        console.log(users, 'users');
-        const sEmployee = users.username;
-        // if(this.users) {
-
-        // } 
         // console.log(users, 'users');
-        // console.log(this.users, 'this.users');
-        this.loadReportTradingList(this.pageIndex, this.pageSize, this.searchAccountNumber, this.searchBranch, sEmployee, this.searchRoom, this.totalTradeValue, this.searchDate[0], this.searchDate[1]);
+        const sEmployee = users.username;
+        console.log(sEmployee, 'sEmployee');
         this.loadUsersList();
+        setTimeout( async () => {
+            const employees = this.users.map(item => {
+                return item.username;
+            });
+            this.loadReportTradingList(this.pageIndex, this.pageSize, this.searchAccountNumber, this.searchBranch, employees.join(','), this.searchRoom, this.totalTradeValue, this.searchDate[0], this.searchDate[1]);
+        }, 500);
     }
 
     accountNumberChange(): void {
@@ -64,7 +60,7 @@ export class SalesComponent implements OnInit {
 
     onQueryParamsChange(params: NzTableQueryParams): void {
         const { pageSize, pageIndex } = params;
-        console.log(params, 'params');
+        // console.log(params, 'params');
         this.loadReportTradingList(pageIndex, pageSize, this.searchAccountNumber, this.searchBranch, this.searchEmployee, this.searchRoom, this.totalTradeValue, this.searchDate[0], this.searchDate[1]);
     }
     
@@ -82,9 +78,12 @@ export class SalesComponent implements OnInit {
         this.loadReportTradingList(this.pageIndex, this.pageSize, this.searchAccountNumber, this.searchBranch, this.searchEmployee, value, this.totalTradeValue, this.searchDate[0], this.searchDate[1]);
     }
 
-    employeeChange(value: string): void {
+    employeeChange(value: any): void {
         if(value === 'All' || value === null) {
-            value = JSON.parse(localStorage.getItem('user')).username;
+            const employees = this.users.map(item => {
+                return item.username;
+            });
+            value = employees.join(',')
         }
         console.log(value, 'value');
         this.loadReportTradingList(this.pageIndex, this.pageSize, this.searchAccountNumber, this.searchBranch, value, this.searchRoom, this.totalTradeValue, this.searchDate[0], this.searchDate[1]);
@@ -96,8 +95,7 @@ export class SalesComponent implements OnInit {
         }
         this.loadReportTradingList(this.pageIndex, this.pageSize, this.searchAccountNumber, this.searchBranch, this.searchEmployee, this.searchRoom, value, this.searchDate[0], this.searchDate[1]);
     }
-
-     
+      
     onChangeDateRange(result: Date[]): void {
         if(result.length === 0) {
             result = [new Date(), new Date()];

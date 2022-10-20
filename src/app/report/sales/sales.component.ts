@@ -126,6 +126,7 @@ export class SalesComponent implements OnInit {
             if(result.success) {
                 this.loading = false;
                 this.sales = result.data.data;
+                console.log(this.sales, 'this.sales');
                 this.total = result.data.total;
                 this.pageSize = pageSize;
                 this.pageIndex = pageIndex;

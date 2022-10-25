@@ -54,6 +54,8 @@ export class SalesComponent implements OnInit {
 
     accountNumberChange(): void {
         setTimeout( async () => {
+            this.pageSize = 10;
+            this.pageIndex = 1;
             this.loadReportTradingList(this.pageIndex, this.pageSize, this.searchAccountNumber, this.searchBranch, this.searchEmployee, this.searchRoom, this.totalTradeValue, this.searchDate[0], this.searchDate[1]);
         }, 800);
     }

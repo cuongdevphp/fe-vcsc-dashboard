@@ -68,6 +68,8 @@ export class SalesComponent implements OnInit {
         if(value === 'All') {
             value = '';
         }
+        this.pageSize = 10;
+        this.pageIndex = 1;
         this.loadReportTradingList(this.pageIndex, this.pageSize, this.searchAccountNumber, value, this.searchEmployee, this.searchRoom, this.totalTradeValue, this.searchDate[0], this.searchDate[1]);
     }
     
@@ -75,6 +77,8 @@ export class SalesComponent implements OnInit {
         if(value === 'All') {
             value = '';
         }
+        this.pageSize = 10;
+        this.pageIndex = 1;
         this.loadReportTradingList(this.pageIndex, this.pageSize, this.searchAccountNumber, this.searchBranch, this.searchEmployee, value, this.totalTradeValue, this.searchDate[0], this.searchDate[1]);
     }
 
@@ -85,7 +89,8 @@ export class SalesComponent implements OnInit {
             });
             value = employees.join(',')
         }
-        console.log(value, 'value');
+        this.pageSize = 10;
+        this.pageIndex = 1;
         this.loadReportTradingList(this.pageIndex, this.pageSize, this.searchAccountNumber, this.searchBranch, value, this.searchRoom, this.totalTradeValue, this.searchDate[0], this.searchDate[1]);
     }
 
@@ -93,6 +98,8 @@ export class SalesComponent implements OnInit {
         if(value === 'All') {
             value = '';
         }
+        this.pageSize = 10;
+        this.pageIndex = 1;
         this.loadReportTradingList(this.pageIndex, this.pageSize, this.searchAccountNumber, this.searchBranch, this.searchEmployee, this.searchRoom, value, this.searchDate[0], this.searchDate[1]);
     }
       
@@ -100,6 +107,9 @@ export class SalesComponent implements OnInit {
         if(result.length === 0) {
             result = [new Date(), new Date()];
         }
+        
+        this.pageSize = 10;
+        this.pageIndex = 1;
         this.loadReportTradingList(this.pageIndex, this.pageSize, this.searchAccountNumber, this.searchBranch, this.searchEmployee, this.searchRoom, this.totalTradeValue, result[0], result[1]);
     }
 

@@ -16,7 +16,8 @@ export class PaymentDashboardComponent implements OnInit {
     loading = false;
     pageSize = 10;
     dateFormat = 'dd/MM/yyyy';
-    searchDate = [new Date(new Date().setMonth(new Date().getMonth() - 1)), new Date()];
+    // searchDate = [new Date(new Date().setMonth(new Date().getMonth() - 1)), new Date()];
+    searchDate = [new Date(), new Date()];
     pageIndex = 1;
     total = 0;
     indeterminate:boolean = false;

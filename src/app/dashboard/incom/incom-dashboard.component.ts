@@ -103,7 +103,8 @@ export class IncomDashboardComponent implements OnInit {
     loading = false;
     pageSize = 10;
     dateFormat = 'dd/MM/yyyy';
-    searchDate = [new Date(new Date().setMonth(new Date().getMonth() - 1)), new Date()];
+    // searchDate = [new Date(new Date().setMonth(new Date().getMonth() - 1)), new Date()];
+    searchDate = [new Date(), new Date()];
     pageIndex = 1;
     total = null;
     indeterminate:boolean = false;

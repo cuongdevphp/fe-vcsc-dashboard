@@ -21,7 +21,6 @@ export class PaymentDashboardComponent implements OnInit {
     pageIndex = 1;
     total = 0;
     indeterminate:boolean = false;
-    paymentsList:any = null;
     payments:any = [];
     selectedSubNumer: any = '';
     searchAccountNumber: any = '';

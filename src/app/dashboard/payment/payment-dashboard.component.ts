@@ -24,6 +24,7 @@ export class PaymentDashboardComponent implements OnInit {
     payments:any = [];
     selectedSubNumer: any = '';
     searchAccountNumber: any = '';
+    totalMoney: any = 0;
     
     constructor(
         private paymentService: PaymentService,
@@ -72,6 +73,7 @@ export class PaymentDashboardComponent implements OnInit {
                 this.pageIndex = pageIndex;
                 this.searchAccountNumber = filterAccount;
                 this.selectedSubNumer = filterSub;
+                this.totalMoney = result.data.totalMoney;
             }
         });
     }

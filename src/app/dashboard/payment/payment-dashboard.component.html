@@ -28,6 +28,15 @@
                 <div class="m-b-10 m-r-20 d-flex align-items-center">
                     <nz-range-picker [nzFormat]="dateFormat" [(ngModel)]="searchDate" (ngModelChange)="onChangeDateRange($event)"></nz-range-picker>
                 </div>
+                <div class="media align-items-center m-r-40 m-v-5">
+                    <div class="font-size-27">
+                        <i class="text-primary" nz-icon nzType="profile" theme="outline"></i>
+                    </div>
+                    <div class="d-flex align-items-center m-l-10">
+                        <h2 class="m-b-0 m-r-5">{{totalMoney | number}}</h2>
+                        <span class="text-gray">VND</span>
+                    </div>
+                </div>
                 <!-- <div class="m-b-10 m-r-20 d-flex align-items-center">
                     <button nz-button nzType="primary" (click)="showStatisticModal(statisticContent)">
                         <i nz-icon nzType="pie-chart" nzTheme="outline"></i>

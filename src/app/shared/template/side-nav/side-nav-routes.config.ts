@@ -64,6 +64,15 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: [],
             },
             {
+                path: '/dashboard/withdraw',
+                title: 'Withdraw',
+                iconType: 'nzIcon',
+                icon: 'money-collect',
+                iconTheme: 'outline',
+                name: 'withdraw',
+                submenu: [],
+            },
+            {
                 path: '/dashboard/qrcode',
                 title: 'VietQr',
                 iconType: 'nzIcon',

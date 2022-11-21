@@ -47,6 +47,7 @@ import { ReportDashboardComponent } from './report/report-dashboard.component';
 import { TradingDashboardComponent } from './trading/trading.component';
 import { TemplateDashboardComponent } from './template/template.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { WithdrawDashboardComponent } from './withdraw/withdraw-dashboard.component';
 
 const antdModule = [
     NzPopconfirmModule,
@@ -99,6 +100,7 @@ const antdModule = [
         QrcodeDashboardComponent,
         TradingDashboardComponent,
         PaymentDashboardComponent,
+        WithdrawDashboardComponent,
         TemplateDashboardComponent,
         ChatComponent
     ],

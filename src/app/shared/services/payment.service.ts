@@ -25,6 +25,10 @@ export class PaymentService {
     return this.http.get(`${environment.apiUrl}/payment/getList?offset=${pageIndex}&page=${pageSize}&accountNumber=${accountNumber}&subNumber=${subNumber}&startDate=${new Date(startDate).toISOString()}&endDate=${new Date(endDate).toISOString()}`);
   }
 
+  getWithdraws(pageIndex, pageSize, sortField, sortOrder, startDate, endDate) {
+    return this.http.get(`${environment.apiUrl}/payment/withdraw/getList?offset=${pageIndex}&page=${pageSize}&startDate=${new Date(startDate).toISOString()}&endDate=${new Date(endDate).toISOString()}`);
+  }
+
   getBanks() {
     return this.http.get(`https://api.vietqr.io/v2/banks`);
   }

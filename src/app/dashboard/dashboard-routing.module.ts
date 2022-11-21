@@ -11,6 +11,7 @@ import { StatisticsDashboardComponent } from './statistics/statistics-dashboard.
 import { TradingDashboardComponent } from './trading/trading.component';
 import { UsersDashboardComponent } from './users/users.component';
 import { TemplateDashboardComponent } from './template/template.component';
+import { WithdrawDashboardComponent } from './withdraw/withdraw-dashboard.component';
 let routes: Routes = [
     {
         path: 'home',
@@ -81,6 +82,14 @@ let routes: Routes = [
         component: PaymentDashboardComponent,
         data: {
             title: 'Payment Dashboard',
+            headerDisplay: "none"
+        }
+    },
+    {
+        path: 'withdraw',
+        component: WithdrawDashboardComponent,
+        data: {
+            title: 'Withdraw Dashboard',
             headerDisplay: "none"
         }
     },

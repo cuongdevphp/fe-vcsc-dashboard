@@ -20,7 +20,7 @@ export class WithdrawDashboardComponent implements OnInit {
     total = 0;
     withdraws:any = [];
     selectedSubNumer: any = '';
-    searchAccountNumber: any = '';
+    searchAccountName: any = '';
     totalMoney: any = 0;
     
     constructor(
@@ -32,7 +32,7 @@ export class WithdrawDashboardComponent implements OnInit {
     ngOnInit(): void {
         let users = JSON.parse(localStorage.getItem('user')) || [];
         //console.log(users, 'users');
-        this.loadWithdrawList(this.pageIndex, this.pageSize, null, null, this.searchDate[0], this.searchDate[1]);
+        this.loadWithdrawList(this.pageIndex, this.pageSize, null, null, this.searchAccountName, this.searchDate[0], this.searchDate[1]);
     }
 
     onQueryParamsChange(params: NzTableQueryParams): void {
@@ -40,7 +40,7 @@ export class WithdrawDashboardComponent implements OnInit {
         const currentSort = sort.find(item => item.value !== null);
         const sortField = (currentSort && currentSort.key) || null;
         const sortOrder = (currentSort && currentSort.value) || null;
-        this.loadWithdrawList(pageIndex, pageSize, sortField, sortOrder, this.searchDate[0], this.searchDate[1]);
+        this.loadWithdrawList(pageIndex, pageSize, sortField, sortOrder, this.searchAccountName, this.searchDate[0], this.searchDate[1]);
     }
     
     loadWithdrawList(
@@ -48,6 +48,7 @@ export class WithdrawDashboardComponent implements OnInit {
         pageSize: number,
         sortField: string | null,
         sortOrder: string | null,
+        filterAccountName: string | null,
         startDate: Date | null,
         endDate: Date | null,
     ): void {
@@ -56,7 +57,7 @@ export class WithdrawDashboardComponent implements OnInit {
             page = pageSize * (pageIndex - 1);
         }
         this.loading = true;
-        this.paymentService.getWithdraws(page, pageSize, sortField, sortOrder, startDate, endDate)
+        this.paymentService.getWithdraws(page, pageSize, sortField, sortOrder, filterAccountName, startDate, endDate)
         .subscribe((result:any) => {
             console.log(result, 'result');
             if(result.success) {
@@ -65,15 +66,22 @@ export class WithdrawDashboardComponent implements OnInit {
                 this.total = result.data.total;
                 this.pageSize = pageSize;
                 this.pageIndex = pageIndex;
+                this.searchAccountName = filterAccountName;
                 this.totalMoney = result.data.totalMoney;
             }
         });
+    }
+
+    searchAccount(): void {
+        setTimeout( async () =>{
+            this.loadWithdrawList(this.pageIndex, this.pageSize, null, null, this.searchAccountName, this.searchDate[0], this.searchDate[1]);
+        }, 1000);
     }
 
     onChangeDateRange(result: Date[]): void {
         if(result.length === 0) {
             result = [new Date(new Date().setMonth(new Date().getMonth() - 1)), new Date()];
         }
-        this.loadWithdrawList(this.pageIndex, this.pageSize, null, null, result[0], result[1]);
+        this.loadWithdrawList(this.pageIndex, this.pageSize, null, null, this.searchAccountName, result[0], result[1]);
     }
 }

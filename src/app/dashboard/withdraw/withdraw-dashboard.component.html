@@ -103,9 +103,15 @@
                 <td>{{item.errorCodeLT}}</td>
                 <td>{{item.responseTCB1}}</td>
                 <td>
-                    {{item.status}}
-                    <!-- <nz-badge *ngIf="item.status == 'COMPLETED-AUTH' || item.status == 'COMPLETED-'" nzStatus="success"></nz-badge>
-                    <nz-badge *ngIf="item.status == 'MANUAL'" nzStatus="warning" nz-tooltip nzTooltipTitle="{{item.status}}"></nz-badge> -->
+                    
+                    <nz-tag *ngIf="item.status == 'COMPLETED-AUTH' || item.status == 'COMPLETED-'" [nzColor]="'cyan'">
+                        <span>{{item.status}}</span>
+                    </nz-tag>
+                    <nz-tag *ngIf="item.status == 'DENIED-DENIED'" [nzColor]="'volcano'">
+                        <span>{{item.status}}</span>
+                    </nz-tag>
+                    <!-- <nz-tag  nzColor="success">{{item.status}}</nz-tag>
+                    <nz-tag *ngIf="item.status == 'DENIED-DENIED'" nzColor="error">{{item.status}}</nz-tag> -->
                 </td>
                 <td>{{item.createDate  | date:'dd/MM/YYYY hh:mm:ss a'}}</td>
                 <td>{{item.updateDate  | date:'dd/MM/YYYY hh:mm:ss a'}}</td>

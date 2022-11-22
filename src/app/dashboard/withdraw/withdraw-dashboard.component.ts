@@ -73,6 +73,8 @@ export class WithdrawDashboardComponent implements OnInit {
     }
 
     searchAccount(): void {
+        this.pageIndex = 1;
+        this.pageSize = 10;
         setTimeout( async () =>{
             this.loadWithdrawList(this.pageIndex, this.pageSize, null, null, this.searchAccountName, this.searchDate[0], this.searchDate[1]);
         }, 1000);

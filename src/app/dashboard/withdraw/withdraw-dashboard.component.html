@@ -107,7 +107,7 @@
                     <nz-tag *ngIf="item.status == 'COMPLETED-AUTH' || item.status == 'COMPLETED-'" [nzColor]="'cyan'">
                         <span>{{item.status}}</span>
                     </nz-tag>
-                    <nz-tag *ngIf="item.status == 'DENIED-DENIED'  || item.status == 'REJECTED-'" [nzColor]="'volcano'">
+                    <nz-tag nz-tooltip nzTooltipTitle="{{item.responseTCB2}}" *ngIf="item.status == 'DENIED-DENIED'  || item.status == 'REJECTED-'" [nzColor]="'volcano'">
                         <span>{{item.status}}</span>
                     </nz-tag>
                     <!-- <nz-tag  nzColor="success">{{item.status}}</nz-tag>

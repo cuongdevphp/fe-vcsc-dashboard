@@ -56,7 +56,7 @@ export const ROUTES: SideNavInterface[] = [
             },
             {
                 path: '/dashboard/payment',
-                title: 'Payment',
+                title: 'Deposit',
                 iconType: 'nzIcon',
                 icon: 'money-collect',
                 iconTheme: 'outline',

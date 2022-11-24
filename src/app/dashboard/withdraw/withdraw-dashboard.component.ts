@@ -20,6 +20,7 @@ export class WithdrawDashboardComponent implements OnInit {
     total = 0;
     withdraws:any = [];
     selectedSubNumer: any = '';
+    selectedStatus: any = '';
     searchAccountName: any = '';
     totalMoney: any = 0;
     
@@ -32,7 +33,7 @@ export class WithdrawDashboardComponent implements OnInit {
     ngOnInit(): void {
         let users = JSON.parse(localStorage.getItem('user')) || [];
         //console.log(users, 'users');
-        this.loadWithdrawList(this.pageIndex, this.pageSize, null, null, this.searchAccountName, this.searchDate[0], this.searchDate[1]);
+        this.loadWithdrawList(this.pageIndex, this.pageSize, null, null, this.searchAccountName, this.selectedStatus, this.searchDate[0], this.searchDate[1]);
     }
 
     onQueryParamsChange(params: NzTableQueryParams): void {
@@ -40,7 +41,7 @@ export class WithdrawDashboardComponent implements OnInit {
         const currentSort = sort.find(item => item.value !== null);
         const sortField = (currentSort && currentSort.key) || null;
         const sortOrder = (currentSort && currentSort.value) || null;
-        this.loadWithdrawList(pageIndex, pageSize, sortField, sortOrder, this.searchAccountName, this.searchDate[0], this.searchDate[1]);
+        this.loadWithdrawList(pageIndex, pageSize, sortField, sortOrder, this.searchAccountName, this.selectedStatus, this.searchDate[0], this.searchDate[1]);
     }
     
     loadWithdrawList(
@@ -49,6 +50,7 @@ export class WithdrawDashboardComponent implements OnInit {
         sortField: string | null,
         sortOrder: string | null,
         filterAccountName: string | null,
+        filterStatus: string | null,
         startDate: Date | null,
         endDate: Date | null,
     ): void {
@@ -57,7 +59,7 @@ export class WithdrawDashboardComponent implements OnInit {
             page = pageSize * (pageIndex - 1);
         }
         this.loading = true;
-        this.paymentService.getWithdraws(page, pageSize, sortField, sortOrder, filterAccountName, startDate, endDate)
+        this.paymentService.getWithdraws(page, pageSize, sortField, sortOrder, filterAccountName, filterStatus, startDate, endDate)
         .subscribe((result:any) => {
             console.log(result, 'result');
             if(result.success) {
@@ -76,14 +78,21 @@ export class WithdrawDashboardComponent implements OnInit {
         this.pageIndex = 1;
         this.pageSize = 10;
         setTimeout( async () =>{
-            this.loadWithdrawList(this.pageIndex, this.pageSize, null, null, this.searchAccountName, this.searchDate[0], this.searchDate[1]);
+            this.loadWithdrawList(this.pageIndex, this.pageSize, null, null, this.searchAccountName, this.selectedStatus, this.searchDate[0], this.searchDate[1]);
         }, 1000);
+    }
+
+    statusChange(value: string): void {
+        if(value === 'All') {
+            value = '';
+        }
+        this.loadWithdrawList(this.pageIndex, this.pageSize, null, null, this.searchAccountName, value, this.searchDate[0], this.searchDate[1]);
     }
 
     onChangeDateRange(result: Date[]): void {
         if(result.length === 0) {
             result = [new Date(new Date().setMonth(new Date().getMonth() - 1)), new Date()];
         }
-        this.loadWithdrawList(this.pageIndex, this.pageSize, null, null, this.searchAccountName, result[0], result[1]);
+        this.loadWithdrawList(this.pageIndex, this.pageSize, null, null, this.searchAccountName, this.selectedStatus, result[0], result[1]);
     }
 }

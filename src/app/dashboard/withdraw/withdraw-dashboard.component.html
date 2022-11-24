@@ -11,20 +11,19 @@
                         <i nz-icon nzType="search" class="opacity-05"></i>
                     </ng-template>
                 </div> 
-                <!-- <div class="m-b-10 m-r-20 d-flex align-items-center">
+                <div class="m-b-10 m-r-20 d-flex align-items-center">
                     <nz-select 
                         style="min-width: 220px;" 
                         class="w-100" 
-                        nzPlaceHolder="Sub Number" 
-                        [(ngModel)]="selectedSubNumer" 
-                        (ngModelChange)="subNumerChange($event)"
+                        nzPlaceHolder="Status" 
+                        [(ngModel)]="selectedStatus" 
+                        (ngModelChange)="statusChange($event)"
                     >
                         <nz-option nzLabel="All" nzValue="All"></nz-option>
-                        <nz-option nzLabel="00" nzValue="00"></nz-option>
-                        <nz-option nzLabel="01" nzValue="01"></nz-option>
-                        <nz-option nzLabel="80" nzValue="80"></nz-option>
+                        <nz-option nzLabel="Success" nzValue="0"></nz-option>
+                        <nz-option nzLabel="Fail" nzValue="1"></nz-option>
                     </nz-select>
-                </div> -->
+                </div>
                 <div class="m-b-10 m-r-20 d-flex align-items-center">
                     <nz-range-picker [nzFormat]="dateFormat" [(ngModel)]="searchDate" (ngModelChange)="onChangeDateRange($event)"></nz-range-picker>
                 </div>
@@ -103,15 +102,12 @@
                 <td>{{item.errorCodeLT}}</td>
                 <td>{{item.responseTCB1}}</td>
                 <td>
-                    
                     <nz-tag *ngIf="item.status == 'COMPLETED-AUTH' || item.status == 'COMPLETED-'" [nzColor]="'cyan'">
                         <span>{{item.status}}</span>
                     </nz-tag>
                     <nz-tag nz-tooltip nzTooltipTitle="{{item.responseTCB2}}" *ngIf="item.status == 'DENIED-DENIED'  || item.status == 'REJECTED-'" [nzColor]="'volcano'">
                         <span>{{item.status}}</span>
                     </nz-tag>
-                    <!-- <nz-tag  nzColor="success">{{item.status}}</nz-tag>
-                    <nz-tag *ngIf="item.status == 'DENIED-DENIED'" nzColor="error">{{item.status}}</nz-tag> -->
                 </td>
                 <td>{{item.createDate  | date:'dd/MM/YYYY hh:mm:ss a'}}</td>
                 <td>{{item.updateDate  | date:'dd/MM/YYYY hh:mm:ss a'}}</td>

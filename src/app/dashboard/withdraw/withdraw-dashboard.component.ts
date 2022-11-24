@@ -70,6 +70,7 @@ export class WithdrawDashboardComponent implements OnInit {
                 this.pageIndex = pageIndex;
                 this.searchAccountName = filterAccountName;
                 this.totalMoney = result.data.totalMoney;
+                this.selectedStatus = filterStatus;
             }
         });
     }
@@ -83,11 +84,11 @@ export class WithdrawDashboardComponent implements OnInit {
     }
 
     statusChange(value: string): void {
-        this.pageIndex = 1;
-        this.pageSize = 10;
         if(value === 'All') {
             value = '';
         }
+        this.pageIndex = 1;
+        this.pageSize = 10;
         this.loadWithdrawList(this.pageIndex, this.pageSize, null, null, this.searchAccountName, value, this.searchDate[0], this.searchDate[1]);
     }
 

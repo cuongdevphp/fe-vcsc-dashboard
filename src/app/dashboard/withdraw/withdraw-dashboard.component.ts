@@ -83,6 +83,8 @@ export class WithdrawDashboardComponent implements OnInit {
     }
 
     statusChange(value: string): void {
+        this.pageIndex = 1;
+        this.pageSize = 10;
         if(value === 'All') {
             value = '';
         }

@@ -25,8 +25,8 @@ export class PaymentService {
     return this.http.get(`${environment.apiUrl}/payment/getList?offset=${pageIndex}&page=${pageSize}&accountNumber=${accountNumber}&subNumber=${subNumber}&startDate=${new Date(startDate).toISOString()}&endDate=${new Date(endDate).toISOString()}`);
   }
 
-  getWithdraws(pageIndex, pageSize, sortField, sortOrder, accountName, status, startDate, endDate) {
-    return this.http.get(`${environment.apiUrl}/payment/withdraw/getList?offset=${pageIndex}&page=${pageSize}&accountName=${accountName}&status=${status}&startDate=${new Date(startDate).toISOString()}&endDate=${new Date(endDate).toISOString()}`);
+  getWithdraws(pageIndex, pageSize, sortField, sortOrder, accountName, status, amount, startDate, endDate) {
+    return this.http.get(`${environment.apiUrl}/payment/withdraw/getList?offset=${pageIndex}&page=${pageSize}&accountName=${accountName}&status=${status}&amount=${amount}&startDate=${new Date(startDate).toISOString()}&endDate=${new Date(endDate).toISOString()}`);
   }
 
   getBanks() {

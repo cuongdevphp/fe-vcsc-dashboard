@@ -24,6 +24,18 @@
                         <nz-option nzLabel="Fail" nzValue="fail"></nz-option>
                     </nz-select>
                 </div>
+                <div class="m-b-10 m-r-20">
+                    <nz-select 
+                        style="min-width: 140px;" 
+                        class="w-100" 
+                        nzPlaceHolder=">= Amount" 
+                        [(ngModel)]="amount" 
+                        (ngModelChange)="amountChange($event)"
+                    >
+                        <nz-option nzLabel="All" nzValue="All"></nz-option>
+                        <nz-option nzLabel="500,000,000" nzValue="500000000"></nz-option>
+                    </nz-select>
+                </div>
                 <div class="m-b-10 m-r-20 d-flex align-items-center">
                     <nz-range-picker [nzFormat]="dateFormat" [(ngModel)]="searchDate" (ngModelChange)="onChangeDateRange($event)"></nz-range-picker>
                 </div>

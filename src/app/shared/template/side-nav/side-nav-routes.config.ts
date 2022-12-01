@@ -73,6 +73,15 @@ export const ROUTES: SideNavInterface[] = [
                 submenu: [],
             },
             {
+                path: '/dashboard/sms',
+                title: 'SMS',
+                iconType: 'nzIcon',
+                icon: 'money-collect',
+                iconTheme: 'outline',
+                name: 'sms',
+                submenu: [],
+            },
+            {
                 path: '/dashboard/qrcode',
                 title: 'VietQr',
                 iconType: 'nzIcon',

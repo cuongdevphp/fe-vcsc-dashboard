@@ -12,6 +12,7 @@ import { TradingDashboardComponent } from './trading/trading.component';
 import { UsersDashboardComponent } from './users/users.component';
 import { TemplateDashboardComponent } from './template/template.component';
 import { WithdrawDashboardComponent } from './withdraw/withdraw-dashboard.component';
+import { SmsDashboardComponent } from './sms/sms-dashboard.component';
 let routes: Routes = [
     {
         path: 'home',
@@ -90,6 +91,14 @@ let routes: Routes = [
         component: WithdrawDashboardComponent,
         data: {
             title: 'Withdraw Dashboard',
+            headerDisplay: "none"
+        }
+    },
+    {
+        path: 'sms',
+        component: SmsDashboardComponent,
+        data: {
+            title: 'SMS Dashboard',
             headerDisplay: "none"
         }
     },

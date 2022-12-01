@@ -23,6 +23,7 @@ import { NzCalendarModule } from 'ng-zorro-antd/calendar';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 
 import { DefaultDashboardComponent } from './default/default-dashboard.component';
 import { IncomDashboardComponent } from './incom/incom-dashboard.component';
@@ -48,6 +49,7 @@ import { TradingDashboardComponent } from './trading/trading.component';
 import { TemplateDashboardComponent } from './template/template.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { WithdrawDashboardComponent } from './withdraw/withdraw-dashboard.component';
+import { SmsDashboardComponent } from './sms/sms-dashboard.component';
 
 const antdModule = [
     NzPopconfirmModule,
@@ -64,6 +66,7 @@ const antdModule = [
     NzTimelineModule,
     NzTabsModule,
     NzTagModule,
+    NzInputNumberModule,
     NzListModule,
     NzCalendarModule,
     NzToolTipModule,
@@ -101,6 +104,7 @@ const antdModule = [
         TradingDashboardComponent,
         PaymentDashboardComponent,
         WithdrawDashboardComponent,
+        SmsDashboardComponent,
         TemplateDashboardComponent,
         ChatComponent
     ],

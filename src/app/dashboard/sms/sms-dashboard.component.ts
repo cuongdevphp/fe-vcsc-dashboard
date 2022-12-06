@@ -227,7 +227,8 @@ export class SmsDashboardComponent implements OnInit {
                     el.shortName === "Vietcombank" || //
                     el.shortName === "ACB" || // 
                     el.shortName === "HDBank" || //
-                    el.shortName === "Sacombank" //
+                    el.shortName === "Sacombank" || //
+                    el.shortName === "VIB" //
                 ); 
             }); 
         });

@@ -51,7 +51,7 @@ export class SmsDashboardComponent implements OnInit {
     ngOnInit(): void {
         let users = JSON.parse(localStorage.getItem('user')) || [];
         //console.log(users, 'users');
-        this.loadWithdrawList(this.pageIndex, this.pageSize, this.bankCode, this.selectedType, this.searchDate[0], this.searchDate[1]);
+        this.loadWithdrawList(this.pageIndex, this.pageSize, this.bankCode, this.selectedType, this.selectedStatus, this.searchDate[0], this.searchDate[1]);
         this.loadBanks();
     }
 
@@ -60,7 +60,7 @@ export class SmsDashboardComponent implements OnInit {
         const currentSort = sort.find(item => item.value !== null);
         const sortField = (currentSort && currentSort.key) || null;
         const sortOrder = (currentSort && currentSort.value) || null;
-        this.loadWithdrawList(pageIndex, pageSize, this.bankCode, this.selectedType, this.searchDate[0], this.searchDate[1]);
+        this.loadWithdrawList(pageIndex, pageSize, this.bankCode, this.selectedType, this.selectedStatus, this.searchDate[0], this.searchDate[1]);
     }
     
     loadWithdrawList(
@@ -68,6 +68,7 @@ export class SmsDashboardComponent implements OnInit {
         pageSize: number,
         bankCode: string,
         type: string,
+        status: string,
         startDate: Date | null,
         endDate: Date | null,
     ): void {
@@ -76,7 +77,7 @@ export class SmsDashboardComponent implements OnInit {
             page = pageSize * (pageIndex - 1);
         }
         this.loading = true;
-        this.paymentService.getSMSTpLink(page, pageSize, bankCode, type, startDate, endDate)
+        this.paymentService.getSMSTpLink(page, pageSize, bankCode, type, status, startDate, endDate)
         .subscribe((result:any) => {
             console.log(result, 'result');
             if(result.success) {
@@ -87,6 +88,7 @@ export class SmsDashboardComponent implements OnInit {
                 this.pageIndex = pageIndex;
                 this.bankCode = bankCode;
                 this.selectedType = type;
+                this.selectedStatus = status;
             }
         });
     }
@@ -187,7 +189,7 @@ export class SmsDashboardComponent implements OnInit {
                 'Notification',
                 result.message
             );
-            this.loadWithdrawList(this.pageIndex, this.pageSize, this.bankCode, this.selectedType, this.searchDate[0], this.searchDate[1]);
+            this.loadWithdrawList(this.pageIndex, this.pageSize, this.bankCode, this.selectedType, this.selectedStatus, this.searchDate[0], this.searchDate[1]);
             this.modalService.closeAll();
             this.resetDepositModal();
         });
@@ -236,16 +238,19 @@ export class SmsDashboardComponent implements OnInit {
         if(value === 'All') {
             value = '';
         }
-        this.loadWithdrawList(this.pageIndex, this.pageSize, value, this.selectedType, this.searchDate[0], this.searchDate[1]);
+        this.pageIndex = 1;
+        this.pageSize = 10;
+        this.loadWithdrawList(this.pageIndex, this.pageSize, value, this.selectedType, this.selectedStatus, this.searchDate[0], this.searchDate[1]);
     }
-    // amountChange(value: string): void {
-    //     if(value === 'All') {
-    //         value = '';
-    //     }
-    //     this.pageSize = 10;
-    //     this.pageIndex = 1;
-    //     this.loadWithdrawList(this.pageIndex, this.pageSize, null, null, this.searchAccountName, this.selectedStatus, value, this.searchDate[0], this.searchDate[1]);
-    // }
+
+    statusChange(value: string): void {
+        if(value === 'All') {
+            value = '';
+        }
+        this.pageSize = 10;
+        this.pageIndex = 1;
+        this.loadWithdrawList(this.pageIndex, this.pageSize, this.bankCode, this.selectedType, value, this.searchDate[0], this.searchDate[1]);
+    }
 
     // searchAccount(): void {
     //     this.pageIndex = 1;
@@ -261,14 +266,16 @@ export class SmsDashboardComponent implements OnInit {
         }
         this.pageIndex = 1;
         this.pageSize = 10;
-        this.loadWithdrawList(this.pageIndex, this.pageSize, this.bankCode, value, this.searchDate[0], this.searchDate[1]);
+        this.loadWithdrawList(this.pageIndex, this.pageSize, this.bankCode, value, this.selectedStatus, this.searchDate[0], this.searchDate[1]);
     }
 
     onChangeDateRange(result: Date[]): void {
         if(result.length === 0) {
             result = [new Date(new Date().setMonth(new Date().getMonth() - 1)), new Date()];
         }
-        this.loadWithdrawList(this.pageIndex, this.pageSize, this.bankCode, this.selectedType, result[0], result[1]);
+        this.pageIndex = 1;
+        this.pageSize = 10;
+        this.loadWithdrawList(this.pageIndex, this.pageSize, this.bankCode, this.selectedType, this.selectedStatus, result[0], result[1]);
     }
 }
 

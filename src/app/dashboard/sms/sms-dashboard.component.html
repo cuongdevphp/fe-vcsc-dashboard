@@ -37,6 +37,21 @@
                     </nz-select>
                 </div>
                 <div class="m-b-10 m-r-20">
+                    <nz-select 
+                        style="min-width: 220px;" 
+                        class="w-100" 
+                        nzPlaceHolder="Status..." 
+                        [(ngModel)]="selectedStatus" 
+                        (ngModelChange)="statusChange($event)"
+                    >
+                        <nz-option nzLabel="All" nzValue="All"></nz-option>
+                        <nz-option nzLabel="Waitting for approval" nzValue="0"></nz-option>
+                        <nz-option nzLabel="Success" nzValue="1"></nz-option>
+                        <nz-option nzLabel="Cancel" nzValue="2"></nz-option>
+                        <nz-option nzLabel="Fail" nzValue="3"></nz-option>
+                    </nz-select>
+                </div>
+                <div class="m-b-10 m-r-20">
                     <nz-range-picker [nzFormat]="dateFormat" [(ngModel)]="searchDate" (ngModelChange)="onChangeDateRange($event)"></nz-range-picker>
                 </div>
             </div>          
@@ -74,11 +89,11 @@
             <tr>
                 <th width='1%'></th>
                 <th width='10%'>Name</th>
-                <th width='40%'>Content</th>
+                <th width='35%'>Content</th>
                 <th width='13%'>Received Time</th>
                 <th width='13%'>Update Time</th>
                 <th width='5%'>Status</th>
-                <th width='5%'>Action</th>
+                <th width='10%'>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -100,14 +115,17 @@
                 <td>{{item.receivedTime  | date:'dd/MM/YYYY HH:mm:ss a'}}</td>
                 <td>{{item.updateDate  | date:'dd/MM/YYYY HH:mm:ss a'}}</td>
                 <td>
-                    <nz-tag *ngIf="item.status == null" [nzColor]="'gold'">
+                    <nz-tag *ngIf="item.status == 0" [nzColor]="'gold'">
                         <span>Waitting for approval</span>
                     </nz-tag>
-                    <nz-tag *ngIf="item.resultLT == 'SUCCESS'" [nzColor]="'cyan'">
+                    <nz-tag *ngIf="item.status == 1" [nzColor]="'cyan'">
                         <span>Approved</span>
                     </nz-tag>
-                    <nz-tag nz-tooltip nzTooltipTitle="{{item.messageLT}}" *ngIf="item.resultLT == 'MANUAL'" [nzColor]="'volcano'">
+                    <nz-tag nz-tooltip nzTooltipTitle="{{item.messageLT}}" *ngIf="item.status == 3" [nzColor]="'volcano'">
                         <span>Fail</span>
+                    </nz-tag>
+                    <nz-tag nz-tooltip nzTooltipTitle="{{item.messageLT}}" *ngIf="item.status == 2" [nzColor]="'volcano'">
+                        <span>Cancel</span>
                     </nz-tag>
                 </td>
                 <td>
@@ -124,6 +142,18 @@
                         <span nz-icon nzType="money-collect" nzTheme="outline"></span>
                     </button>
                     <button 
+                        nzDanger
+                        *ngIf="item.type == 1 && item.resultLT != 'SUCCESS'"
+                        class="m-r-5" 
+                        nzType="primary" 
+                        nz-button 
+                        nz-tooltip 
+                        nzShape="circle" 
+                        nzTooltipTitle="Cancel" 
+                    >
+                        <i nz-icon nzType="close" theme="outline"></i>
+                    </button>
+                    <!-- <button 
                         *ngIf="item.type == 0"
                         (click)="withdrawModal(createActionContentWithdraw)" 
                         class="m-r-5" 
@@ -135,7 +165,7 @@
                         nzTooltipTitle="Withdraw" 
                     >
                         <span nz-icon nzType="money-collect" nzTheme="outline"></span>
-                    </button>
+                    </button> -->
                 </td>
             </tr>
         </tbody>

@@ -97,6 +97,7 @@ export class SmsDashboardComponent implements OnInit {
         console.log(value, 'value');
         const params = {
             "idx": value.idx,
+            "fromNm": value.fromNm,
             "accountNumber": value.accountNumber.toUpperCase(),
             "subNumber": '',
             "accountBank": value.accountBank,

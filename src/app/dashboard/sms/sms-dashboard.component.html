@@ -210,8 +210,7 @@
                     <nz-form-control >
                         <nz-input-group>
                             <nz-input-number
-                                [nzDisabled]="true"
-                                
+                                [nzDisabled]="sendItemDeposit.fromNm === 'Eximbank' ? false : true"
                                 style="width: 100%"
                                 [nzMin]="0"
                                 [nzFormatter]="formatterNumber" 

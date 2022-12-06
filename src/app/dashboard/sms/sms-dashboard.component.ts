@@ -24,6 +24,7 @@ export class SmsDashboardComponent implements OnInit {
     lastIdx: any = '';
     sms:any = [];
     selectedSubNumer: any = '';
+    selectedType: any = '';
     selectedStatus: any = '';
     searchAccountName: any = '';
     totalMoney: any = 0;
@@ -31,7 +32,14 @@ export class SmsDashboardComponent implements OnInit {
     amount: any = '';
     loadingDepositModal = false;
     banks:any = [];
-    
+    bankCode:any = 'Vietcombank';
+    requiredForm: any = {
+        accountNumber: false,
+        subNumber: false,
+        accountBank: false,
+        amount: false,
+        content: false,
+    };
     constructor(
         private paymentService: PaymentService,
         private modalService: NzModalService,
@@ -42,7 +50,7 @@ export class SmsDashboardComponent implements OnInit {
     ngOnInit(): void {
         let users = JSON.parse(localStorage.getItem('user')) || [];
         //console.log(users, 'users');
-        this.loadWithdrawList(this.pageIndex, this.pageSize, this.searchDate[0], this.searchDate[1]);
+        this.loadWithdrawList(this.pageIndex, this.pageSize, this.bankCode, this.selectedType, this.searchDate[0], this.searchDate[1]);
         this.loadBanks();
     }
 
@@ -51,12 +59,14 @@ export class SmsDashboardComponent implements OnInit {
         const currentSort = sort.find(item => item.value !== null);
         const sortField = (currentSort && currentSort.key) || null;
         const sortOrder = (currentSort && currentSort.value) || null;
-        this.loadWithdrawList(pageIndex, pageSize, this.searchDate[0], this.searchDate[1]);
+        this.loadWithdrawList(pageIndex, pageSize, this.bankCode, this.selectedType, this.searchDate[0], this.searchDate[1]);
     }
     
     loadWithdrawList(
         pageIndex: number,
         pageSize: number,
+        bankCode: string,
+        type: string,
         startDate: Date | null,
         endDate: Date | null,
     ): void {
@@ -65,7 +75,7 @@ export class SmsDashboardComponent implements OnInit {
             page = pageSize * (pageIndex - 1);
         }
         this.loading = true;
-        this.paymentService.getSMSTpLink(page, pageSize, startDate, endDate)
+        this.paymentService.getSMSTpLink(page, pageSize, bankCode, type, startDate, endDate)
         .subscribe((result:any) => {
             console.log(result, 'result');
             if(result.success) {
@@ -74,48 +84,56 @@ export class SmsDashboardComponent implements OnInit {
                 this.total = result.data.total;
                 this.pageSize = pageSize;
                 this.pageIndex = pageIndex;
+                this.bankCode = bankCode;
+                this.selectedType = type;
             }
         });
     }
     
     depositModal = (value, createActionContent) => {
-        const arrSring = value.message.split(" ");
-        const amount = parseInt(arrSring[3].slice(0, -3).substring(1).replaceAll(",", ""));
-        // console.log(amount, 'amountStr');
-        // const amount
-        const accountBank = arrSring[2];
-        const accountStock = arrSring[11].split(",")[1];
-        let subNumber = '';
-        let accountNumber = '';
-        if(accountStock.length === 12) {
-            subNumber = accountStock.slice(-2);
-            accountNumber = accountStock.slice(0, -2);
-        } else {
-            accountNumber = accountStock;
-            subNumber = '';
-        }
-        // const subNumber = arrSring[2];
+        console.log(value, 'value');
         const params = {
-            "accountNumber": accountNumber,
-            "subNumber": subNumber,
-            "accountBank": accountBank,
-            "amount": amount,
+            "accountNumber": value.accountNumber,
+            "subNumber": '',
+            "accountBank": value.accountBank,
+            "amount": value.amount,
             "content": value.message,
         }
         this.sendItemDeposit = cloneDeep(params);
-        console.log(this.sendItemDeposit, 'this.sendItemDeposit');
         this.showDepositModal(params, createActionContent);
     }
 
-    formatterNumber = (value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    withdrawModal = (createActionContentWithdraw) => {
+        this.showWithdrawModal(createActionContentWithdraw);
+    }
 
-    showDepositModal(params, createActionContent: TemplateRef<{}>) {
-        console.log(params, 'data');
+    showWithdrawModal(createActionContentWithdraw: TemplateRef<{}>) {
         this.modalService.create({
             nzMaskClosable: false,
             nzTitle: 'Confirm',
             nzOnCancel: () => {
-                this.resetTemplateModal();
+                // this.resetDepositModal();
+            },
+            nzContent: createActionContentWithdraw,
+            nzFooter: [
+                {
+                    label: 'OK',
+                    type: 'primary',
+                    loading: () => false,
+                    onClick: () => {
+                    },
+                },
+            ],
+            nzWidth: 500,
+        })
+    }
+    
+    showDepositModal(params, createActionContent: TemplateRef<{}>) {
+        this.modalService.create({
+            nzMaskClosable: false,
+            nzTitle: 'Confirm',
+            nzOnCancel: () => {
+                this.resetDepositModal();
             },
             nzContent: createActionContent,
             nzFooter: [
@@ -124,7 +142,32 @@ export class SmsDashboardComponent implements OnInit {
                     type: 'primary',
                     loading: () => this.loadingDepositModal,
                     onClick: () => {
-                        this.actionDeposit(params);
+                        if(
+                            this.sendItemDeposit.accountNumber && 
+                            this.sendItemDeposit.subNumber && 
+                            this.sendItemDeposit.accountBank && 
+                            this.sendItemDeposit.amount && 
+                            this.sendItemDeposit.content
+                        ) {
+                            this.requiredForm = false;
+                            console.log(this.sendItemDeposit, "dsada");
+                            this.actionDeposit(this.sendItemDeposit);
+                        } 
+                        else if (!this.sendItemDeposit.accountNumber) {
+                            this.requiredForm.accountNumber = true; 
+                        } 
+                        else if (!this.sendItemDeposit.subNumber) {
+                            this.requiredForm.subNumber = true;
+                        }
+                        else if (!this.sendItemDeposit.accountBank) {
+                            this.requiredForm.accountBank = true;
+                        }
+                        else if (!this.sendItemDeposit.amount) {
+                            this.requiredForm.amount = true;
+                        }
+                        else if (!this.sendItemDeposit.content) {
+                            this.requiredForm.content = true;
+                        }
                     },
                 },
             ],
@@ -134,9 +177,7 @@ export class SmsDashboardComponent implements OnInit {
 
     actionDeposit(params : Object): void {
         this.loadingDepositModal = true;
-        const data = {
-            
-        };
+        console.log(params, 'params');
         // this.incomService.createTemplate(params)
         // .subscribe(result => {
         //     // if(result.success) {
@@ -147,48 +188,54 @@ export class SmsDashboardComponent implements OnInit {
         //     );
         //     this.loadTemplateList(this.pageIndex, this.pageSize);
         //     this.modalService.closeAll();
-        //     this.resetTemplateModal();
+        //     this.resetDepositModal();
         // });
     }
 
-    resetTemplateModal(): void {
+    resetDepositModal(): void {
         this.loadingDepositModal = false;
         this.sendItemDeposit = {
-            name: '',
-            template: ''
+            accountNumber: '',
+            subNumber: '',
+            accountBank: '',
+            amount: '',
+            content: ''
         };
-        // this.requiredForm = {
-        //     phoneNumber: false,
-        //     content: false
-        // };
+        this.requiredForm = {
+            accountNumber: false,
+            subNumber: false,
+            accountBank: false,
+            amount: false,
+            content: false,
+        };
     }
     
+    formatterNumber = (value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
     loadBanks(): void {
         this.paymentService.getBanks()
         .subscribe((result:any) => {
-            
-            // <img *ngIf="item.fromNm == 'Techcombank'" style="width: 100%;" src="assets/images/logo/TCB.png" />
-            // <img *ngIf="item.fromNm == 'BIDV'" style="width: 100%;" src="assets/images/logo/BIDV.png" />
-            // <img *ngIf="item.fromNm == 'VietinBank'" style="width: 100%;" src="assets/images/logo/ICB.png" />
-            // <img *ngIf="item.fromNm == 'BanVietBank'" style="width: 100%;" src="assets/images/logo/VCCB.png" />
-            // <img *ngIf="item.fromNm == 'Vietcombank'" style="width: 100%;" src="assets/images/logo/VCB.png" />
-            // <img *ngIf="item.fromNm == 'ACB'" style="width: 100%;" src="assets/images/logo/ACB.png" />
-            // <img *ngIf="item.fromNm == 'HDBank'" style="width: 100%;" src="assets/images/logo/HDB.png" />
-            // <img *ngIf="item.fromNm == 'Sacombank'" style="width: 100%;" src="assets/images/logo/STB.png" />
-
             this.banks = result.data.filter((el) => { 
                 return (
-                    el.shortName === "Techcombank" || 
-                    el.shortName === "BIDV" ||
-                    el.shortName === "VietinBank" ||
+                    el.shortName === "Techcombank" || // 
+                    el.shortName === "BIDV" || // 
+                    el.shortName === "VietinBank" || // 
                     el.shortName === "VietCapitalBank" ||
-                    el.shortName === "Vietcombank" ||
-                    el.shortName === "ACB" ||
-                    el.shortName === "HDBank" ||
-                    el.shortName === "Sacombank"
+                    el.shortName === "Vietcombank" || //
+                    el.shortName === "ACB" || // 
+                    el.shortName === "HDBank" || //
+                    el.shortName === "Sacombank" //
                 ); 
             }); 
         });
+    }
+    
+    bankCodeChange(value: string): void {
+        console.log(value, 'value');
+        if(value === 'All') {
+            value = '';
+        }
+        this.loadWithdrawList(this.pageIndex, this.pageSize, value, this.selectedType, this.searchDate[0], this.searchDate[1]);
     }
     // amountChange(value: string): void {
     //     if(value === 'All') {
@@ -207,21 +254,21 @@ export class SmsDashboardComponent implements OnInit {
     //     }, 1000);
     // }
 
-    // statusChange(value: string): void {
-    //     if(value === 'All') {
-    //         value = '';
-    //     }
-    //     this.pageIndex = 1;
-    //     this.pageSize = 10;
-    //     this.loadWithdrawList(this.pageIndex, this.pageSize, null, null, this.searchAccountName, value, this.amount, this.searchDate[0], this.searchDate[1]);
-    // }
+    typeChange(value: string): void {
+        if(value === 'All') {
+            value = '';
+        }
+        this.pageIndex = 1;
+        this.pageSize = 10;
+        this.loadWithdrawList(this.pageIndex, this.pageSize, this.bankCode, value, this.searchDate[0], this.searchDate[1]);
+    }
 
-    // onChangeDateRange(result: Date[]): void {
-    //     if(result.length === 0) {
-    //         result = [new Date(new Date().setMonth(new Date().getMonth() - 1)), new Date()];
-    //     }
-    //     this.loadWithdrawList(this.pageIndex, this.pageSize, null, null, this.searchAccountName, this.selectedStatus, this.amount, result[0], result[1]);
-    // }
+    onChangeDateRange(result: Date[]): void {
+        if(result.length === 0) {
+            result = [new Date(new Date().setMonth(new Date().getMonth() - 1)), new Date()];
+        }
+        this.loadWithdrawList(this.pageIndex, this.pageSize, this.bankCode, this.selectedType, result[0], result[1]);
+    }
 }
 
 

@@ -33,8 +33,8 @@ export class PaymentService {
     return this.http.get(`https://api.vietqr.io/v2/banks`);
   }
 
-  getSMSTpLink(pageIndex, pageSize, startDate, endDate) {
-    return this.http.get(`${environment.apiUrl}/payment/tpLink/getSMS?offset=${pageIndex}&page=${pageSize}&startDate=${new Date(startDate).toISOString()}&endDate=${new Date(endDate).toISOString()}`);
+  getSMSTpLink(pageIndex, pageSize, bankCode, type, startDate, endDate) {
+    return this.http.get(`${environment.apiUrl}/payment/tpLink/getSMS?offset=${pageIndex}&type=${type}&bankCode=${bankCode}&page=${pageSize}&startDate=${new Date(startDate).toISOString()}&endDate=${new Date(endDate).toISOString()}`);
   }
 
   generateVietQrCode(data) {

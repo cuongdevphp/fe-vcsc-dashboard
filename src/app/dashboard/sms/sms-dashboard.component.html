@@ -7,71 +7,38 @@
                     <nz-select 
                         class="w-100" 
                         style="min-width: 500px;" 
-                        formControlName="bankCode"
                         nzPlaceHolder="Bank..." 
+                        [(ngModel)]="bankCode" 
+                        (ngModelChange)="bankCodeChange($event)"
                     >
+                        <nz-option nzLabel="All" nzValue="All"></nz-option>
                         <nz-option 
                             nzCustomContent 
                             *ngFor="let value of banks" 
                             [nzLabel]="value.name"
-                            [nzValue]="value.id"
+                            [nzValue]="value.shortName"
                         >
                             <img style='width: 60px;' src={{value.logo}}> 
                             {{value.name}}
                         </nz-option>
                     </nz-select>
                 </div>
-                <!-- <div class="m-b-10 m-r-20">
-                    <nz-input-group [nzPrefix]="prefixTemplate">
-                        <input type="text" nz-input placeholder="Account Name..." [(ngModel)]="searchAccountName" (ngModelChange)="searchAccount()">
-                    </nz-input-group>
-                    <ng-template #prefixTemplate>
-                        <i nz-icon nzType="search" class="opacity-05"></i>
-                    </ng-template>
-                </div> 
-                <div class="m-b-10 m-r-20 d-flex align-items-center">
+                <div class="m-b-10 m-r-20">
                     <nz-select 
                         style="min-width: 220px;" 
                         class="w-100" 
-                        nzPlaceHolder="Status" 
-                        [(ngModel)]="selectedStatus" 
-                        (ngModelChange)="statusChange($event)"
+                        nzPlaceHolder="Type..." 
+                        [(ngModel)]="selectedType" 
+                        (ngModelChange)="typeChange($event)"
                     >
                         <nz-option nzLabel="All" nzValue="All"></nz-option>
-                        <nz-option nzLabel="Success" nzValue="success"></nz-option>
-                        <nz-option nzLabel="Fail" nzValue="fail"></nz-option>
+                        <nz-option nzLabel="Nộp tiền" nzValue="1"></nz-option>
+                        <nz-option nzLabel="Rút tiền" nzValue="0"></nz-option>
                     </nz-select>
                 </div>
                 <div class="m-b-10 m-r-20">
-                    <nz-select 
-                        style="min-width: 140px;" 
-                        class="w-100" 
-                        nzPlaceHolder=">= Amount" 
-                        [(ngModel)]="amount" 
-                        (ngModelChange)="amountChange($event)"
-                    >
-                        <nz-option nzLabel="All" nzValue="All"></nz-option>
-                        <nz-option nzLabel="500,000,000" nzValue="500000000"></nz-option>
-                    </nz-select>
-                </div>
-                <div class="m-b-10 m-r-20 d-flex align-items-center">
                     <nz-range-picker [nzFormat]="dateFormat" [(ngModel)]="searchDate" (ngModelChange)="onChangeDateRange($event)"></nz-range-picker>
                 </div>
-                <div class="media align-items-center m-r-40 m-v-5">
-                    <div class="font-size-27">
-                        <i class="text-primary" nz-icon nzType="profile" theme="outline"></i>
-                    </div>
-                    <div class="d-flex align-items-center m-l-10">
-                        <h2 class="m-b-0 m-r-5">{{totalMoney | number}}</h2>
-                        <span class="text-gray">VND</span>
-                    </div>
-                </div> -->
-                <!-- <div class="m-b-10 m-r-20 d-flex align-items-center">
-                    <button nz-button nzType="primary" (click)="showStatisticModal(statisticContent)">
-                        <i nz-icon nzType="pie-chart" nzTheme="outline"></i>
-                        <span>Statistic</span>
-                    </button>
-                </div> -->
             </div>          
         </div>
         <!-- <div class="col-lg-2 text-right" style="display: flex;">
@@ -107,8 +74,10 @@
             <tr>
                 <th width='1%'></th>
                 <th width='10%'>Name</th>
-                <th width='60%'>Content</th>
+                <th width='40%'>Content</th>
                 <th width='13%'>Received Time</th>
+                <th width='13%'>Update Time</th>
+                <th width='5%'>Status</th>
                 <th width='5%'>Action</th>
             </tr>
         </thead>
@@ -130,8 +99,19 @@
                 </td>
                 <td>{{item.receivedTime  | date:'dd/MM/YYYY HH:mm:ss a'}}</td>
                 <td>
+                    
+                </td>
+                <td>
+                    <nz-tag *ngIf="item.status == null" [nzColor]="'gold'">
+                        <span>Waitting for approval</span>
+                    </nz-tag>
+                    <nz-tag  *ngIf="item.status == ''" [nzColor]="'cyan'">
+                        <span>Approved</span>
+                    </nz-tag>
+                </td>
+                <td>
                     <button 
-                        *ngIf="item.fromNm == 'Vietcombank'"
+                        *ngIf="item.type == 1"
                         (click)="depositModal(item, createActionContent)" 
                         class="m-r-5" 
                         nz-button 
@@ -139,6 +119,19 @@
                         nzShape="circle" 
                         nz-tooltip 
                         nzTooltipTitle="Deposit" 
+                    >
+                        <span nz-icon nzType="money-collect" nzTheme="outline"></span>
+                    </button>
+                    <button 
+                        *ngIf="item.type == 0"
+                        (click)="withdrawModal(createActionContentWithdraw)" 
+                        class="m-r-5" 
+                        nz-button 
+                        nzType="primary" 
+                        nzDanger
+                        nzShape="circle" 
+                        nz-tooltip 
+                        nzTooltipTitle="Withdraw" 
                     >
                         <span nz-icon nzType="money-collect" nzTheme="outline"></span>
                     </button>
@@ -151,34 +144,39 @@
 <ng-template #createActionContent>
     <form nz-form nzLayout="vertical">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <nz-form-item class="relative">
                     <nz-form-label nzRequired>Account Number</nz-form-label>
-                    <nz-form-control nzErrorTip="Please input username!">
+                    <nz-form-control>
                         <nz-input-group>
-                            <input type="text" readonly name="sendItemDeposit.accountNumber" [(ngModel)]="sendItemDeposit.accountNumber" nz-input placeholder="Please input account number" />
+                            <input type="text" name="sendItemDeposit.accountNumber" [(ngModel)]="sendItemDeposit.accountNumber" nz-input placeholder="Please input account number" />
                             <!-- <input type="text" nz-input formControlName="username" placeholder="Please input username"> -->
                         </nz-input-group>
+                        <nz-form-explain *ngIf="requiredForm.accountNumber" style="color: red;">
+                            Please input account number!
+                        </nz-form-explain>
                     </nz-form-control>
                 </nz-form-item>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <nz-form-item class="relative">
                     <nz-form-label nzRequired>Sub Number</nz-form-label>
-                    <nz-form-control nzErrorTip="Please input sub number!">
+                    <nz-form-control>
                         <nz-input-group>
                             <input type="text" name="sendItemDeposit.subNumber" [(ngModel)]="sendItemDeposit.subNumber" nz-input placeholder="Please input account number" />
                         </nz-input-group>
+                        <nz-form-explain *ngIf="requiredForm.subNumber" style="color: red;">
+                            Please input sub number!
+                        </nz-form-explain>
                     </nz-form-control>
                 </nz-form-item>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <nz-form-item class="relative">
                     <nz-form-label nzRequired>Amount</nz-form-label>
-                    <nz-form-control nzErrorTip="Please input name!">
+                    <nz-form-control >
                         <nz-input-group>
                             <nz-input-number
-                                [nzDisabled]="true"
                                 style="width: 100%"
                                 [nzMin]="0"
                                 [nzFormatter]="formatterNumber" 
@@ -188,31 +186,50 @@
                             ></nz-input-number>
                             <!-- <input type="text" name="sendItemDeposit.amount" [(ngModel)]="sendItemDeposit.amount" nz-input placeholder="Please input account number" /> -->
                         </nz-input-group>
+                        <nz-form-explain *ngIf="requiredForm.amount" style="color: red;">
+                            Please input amount!
+                        </nz-form-explain>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div class="col-md-3">
+                <nz-form-item class="relative">
+                    <nz-form-label nzRequired>Account Bank</nz-form-label>
+                    <nz-form-control >
+                        <nz-input-group>
+                            <input type="text" name="sendItemDeposit.accountBank" [(ngModel)]="sendItemDeposit.accountBank" nz-input placeholder="Please input account number" />
+                        </nz-input-group>
+                        <nz-form-explain *ngIf="requiredForm.accountBank" style="color: red;">
+                            Please input account bank!
+                        </nz-form-explain>
                     </nz-form-control>
                 </nz-form-item>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-3">
-                <nz-form-item class="relative">
-                    <nz-form-label nzRequired>Account Bank</nz-form-label>
-                    <nz-form-control nzErrorTip="Please input username!">
-                        <nz-input-group>
-                            <input type="text" readonly name="sendItemDeposit.accountBank" [(ngModel)]="sendItemDeposit.accountBank" nz-input placeholder="Please input account number" />
-                        </nz-input-group>
-                    </nz-form-control>
-                </nz-form-item>
-            </div>
-            <div class="col-md-9">
+            <div class="col-md-12">
                 <nz-form-item class="relative">
                     <nz-form-label nzRequired>Message</nz-form-label>
-                    <nz-form-control nzErrorTip="Please input username!">
+                    <nz-form-control >
                         <nz-input-group>
-                            <textarea readonly name="sendItemDeposit.content"  [nzAutosize]="{ minRows: 3, maxRows: 3 }" [(ngModel)]="sendItemDeposit.content" placeholder="Please input content message" nz-input></textarea>
+                            <textarea name="sendItemDeposit.content"  [nzAutosize]="{ minRows: 3, maxRows: 3 }" [(ngModel)]="sendItemDeposit.content" placeholder="Please input content message" nz-input></textarea>
                         </nz-input-group>
+                        <nz-form-explain *ngIf="requiredForm.content" style="color: red;">
+                            Please input content!
+                        </nz-form-explain>
                     </nz-form-control>
                 </nz-form-item>
             </div>
         </div>
     </form>
+</ng-template>
+
+
+<ng-template #createActionContentWithdraw>
+    <div class="row">
+        
+        <div class="col-md-12"><img style="width: 100%;" src="assets/images/others/coming-soon.jpg" />
+        </div>
+    </div>
+        
 </ng-template>

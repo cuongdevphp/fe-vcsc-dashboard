@@ -24,7 +24,7 @@ export class SmsDashboardComponent implements OnInit {
     lastIdx: any = '';
     sms:any = [];
     selectedSubNumer: any = '';
-    selectedType: any = '';
+    selectedType: any = '1';
     selectedStatus: any = '';
     searchAccountName: any = '';
     totalMoney: any = 0;

@@ -112,8 +112,8 @@
                 <td>
                     {{item.message}}
                 </td>
-                <td>{{item.receivedTime  | date:'dd/MM/YYYY HH:mm:ss a'}}</td>
-                <td>{{item.updateDate  | date:'dd/MM/YYYY HH:mm:ss a'}}</td>
+                <td>{{item.receivedTime  | date:'dd/MM/YYYY HH:mm:ss'}}</td>
+                <td>{{item.updateDate  | date:'dd/MM/YYYY HH:mm:ss'}}</td>
                 <td>
                     <nz-tag *ngIf="item.status == 0" [nzColor]="'gold'">
                         <span>Waitting for approval</span>

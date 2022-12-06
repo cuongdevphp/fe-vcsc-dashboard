@@ -48,4 +48,16 @@ export class PaymentService {
     }
     return this.http.post<any>(`https://api.vietqr.io/v2/generate`, { ...params })
   }
+
+  actionSIM(data) {
+    const params = {
+      accountNumber: data.accountNumber,
+      subNumber: data.subNumber,
+      amount: data.amount,
+      accountBank: data.accountBank,
+      idx: data.idx,
+      content: data.content
+    }
+    return this.http.post<any>(`${environment.apiUrl}/payment/tpLink/action`, { ...params })
+  }
 }

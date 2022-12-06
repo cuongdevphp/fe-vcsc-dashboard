@@ -98,20 +98,21 @@
                     {{item.message}}
                 </td>
                 <td>{{item.receivedTime  | date:'dd/MM/YYYY HH:mm:ss a'}}</td>
-                <td>
-                    
-                </td>
+                <td>{{item.updateDate  | date:'dd/MM/YYYY HH:mm:ss a'}}</td>
                 <td>
                     <nz-tag *ngIf="item.status == null" [nzColor]="'gold'">
                         <span>Waitting for approval</span>
                     </nz-tag>
-                    <nz-tag  *ngIf="item.status == ''" [nzColor]="'cyan'">
+                    <nz-tag *ngIf="item.resultLT == 'SUCCESS'" [nzColor]="'cyan'">
                         <span>Approved</span>
+                    </nz-tag>
+                    <nz-tag nz-tooltip nzTooltipTitle="{{item.messageLT}}" *ngIf="item.resultLT == 'MANUAL'" [nzColor]="'volcano'">
+                        <span>Fail</span>
                     </nz-tag>
                 </td>
                 <td>
                     <button 
-                        *ngIf="item.type == 1"
+                        *ngIf="item.type == 1 && item.resultLT != 'SUCCESS'"
                         (click)="depositModal(item, createActionContent)" 
                         class="m-r-5" 
                         nz-button 
@@ -163,7 +164,7 @@
                     <nz-form-label nzRequired>Sub Number</nz-form-label>
                     <nz-form-control>
                         <nz-input-group>
-                            <input type="text" name="sendItemDeposit.subNumber" [(ngModel)]="sendItemDeposit.subNumber" nz-input placeholder="Please input account number" />
+                            <input type="text" name="sendItemDeposit.subNumber" [(ngModel)]="sendItemDeposit.subNumber" nz-input placeholder="Please input sub number" />
                         </nz-input-group>
                         <nz-form-explain *ngIf="requiredForm.subNumber" style="color: red;">
                             Please input sub number!
@@ -177,6 +178,8 @@
                     <nz-form-control >
                         <nz-input-group>
                             <nz-input-number
+                                [nzDisabled]="true"
+                                
                                 style="width: 100%"
                                 [nzMin]="0"
                                 [nzFormatter]="formatterNumber" 
@@ -197,7 +200,7 @@
                     <nz-form-label nzRequired>Account Bank</nz-form-label>
                     <nz-form-control >
                         <nz-input-group>
-                            <input type="text" name="sendItemDeposit.accountBank" [(ngModel)]="sendItemDeposit.accountBank" nz-input placeholder="Please input account number" />
+                            <input type="text" readonly name="sendItemDeposit.accountBank" [(ngModel)]="sendItemDeposit.accountBank" nz-input placeholder="Please input account number" />
                         </nz-input-group>
                         <nz-form-explain *ngIf="requiredForm.accountBank" style="color: red;">
                             Please input account bank!

@@ -41,6 +41,7 @@ export class SmsDashboardComponent implements OnInit {
         content: false,
     };
     constructor(
+        private notification: NzNotificationService,
         private paymentService: PaymentService,
         private modalService: NzModalService,
     ) {
@@ -93,7 +94,8 @@ export class SmsDashboardComponent implements OnInit {
     depositModal = (value, createActionContent) => {
         console.log(value, 'value');
         const params = {
-            "accountNumber": value.accountNumber,
+            "idx": value.idx,
+            "accountNumber": value.accountNumber.toUpperCase(),
             "subNumber": '',
             "accountBank": value.accountBank,
             "amount": value.amount,
@@ -178,18 +180,17 @@ export class SmsDashboardComponent implements OnInit {
     actionDeposit(params : Object): void {
         this.loadingDepositModal = true;
         console.log(params, 'params');
-        // this.incomService.createTemplate(params)
-        // .subscribe(result => {
-        //     // if(result.success) {
-        //     this.notification.create(
-        //         'success',
-        //         'Notification',
-        //         'Create template success'
-        //     );
-        //     this.loadTemplateList(this.pageIndex, this.pageSize);
-        //     this.modalService.closeAll();
-        //     this.resetDepositModal();
-        // });
+        this.paymentService.actionSIM(params)
+        .subscribe(result => {
+            this.notification.create(
+                'success',
+                'Notification',
+                result.message
+            );
+            this.loadWithdrawList(this.pageIndex, this.pageSize, this.bankCode, this.selectedType, this.searchDate[0], this.searchDate[1]);
+            this.modalService.closeAll();
+            this.resetDepositModal();
+        });
     }
 
     resetDepositModal(): void {

@@ -38,9 +38,9 @@ export class LoginComponent {
                     // get return url from query parameters or default to home page
                     //const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard/default';
                     console.log(result, 'result');
-                    if(result.department !== 'IT') {
+                    if(result.department == null) {
                         this.router.navigate(['/report/sales']);
-                    } else if (result.department !== 'CS') {
+                    } else if (result.department === 'CS') {
                         this.router.navigate(['/cs/deposit']);
                     } else {
                         this.router.navigate(['/dashboard/home']);

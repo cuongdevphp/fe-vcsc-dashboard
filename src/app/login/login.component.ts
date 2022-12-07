@@ -39,8 +39,9 @@ export class LoginComponent {
                     //const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard/default';
                     console.log(result, 'result');
                     if(result.department !== 'IT') {
-                        console.log('redasdasdsadasdsult');
                         this.router.navigate(['/report/sales']);
+                    } else if (result.department !== 'CS') {
+                        this.router.navigate(['/cs/deposit']);
                     } else {
                         this.router.navigate(['/dashboard/home']);
                     }

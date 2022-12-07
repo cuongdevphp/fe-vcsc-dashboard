@@ -12,11 +12,15 @@ export class AuthGuard implements CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const user = this.accountService.userValue;
-        console.log(user, 'canActivate')
-        console.log(route, 'ActivatedRouteSnapshot')
+        // console.log(user, 'canActivate')
+        // console.log(route, 'ActivatedRouteSnapshot')
         if (user) {
 
-            if(route.routeConfig.path !== 'report' && user.department !== 'IT') {
+            if(
+                route.routeConfig.path !== 'report' && 
+                route.routeConfig.path !== 'cs' && 
+                user.department !== 'IT'
+            ) {
                 console.log("vo route chua")
                 this.router.navigate(['/login'], { queryParams: { returnUrl: state.url }});
                 return false;

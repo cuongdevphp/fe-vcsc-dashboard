@@ -19,10 +19,24 @@ export class SideNavComponent{
     ngOnInit(): void {
         let user = JSON.parse(localStorage.getItem('user')) || [];
         const routes = cloneDeep(ROUTES);
+        // console.log(ROUTES, 'ROUTES');
+        // console.log(routes, 'routes');
+        // console.log(user.department, 'user.department');
         // const routes = ROUTES;
-        if(user.department !== 'IT') {
-            routes.splice(0, 2);
+        switch(user.department) {
+            case 'CS': 
+                routes.splice(0, 3);
+                break;
+            case null: // Broker
+                routes.splice(0, 2);
+                routes.splice(1, 1);
+                break;
+            default:
+                break;
         }
+        // if(user.department === 'CS') {
+        //     routes.splice(0, 2);
+        // }
         // const menuUser = typeof user.menu !== 'undefined' ? JSON.parse(user.menu) : '';
         // if(menuUser) {
         //     for(const i of ROUTES) {

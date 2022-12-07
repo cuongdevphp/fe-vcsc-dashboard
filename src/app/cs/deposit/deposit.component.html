@@ -1,0 +1,284 @@
+<h2>Thu hộ sim</h2>
+<nz-card>
+    <div class="row m-b-30">
+        <div class="col-lg-10">
+            <div class="d-md-flex">
+                <div class="m-b-10 m-r-20">
+                    <nz-select 
+                        class="w-100" 
+                        style="min-width: 500px;" 
+                        nzPlaceHolder="Bank..." 
+                        [(ngModel)]="bankCode" 
+                        (ngModelChange)="bankCodeChange($event)"
+                    >
+                        <nz-option nzLabel="All" nzValue="All"></nz-option>
+                        <nz-option 
+                            nzCustomContent 
+                            *ngFor="let value of banks" 
+                            [nzLabel]="value.name"
+                            [nzValue]="value.shortName"
+                        >
+                            <img style='width: 60px;' src={{value.logo}}> 
+                            {{value.name}}
+                        </nz-option>
+                    </nz-select>
+                </div>
+                <div class="m-b-10 m-r-20">
+                    <nz-select 
+                        style="min-width: 220px;" 
+                        class="w-100" 
+                        nzPlaceHolder="Type..." 
+                        [(ngModel)]="selectedType" 
+                        (ngModelChange)="typeChange($event)"
+                    >
+                        <nz-option nzLabel="All" nzValue="All"></nz-option>
+                        <nz-option nzLabel="Nộp tiền" nzValue="1"></nz-option>
+                        <nz-option nzLabel="Rút tiền" nzValue="0"></nz-option>
+                    </nz-select>
+                </div>
+                <div class="m-b-10 m-r-20">
+                    <nz-select 
+                        style="min-width: 220px;" 
+                        class="w-100" 
+                        nzPlaceHolder="Status..." 
+                        [(ngModel)]="selectedStatus" 
+                        (ngModelChange)="statusChange($event)"
+                    >
+                        <nz-option nzLabel="All" nzValue="All"></nz-option>
+                        <nz-option nzLabel="Waitting for approval" nzValue="0"></nz-option>
+                        <nz-option nzLabel="Success" nzValue="1"></nz-option>
+                        <nz-option nzLabel="Cancel" nzValue="2"></nz-option>
+                        <nz-option nzLabel="Fail" nzValue="3"></nz-option>
+                    </nz-select>
+                </div>
+                <div class="m-b-10 m-r-20">
+                    <nz-range-picker [nzFormat]="dateFormat" [(ngModel)]="searchDate" (ngModelChange)="onChangeDateRange($event)"></nz-range-picker>
+                </div>
+                <div class="m-b-10 m-r-20">
+                    <span 
+                        style="margin-top: 10px; cursor: pointer;" 
+                        nz-tooltip 
+                        nzTooltipTitle="Reload" 
+                        nz-icon 
+                        nzType="reload" 
+                        nzTheme="outline"
+                        (click)="reload()" 
+                    ></span>
+                </div>
+            </div>          
+        </div>
+        <!-- <div class="col-lg-2 text-right" style="display: flex;">
+            <nz-upload
+                nzAction="/assets/upload"
+                nzAccept=".txt"
+                [nzHeaders]="{ authorization: 'authorization-text' }"
+                (nzChange)="uploadFile($event, sendMultipleMessageContent)"
+            >
+                <button nz-button><i nz-icon nzType="upload"></i>Upload</button>
+            </nz-upload>
+            <span style="margin-left: 3px"></span>
+            <button nz-button nzType="primary" (click)="showSendMessageModal(sendMessageContent)">
+                <i nz-icon nzType="plus"></i>
+                <span>Message</span>
+            </button>
+        </div> -->
+    </div>
+    
+    <nz-table 
+        #paymentsListTable 
+        [nzData]="sms"
+        [nzFrontPagination]="false"
+        nzShowSizeChanger
+        [nzLoading]="loading"
+        [nzTotal]="total"
+        [nzPageSize]="pageSize"
+        [nzPageIndex]="pageIndex"
+        (nzQueryParams)="onQueryParamsChange($event)"
+        [nzPageSizeOptions] = "[5, 10, 20, 30, 40, 50]"
+    >
+        <thead>
+            <tr>
+                <th width='1%'></th>
+                <th width='12%'>Name</th>
+                <th width='40%'>Content</th>
+                <th width='15%'>Received Time</th>
+                <th width='15%'>Update Time</th>
+                <th width='5%'>Status</th>
+                <th width='13%'>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of paymentsListTable.data; let i=index">
+                <td>{{item.idx}}</td>
+                <td>
+                    <img *ngIf="item.fromNm == 'Techcombank'" style="width: 100%;" src="assets/images/logo/TCB.png" />
+                    <img *ngIf="item.fromNm == 'BIDV'" style="width: 100%;" src="assets/images/logo/BIDV.png" />
+                    <img *ngIf="item.fromNm == 'VietinBank'" style="width: 100%;" src="assets/images/logo/ICB.png" />
+                    <img *ngIf="item.fromNm == 'BanVietBank'" style="width: 100%;" src="assets/images/logo/VCCB.png" />
+                    <img *ngIf="item.fromNm == 'Vietcombank'" style="width: 100%;" src="assets/images/logo/VCB.png" />
+                    <img *ngIf="item.fromNm == 'ACB'" style="width: 100%;" src="assets/images/logo/ACB.png" />
+                    <img *ngIf="item.fromNm == 'HDBank'" style="width: 100%;" src="assets/images/logo/HDB.png" />
+                    <img *ngIf="item.fromNm == 'Sacombank'" style="width: 100%;" src="assets/images/logo/STB.png" />
+                    <img *ngIf="item.fromNm == 'VIB'" style="width: 100%;" src="assets/images/logo/VIB.png" />
+                    <img *ngIf="item.fromNm == 'Eximbank'" style="width: 100%;" src="assets/images/logo/EIB.png" />
+                </td>
+                <td>
+                    {{item.message}}
+                </td>
+                <td>{{item.receivedTime  | date:'dd/MM/YYYY HH:mm:ss'}}</td>
+                <td>{{item.updateDate  | date:'dd/MM/YYYY HH:mm:ss'}}</td>
+                <td>
+                    <nz-tag *ngIf="item.status == 0" [nzColor]="'gold'">
+                        <span>Waitting for approval</span>
+                    </nz-tag>
+                    <nz-tag *ngIf="item.status == 1" [nzColor]="'cyan'">
+                        <span>Approved</span>
+                    </nz-tag>
+                    <nz-tag nz-tooltip nzTooltipTitle="{{item.messageLT}}" *ngIf="item.status == 3" [nzColor]="'volcano'">
+                        <span>Fail</span>
+                    </nz-tag>
+                    <nz-tag nz-tooltip *ngIf="item.status == 2" style="color: #77838f;">
+                        <span>Cancel</span>
+                    </nz-tag>
+                </td>
+                <td>
+                    <span *ngIf="item.fromNm !== 'Techcombank' && item.fromNm !== 'BIDV'">
+                        <button 
+                            *ngIf="item.type == 1 && item.resultLT != 'SUCCESS' && item.status != 2"
+                            (click)="depositModal(item, createActionContent)" 
+                            class="m-r-5" 
+                            nz-button 
+                            nzType="primary" 
+                            [nzSize]="size"
+                            nzShape="circle" 
+                            nz-tooltip 
+                            nzTooltipTitle="Deposit" 
+                        >
+                            <span nz-icon nzType="money-collect" nzTheme="outline"></span>
+                        </button>
+                        <button 
+                            (click)="confirmCancel(item)"
+                            nzDanger
+                            *ngIf="item.type == 1 && item.resultLT != 'SUCCESS' && item.status != 2"
+                            class="m-r-5" 
+                            nzType="primary" 
+                            nz-button 
+                            nz-tooltip 
+                            nzShape="circle" 
+                            nzTooltipTitle="Cancel" 
+                        >
+                            <i nz-icon nzType="close" theme="outline"></i>
+                        </button>
+                    </span>
+                    <!-- <button 
+                        *ngIf="item.type == 0"
+                        (click)="withdrawModal(createActionContentWithdraw)" 
+                        class="m-r-5" 
+                        nz-button 
+                        nzType="primary" 
+                        nzDanger
+                        nzShape="circle" 
+                        nz-tooltip 
+                        nzTooltipTitle="Withdraw" 
+                    >
+                        <span nz-icon nzType="money-collect" nzTheme="outline"></span>
+                    </button> -->
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</nz-card>
+
+<ng-template #createActionContent>
+    <form nz-form nzLayout="vertical">
+        <div class="row">
+            <div class="col-md-3">
+                <nz-form-item class="relative">
+                    <nz-form-label nzRequired>Account Number</nz-form-label>
+                    <nz-form-control>
+                        <nz-input-group>
+                            <input type="text" name="sendItemDeposit.accountNumber" [(ngModel)]="sendItemDeposit.accountNumber" nz-input placeholder="Please input account number" />
+                            <!-- <input type="text" nz-input formControlName="username" placeholder="Please input username"> -->
+                        </nz-input-group>
+                        <nz-form-explain *ngIf="requiredForm.accountNumber" style="color: red;">
+                            Please input account number!
+                        </nz-form-explain>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div class="col-md-3">
+                <nz-form-item class="relative">
+                    <nz-form-label nzRequired>Sub Number</nz-form-label>
+                    <nz-form-control>
+                        <nz-input-group>
+                            <input type="text" name="sendItemDeposit.subNumber" [(ngModel)]="sendItemDeposit.subNumber" nz-input placeholder="Please input sub number" />
+                        </nz-input-group>
+                        <nz-form-explain *ngIf="requiredForm.subNumber" style="color: red;">
+                            Please input sub number!
+                        </nz-form-explain>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div class="col-md-3">
+                <nz-form-item class="relative">
+                    <nz-form-label nzRequired>Amount</nz-form-label>
+                    <nz-form-control >
+                        <nz-input-group>
+                            <nz-input-number
+                                [nzDisabled]="sendItemDeposit.fromNm === 'Eximbank' ? false : true"
+                                style="width: 100%"
+                                [nzMin]="0"
+                                [nzFormatter]="formatterNumber" 
+                                name="sendItemDeposit.amount" 
+                                placeholder="Please input amount" 
+                                [(ngModel)]="sendItemDeposit.amount" 
+                            ></nz-input-number>
+                            <!-- <input type="text" name="sendItemDeposit.amount" [(ngModel)]="sendItemDeposit.amount" nz-input placeholder="Please input account number" /> -->
+                        </nz-input-group>
+                        <nz-form-explain *ngIf="requiredForm.amount" style="color: red;">
+                            Please input amount!
+                        </nz-form-explain>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div class="col-md-3">
+                <nz-form-item class="relative">
+                    <nz-form-label nzRequired>Account Bank</nz-form-label>
+                    <nz-form-control >
+                        <nz-input-group>
+                            <input type="text" readonly name="sendItemDeposit.accountBank" [(ngModel)]="sendItemDeposit.accountBank" nz-input placeholder="Please input account number" />
+                        </nz-input-group>
+                        <nz-form-explain *ngIf="requiredForm.accountBank" style="color: red;">
+                            Please input account bank!
+                        </nz-form-explain>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <nz-form-item class="relative">
+                    <nz-form-label nzRequired>Message</nz-form-label>
+                    <nz-form-control >
+                        <nz-input-group>
+                            <textarea name="sendItemDeposit.content"  [nzAutosize]="{ minRows: 3, maxRows: 3 }" [(ngModel)]="sendItemDeposit.content" placeholder="Please input content message" nz-input></textarea>
+                        </nz-input-group>
+                        <nz-form-explain *ngIf="requiredForm.content" style="color: red;">
+                            Please input content!
+                        </nz-form-explain>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+    </form>
+</ng-template>
+
+
+<ng-template #createActionContentWithdraw>
+    <div class="row">
+        
+        <div class="col-md-12"><img style="width: 100%;" src="assets/images/others/coming-soon.jpg" />
+        </div>
+    </div>
+        
+</ng-template>

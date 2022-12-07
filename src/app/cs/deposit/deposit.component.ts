@@ -220,11 +220,19 @@ export class DepositComponent implements OnInit {
         console.log(params, 'params');
         this.paymentService.actionSIM(params)
         .subscribe(result => {
-            this.notification.create(
-                'success',
-                'Notification',
-                result.message
-            );
+            if(result.success) {
+                this.notification.create(
+                    'success',
+                    'Notification',
+                    result.message
+                );
+            } else {
+                this.notification.create(
+                    'error',
+                    'Notification',
+                    result.message
+                );
+            }
             this.loadWithdrawList(this.pageIndex, this.pageSize, this.bankCode, this.selectedType, this.selectedStatus, this.searchDate[0], this.searchDate[1]);
             this.modalService.closeAll();
             this.resetDepositModal();

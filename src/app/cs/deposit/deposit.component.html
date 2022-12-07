@@ -261,7 +261,7 @@
                     <nz-form-label nzRequired>Message</nz-form-label>
                     <nz-form-control >
                         <nz-input-group>
-                            <textarea name="sendItemDeposit.content"  [nzAutosize]="{ minRows: 3, maxRows: 3 }" [(ngModel)]="sendItemDeposit.content" placeholder="Please input content message" nz-input></textarea>
+                            <textarea readonly name="sendItemDeposit.content"  [nzAutosize]="{ minRows: 3, maxRows: 3 }" [(ngModel)]="sendItemDeposit.content" placeholder="Please input content message" nz-input></textarea>
                         </nz-input-group>
                         <nz-form-explain *ngIf="requiredForm.content" style="color: red;">
                             Please input content!

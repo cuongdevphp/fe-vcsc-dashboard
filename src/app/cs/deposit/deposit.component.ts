@@ -128,7 +128,7 @@ export class DepositComponent implements OnInit {
             "idx": value.idx,
             "fromNm": value.fromNm,
             "accountNumber": value.accountNumber.toUpperCase(),
-            "subNumber": '',
+            "subNumber": '01',
             "accountBank": value.accountBank,
             "amount": value.amount,
             "content": value.message,
@@ -284,14 +284,6 @@ export class DepositComponent implements OnInit {
         this.pageIndex = 1;
         this.loadWithdrawList(this.pageIndex, this.pageSize, this.bankCode, this.selectedType, value, this.searchDate[0], this.searchDate[1]);
     }
-
-    // searchAccount(): void {
-    //     this.pageIndex = 1;
-    //     this.pageSize = 10;
-    //     setTimeout( async () =>{
-    //         this.loadWithdrawList(this.pageIndex, this.pageSize, null, null, this.searchAccountName, this.selectedStatus, this.amount, this.searchDate[0], this.searchDate[1]);
-    //     }, 1000);
-    // }
 
     typeChange(value: string): void {
         if(value === 'All') {

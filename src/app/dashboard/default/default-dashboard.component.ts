@@ -57,9 +57,9 @@ export class DefaultDashboardComponent implements OnInit {
     red = this.themeColors.red;
 
     volcano = this.themeColors.volcano;
+    grayLight = this.themeColors.grayLight;
 
     lime = this.themeColors.lime;
-
     dark = this.themeColors.dark;
 
     taskListIndex: number = 0;

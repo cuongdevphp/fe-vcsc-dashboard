@@ -137,7 +137,7 @@
                     <nz-tag nz-tooltip nzTooltipTitle="{{item.messageLT}}" *ngIf="item.status == 3" [nzColor]="'volcano'">
                         <span>Fail</span>
                     </nz-tag>
-                    <nz-tag nz-tooltip nzTooltipTitle="{{item.messageLT}}" *ngIf="item.status == 2" [nzColor]="'volcano'">
+                    <nz-tag nz-tooltip *ngIf="item.status == 2" style="color: #77838f;">
                         <span>Cancel</span>
                     </nz-tag>
                 </td>

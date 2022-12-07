@@ -60,4 +60,11 @@ export class PaymentService {
     }
     return this.http.post<any>(`${environment.apiUrl}/payment/tpLink/action`, { ...params })
   }
+
+  actionCancelDeal(idx) {
+    const params = {
+      idx,
+    }
+    return this.http.post<any>(`${environment.apiUrl}/payment/tpLink/actionCancel`, { ...params })
+  }
 }

@@ -54,6 +54,17 @@
                 <div class="m-b-10 m-r-20">
                     <nz-range-picker [nzFormat]="dateFormat" [(ngModel)]="searchDate" (ngModelChange)="onChangeDateRange($event)"></nz-range-picker>
                 </div>
+                <div class="m-b-10 m-r-20">
+                    <span 
+                        style="margin-top: 10px; cursor: pointer;" 
+                        nz-tooltip 
+                        nzTooltipTitle="Reload" 
+                        nz-icon 
+                        nzType="reload" 
+                        nzTheme="outline"
+                        (click)="reload()" 
+                    ></span>
+                </div>
             </div>          
         </div>
         <!-- <div class="col-lg-2 text-right" style="display: flex;">
@@ -132,11 +143,12 @@
                 </td>
                 <td>
                     <button 
-                        *ngIf="item.type == 1 && item.resultLT != 'SUCCESS'"
+                        *ngIf="item.type == 1 && item.resultLT != 'SUCCESS' && item.status != 2"
                         (click)="depositModal(item, createActionContent)" 
                         class="m-r-5" 
                         nz-button 
                         nzType="primary" 
+                        [nzSize]="size"
                         nzShape="circle" 
                         nz-tooltip 
                         nzTooltipTitle="Deposit" 
@@ -144,8 +156,9 @@
                         <span nz-icon nzType="money-collect" nzTheme="outline"></span>
                     </button>
                     <button 
+                        (click)="confirmCancel(item)"
                         nzDanger
-                        *ngIf="item.type == 1 && item.resultLT != 'SUCCESS'"
+                        *ngIf="item.type == 1 && item.resultLT != 'SUCCESS' && item.status != 2"
                         class="m-r-5" 
                         nzType="primary" 
                         nz-button 

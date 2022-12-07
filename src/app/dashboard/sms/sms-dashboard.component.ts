@@ -62,6 +62,16 @@ export class SmsDashboardComponent implements OnInit {
         const sortOrder = (currentSort && currentSort.value) || null;
         this.loadWithdrawList(pageIndex, pageSize, this.bankCode, this.selectedType, this.selectedStatus, this.searchDate[0], this.searchDate[1]);
     }
+
+    reload() {
+        this.pageIndex = 1;
+        this.pageSize = 10;
+        this.bankCode = 'Vietcombank';
+        this.selectedType = '1';
+        this.selectedStatus = '';
+        this.searchDate = [new Date(), new Date()];
+        this.loadWithdrawList(this.pageIndex, this.pageSize, this.bankCode, this.selectedType, this.selectedStatus, this.searchDate[0], this.searchDate[1]);
+    }
     
     loadWithdrawList(
         pageIndex: number,
@@ -92,6 +102,30 @@ export class SmsDashboardComponent implements OnInit {
             }
         });
     }
+
+    confirmCancel(item): void {
+        console.log(item, "dasdas");
+        this.modalService.confirm({
+          nzTitle: '<i>Do you want to cancel these deal?</i>',
+          nzContent: '',
+          nzOnOk: () => this.actionCancelDeposit(item.idx)
+        });
+    }
+    
+
+    actionCancelDeposit(idx : number): void {
+        console.log(idx, 'idx');
+        this.paymentService.actionCancelDeal(idx)
+        .subscribe(result => {
+            this.notification.create(
+                'success',
+                'Notification',
+                result.message
+            );
+            this.loadWithdrawList(this.pageIndex, this.pageSize, this.bankCode, this.selectedType, this.selectedStatus, this.searchDate[0], this.searchDate[1]);
+            this.modalService.closeAll();
+        });
+    }
     
     depositModal = (value, createActionContent) => {
         console.log(value, 'value');
@@ -103,7 +137,7 @@ export class SmsDashboardComponent implements OnInit {
             "accountBank": value.accountBank,
             "amount": value.amount,
             "content": value.message,
-        }
+        };
         this.sendItemDeposit = cloneDeep(params);
         this.showDepositModal(params, createActionContent);
     }
@@ -157,6 +191,7 @@ export class SmsDashboardComponent implements OnInit {
                             this.requiredForm = false;
                             console.log(this.sendItemDeposit, "dsada");
                             this.actionDeposit(this.sendItemDeposit);
+
                         } 
                         else if (!this.sendItemDeposit.accountNumber) {
                             this.requiredForm.accountNumber = true; 

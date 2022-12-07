@@ -276,6 +276,9 @@ export class DepositComponent implements OnInit {
         if(value === 'All') {
             value = '';
         }
+        if(value === 'VietCapitalBank') {
+            value = 'BanVietBank';
+        }
         this.pageIndex = 1;
         this.pageSize = 10;
         this.loadWithdrawList(this.pageIndex, this.pageSize, value, this.selectedType, this.selectedStatus, this.searchDate[0], this.searchDate[1]);

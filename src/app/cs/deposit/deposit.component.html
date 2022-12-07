@@ -142,34 +142,32 @@
                     </nz-tag>
                 </td>
                 <td>
-                    <span *ngIf="item.fromNm !== 'Techcombank' && item.fromNm !== 'BIDV'">
-                        <button 
-                            *ngIf="item.type == 1 && item.resultLT != 'SUCCESS' && item.status != 2"
-                            (click)="depositModal(item, createActionContent)" 
-                            class="m-r-5" 
-                            nz-button 
-                            nzType="primary" 
-                            [nzSize]="size"
-                            nzShape="circle" 
-                            nz-tooltip 
-                            nzTooltipTitle="Deposit" 
-                        >
-                            <span nz-icon nzType="money-collect" nzTheme="outline"></span>
-                        </button>
-                        <button 
-                            (click)="confirmCancel(item)"
-                            nzDanger
-                            *ngIf="item.type == 1 && item.resultLT != 'SUCCESS' && item.status != 2"
-                            class="m-r-5" 
-                            nzType="primary" 
-                            nz-button 
-                            nz-tooltip 
-                            nzShape="circle" 
-                            nzTooltipTitle="Cancel" 
-                        >
-                            <i nz-icon nzType="close" theme="outline"></i>
-                        </button>
-                    </span>
+                    <button 
+                        *ngIf="item.type == 1 && item.resultLT != 'SUCCESS' && item.status != 2"
+                        (click)="depositModal(item, createActionContent)" 
+                        class="m-r-5" 
+                        nz-button 
+                        nzType="primary" 
+                        [nzSize]="size"
+                        nzShape="circle" 
+                        nz-tooltip 
+                        nzTooltipTitle="Deposit" 
+                    >
+                        <span nz-icon nzType="money-collect" nzTheme="outline"></span>
+                    </button>
+                    <button 
+                        (click)="confirmCancel(item)"
+                        nzDanger
+                        *ngIf="item.type == 1 && item.resultLT != 'SUCCESS' && item.status != 2"
+                        class="m-r-5" 
+                        nzType="primary" 
+                        nz-button 
+                        nz-tooltip 
+                        nzShape="circle" 
+                        nzTooltipTitle="Cancel" 
+                    >
+                        <i nz-icon nzType="close" theme="outline"></i>
+                    </button>
                     <!-- <button 
                         *ngIf="item.type == 0"
                         (click)="withdrawModal(createActionContentWithdraw)" 
@@ -221,8 +219,8 @@
             </div>
             <div class="col-md-3">
                 <nz-form-item class="relative">
-                    <nz-form-label nzRequired>Amount</nz-form-label>
-                    <nz-form-control >
+                    <nz-form-label nzRequired>Amountdsds</nz-form-label>
+                    <nz-form-control>
                         <nz-input-group>
                             <nz-input-number
                                 [nzDisabled]="sendItemDeposit.fromNm === 'Eximbank' ? false : true"

@@ -27,6 +27,7 @@ import { NzCalendarModule } from 'ng-zorro-antd/calendar';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
@@ -62,6 +63,7 @@ const antdModule= [
     NzPaginationModule,
     NzDatePickerModule,
     NzCheckboxModule,
+    NzInputNumberModule,
     NzMessageModule,
     NzSpinModule,
 ]

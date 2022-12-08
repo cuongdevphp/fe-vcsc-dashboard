@@ -65,6 +65,13 @@ export class PaymentService {
     return this.http.post<any>(`${environment.apiUrl}/payment/tpLink/action`, { ...params })
   }
 
+  exportExcel(data) {
+    const params = {
+      arrData: data
+    }
+    return this.http.post<any>(`${environment.apiUrl}/payment/tpLink/exportExcel`, { ...params })
+  }
+
   actionCancelDeal(idx) {
     const params = {
       idx,

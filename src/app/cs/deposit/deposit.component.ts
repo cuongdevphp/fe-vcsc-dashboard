@@ -296,6 +296,16 @@ export class DepositComponent implements OnInit {
         this.loadWithdrawList(this.pageIndex, this.pageSize, this.bankCode, this.selectedType, value, this.searchDate[0], this.searchDate[1]);
     }
 
+    actionExportExcel(arrData): void {
+        this.paymentService.exportExcel(arrData)
+        .subscribe((result:any) => {
+            console.log(result, 'result');
+            if(result.success) {
+                window.open(`http://10.10.25.150:3001/assets/excel/${result.result}`);
+            }
+        });
+    }
+
     searchAccount(accountNumber): void {
         this.paymentService.searchAccountNumber(accountNumber)
         .subscribe((result:any) => {

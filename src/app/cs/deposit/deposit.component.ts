@@ -146,7 +146,7 @@ export class DepositComponent implements OnInit {
     showWithdrawModal(createActionContentWithdraw: TemplateRef<{}>) {
         this.modalService.create({
             nzMaskClosable: false,
-            nzTitle: 'Confirm',
+            nzTitle: 'Export excel',
             nzOnCancel: () => {
                 // this.resetDepositModal();
             },

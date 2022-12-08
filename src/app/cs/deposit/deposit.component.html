@@ -67,21 +67,11 @@
                 </div>
             </div>          
         </div>
-        <!-- <div class="col-lg-2 text-right" style="display: flex;">
-            <nz-upload
-                nzAction="/assets/upload"
-                nzAccept=".txt"
-                [nzHeaders]="{ authorization: 'authorization-text' }"
-                (nzChange)="uploadFile($event, sendMultipleMessageContent)"
-            >
-                <button nz-button><i nz-icon nzType="upload"></i>Upload</button>
-            </nz-upload>
-            <span style="margin-left: 3px"></span>
-            <button nz-button nzType="primary" (click)="showSendMessageModal(sendMessageContent)">
-                <i nz-icon nzType="plus"></i>
-                <span>Message</span>
-            </button>
-        </div> -->
+        <div class="col-lg-2 text-right" style="text-align: right;">
+            <button 
+            nz-tooltip 
+            nzTooltipTitle="Export excel" (click)="withdrawModal(createActionContentWithdraw)"  nz-button nzType="primary" nzShape="circle"><span nz-icon nzType="download"></span></button>
+        </div>
     </div>
     
     <nz-table 

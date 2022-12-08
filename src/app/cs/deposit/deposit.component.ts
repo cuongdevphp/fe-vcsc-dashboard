@@ -301,7 +301,11 @@ export class DepositComponent implements OnInit {
         .subscribe((result:any) => {
             console.log(result, 'result');
             if(result.success) {
-                window.open(`http://10.10.25.150:3001/assets/excel/${result.result}`);
+                setTimeout(function () {
+                    window.open(`http://10.10.25.150:3001/assets/excel/${result.result}`);
+                    
+                }, 1000);
+                
             }
         });
     }

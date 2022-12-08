@@ -33,6 +33,10 @@ export class PaymentService {
     return this.http.get(`https://api.vietqr.io/v2/banks`);
   }
 
+  searchAccountNumber(accountNumber) {
+    return this.http.get(`${environment.apiUrl}/payment/checkAccountNumber?accountNumber=${accountNumber}`);
+  }
+
   getSMSTpLink(pageIndex, pageSize, bankCode, type, status, startDate, endDate) {
     return this.http.get(`${environment.apiUrl}/payment/tpLink/getSMS?offset=${pageIndex}&type=${type}&status=${status}&bankCode=${bankCode}&page=${pageSize}&startDate=${new Date(startDate).toISOString()}&endDate=${new Date(endDate).toISOString()}`);
   }

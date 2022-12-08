@@ -89,7 +89,6 @@ export class DepositComponent implements OnInit {
         this.loading = true;
         this.paymentService.getSMSTpLink(page, pageSize, bankCode, type, status, startDate, endDate)
         .subscribe((result:any) => {
-            console.log(result, 'result');
             if(result.success) {
                 this.loading = false;
                 this.sms = result.data.data;
@@ -104,7 +103,6 @@ export class DepositComponent implements OnInit {
     }
 
     confirmCancel(item): void {
-        console.log(item, "dasdas");
         this.modalService.confirm({
           nzTitle: '<i>Do you want to cancel these deal?</i>',
           nzContent: '',
@@ -114,7 +112,6 @@ export class DepositComponent implements OnInit {
     
 
     actionCancelDeposit(idx : number): void {
-        console.log(idx, 'idx');
         this.paymentService.actionCancelDeal(idx)
         .subscribe(result => {
             this.notification.create(
@@ -128,7 +125,6 @@ export class DepositComponent implements OnInit {
     }
     
     depositModal = (value, createActionContent) => {
-        console.log(value, 'value');
         const params = {
             "idx": value.idx,
             "fromNm": value.fromNm,
@@ -139,6 +135,7 @@ export class DepositComponent implements OnInit {
             "content": value.message,
         };
         this.sendItemDeposit = cloneDeep(params);
+        this.searchAccount(value.accountNumber.toUpperCase());
         this.showDepositModal(params, createActionContent);
     }
 
@@ -217,7 +214,6 @@ export class DepositComponent implements OnInit {
 
     actionDeposit(params : Object): void {
         this.loadingDepositModal = true;
-        console.log(params, 'params');
         this.paymentService.actionSIM(params)
         .subscribe(result => {
             if(result.success) {
@@ -280,7 +276,6 @@ export class DepositComponent implements OnInit {
     }
     
     bankCodeChange(value: string): void {
-        console.log(value, 'value');
         if(value === 'All') {
             value = '';
         }
@@ -301,13 +296,16 @@ export class DepositComponent implements OnInit {
         this.loadWithdrawList(this.pageIndex, this.pageSize, this.bankCode, this.selectedType, value, this.searchDate[0], this.searchDate[1]);
     }
 
-    // searchAccount(): void {
-    //     this.pageIndex = 1;
-    //     this.pageSize = 10;
-    //     setTimeout( async () =>{
-    //         this.loadWithdrawList(this.pageIndex, this.pageSize, null, null, this.searchAccountName, this.selectedStatus, this.amount, this.searchDate[0], this.searchDate[1]);
-    //     }, 1000);
-    // }
+    searchAccount(accountNumber): void {
+        this.paymentService.searchAccountNumber(accountNumber)
+        .subscribe((result:any) => {
+            if(typeof result.outBinds !== 'undefined') {
+                this.searchAccountName = result.outBinds.name;
+            } else {
+                this.searchAccountName = 'Not found';
+            }
+        });
+    }
 
     typeChange(value: string): void {
         if(value === 'All') {
@@ -327,21 +325,3 @@ export class DepositComponent implements OnInit {
         this.loadWithdrawList(this.pageIndex, this.pageSize, this.bankCode, this.selectedType, this.selectedStatus, result[0], result[1]);
     }
 }
-
-
-// var a=
-// {URL:
-// {
-// authCgi:"cgi-bin/auth_cgi",
-// webCgi:"cgi-bin/web_cgi"},
-// INTERVALS:{
-//     heartbeatInterval:1e4,wifiRebootInterval:10,reboot:30,powerOff:10,restoreConf:35},MODULES:
-
-
-//     login:function(a,e){
-//         if(a){
-//             var f=CryptoJS.MD5([a,b.get("nonce")].join(":")).toString();
-//             switch(b.login({digest:f}),b.get("loginResult")){
-//                 case c.success:d.setToken(b.get("token")),``
-//                 e(c.success);break;case c.pwdWrong:e(c.pwdWrong);break;default:e()}}},
-//                 logout:function(a){b.logout(),d.removeToken(),"function"==typeof a&&a()},isCookieEnable:function(){return a.cookie("check_cookie","check_cookie",{path:"/"}),"check_cookie"===a.cookie("check_cookie")}};window.AuthModel=d}(jQuery),function(){"function"!=typeof Array.prototype.indexOf&&(Array.prototype.indexOf=function(a){for(var b=this.length-1;b>=0;b--)if(this[b]===a)return b;return-1})}()

@@ -192,7 +192,7 @@
 <ng-template #createActionContent>
     <form nz-form nzLayout="vertical">
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <nz-form-item class="relative">
                     <nz-form-label nzRequired>Account Number</nz-form-label>
                     <nz-form-control>
@@ -206,7 +206,33 @@
                     </nz-form-control>
                 </nz-form-item>
             </div>
+            
             <div class="col-md-3">
+                <nz-form-item class="relative">
+                    <nz-form-label>Name &nbsp;
+                        <span 
+                            (click)="searchAccount(sendItemDeposit.accountNumber)"
+                            style="cursor: pointer;"
+                            nz-icon nz-tooltip 
+                            nzTooltipTitle="Search name" nzType="search" nzTheme="outline"
+                        >
+                        </span>
+                    </nz-form-label> 
+                    <nz-form-control>
+                        <nz-input-group>
+                            <span *ngIf="searchAccountName === 'Not found'" style="color: red;">
+                                {{searchAccountName}}
+                            </span>
+                            <span *ngIf="searchAccountName !== 'Not found'" style="color: #00c9a7;">
+                                {{searchAccountName}}
+                            </span>
+                            <!-- <input type="text" name="sendItemDeposit.accountNumber" [(ngModel)]="sendItemDeposit.accountNumber" nz-input placeholder="Please input account number" /> -->
+                            <!-- <input type="text" nz-input formControlName="username" placeholder="Please input username"> -->
+                        </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div class="col-md-2">
                 <nz-form-item class="relative">
                     <nz-form-label nzRequired>Sub Number</nz-form-label>
                     <nz-form-control>
@@ -241,7 +267,7 @@
                     </nz-form-control>
                 </nz-form-item>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <nz-form-item class="relative">
                     <nz-form-label nzRequired>Account Bank</nz-form-label>
                     <nz-form-control >

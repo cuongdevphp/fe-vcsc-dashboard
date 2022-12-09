@@ -68,9 +68,16 @@
             </div>          
         </div>
         <div class="col-lg-2 text-right" style="text-align: right;">
+            <button *ngIf="loadingExportExcel" nz-button nzLoading nzType="primary" nzShape="circle"></button>
             <button 
-            nz-tooltip 
-            nzTooltipTitle="Export excel" (click)="actionExportExcel(sms)"  nz-button nzType="primary" nzShape="circle"><span nz-icon nzType="download"></span></button>
+                *ngIf="!loadingExportExcel"
+                nz-tooltip 
+                nzTooltipTitle="Export excel" 
+                (click)="actionExportExcel(sms)"  
+                nz-button nzType="primary" 
+                nzShape="circle">
+                <span nz-icon nzType="download"></span>
+            </button>
         </div>
     </div>
     
@@ -98,83 +105,85 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of paymentsListTable.data; let i=index">
-                <td>{{item.idx}}</td>
-                <td>
-                    <img *ngIf="item.fromNm == 'Techcombank'" style="width: 100%;" src="assets/images/logo/TCB.png" />
-                    <img *ngIf="item.fromNm == 'BIDV'" style="width: 100%;" src="assets/images/logo/BIDV.png" />
-                    <img *ngIf="item.fromNm == 'VietinBank'" style="width: 100%;" src="assets/images/logo/ICB.png" />
-                    <img *ngIf="item.fromNm == 'BanVietBank'" style="width: 100%;" src="assets/images/logo/VCCB.png" />
-                    <img *ngIf="item.fromNm == 'Vietcombank'" style="width: 100%;" src="assets/images/logo/VCB.png" />
-                    <img *ngIf="item.fromNm == 'ACB'" style="width: 100%;" src="assets/images/logo/ACB.png" />
-                    <img *ngIf="item.fromNm == 'HDBank'" style="width: 100%;" src="assets/images/logo/HDB.png" />
-                    <img *ngIf="item.fromNm == 'Sacombank'" style="width: 100%;" src="assets/images/logo/STB.png" />
-                    <img *ngIf="item.fromNm == 'VIB'" style="width: 100%;" src="assets/images/logo/VIB.png" />
-                    <img *ngIf="item.fromNm == 'Eximbank'" style="width: 100%;" src="assets/images/logo/EIB.png" />
-                </td>
-                <td>
-                    {{item.message}}
-                </td>
-                <td>{{item.receivedTime  | date:'dd/MM/YYYY HH:mm:ss'}}</td>
-                <td>{{item.updateDate  | date:'dd/MM/YYYY HH:mm:ss'}}</td>
-                <td>
-                    <nz-tag *ngIf="item.status == 0" [nzColor]="'gold'">
-                        <span>Waitting for approval</span>
-                    </nz-tag>
-                    <nz-tag *ngIf="item.status == 1" [nzColor]="'cyan'">
-                        <span>Approved</span>
-                    </nz-tag>
-                    <nz-tag nz-tooltip nzTooltipTitle="{{item.messageLT}}" *ngIf="item.status == 3" [nzColor]="'volcano'">
-                        <span>Fail</span>
-                    </nz-tag>
-                    <nz-tag nz-tooltip *ngIf="item.status == 2" style="color: #77838f;">
-                        <span>Cancel</span>
-                    </nz-tag>
-                </td>
-                <td>
-                    <span *ngIf="item.fromNm !== 'Techcombank' && item.fromNm !== 'BIDV'">
-                        <button 
-                            *ngIf="item.type == 1 && item.resultLT != 'SUCCESS' && item.status != 2"
-                            (click)="depositModal(item, createActionContent)" 
+            <ng-container *ngFor="let item of paymentsListTable.data; let i=index">
+                <tr *ngIf="item.message.search('KHOP LENH') === -1">
+                    <td>{{item.idx}}</td>
+                    <td>
+                        <img *ngIf="item.fromNm == 'Techcombank'" style="width: 100%;" src="assets/images/logo/TCB.png" />
+                        <img *ngIf="item.fromNm == 'BIDV'" style="width: 100%;" src="assets/images/logo/BIDV.png" />
+                        <img *ngIf="item.fromNm == 'VietinBank'" style="width: 100%;" src="assets/images/logo/ICB.png" />
+                        <img *ngIf="item.fromNm == 'BanVietBank'" style="width: 100%;" src="assets/images/logo/VCCB.png" />
+                        <img *ngIf="item.fromNm == 'Vietcombank'" style="width: 100%;" src="assets/images/logo/VCB.png" />
+                        <img *ngIf="item.fromNm == 'ACB'" style="width: 100%;" src="assets/images/logo/ACB.png" />
+                        <img *ngIf="item.fromNm == 'HDBank'" style="width: 100%;" src="assets/images/logo/HDB.png" />
+                        <img *ngIf="item.fromNm == 'Sacombank'" style="width: 100%;" src="assets/images/logo/STB.png" />
+                        <img *ngIf="item.fromNm == 'VIB'" style="width: 100%;" src="assets/images/logo/VIB.png" />
+                        <img *ngIf="item.fromNm == 'Eximbank'" style="width: 100%;" src="assets/images/logo/EIB.png" />
+                    </td>
+                    <td>
+                        {{item.message}}
+                    </td>
+                    <td>{{item.receivedTime  | date:'dd/MM/YYYY HH:mm:ss'}}</td>
+                    <td>{{item.updateDate  | date:'dd/MM/YYYY HH:mm:ss'}}</td>
+                    <td>
+                        <nz-tag *ngIf="item.status == 0" [nzColor]="'gold'">
+                            <span>Waitting for approval</span>
+                        </nz-tag>
+                        <nz-tag *ngIf="item.status == 1" [nzColor]="'cyan'">
+                            <span>Approved</span>
+                        </nz-tag>
+                        <nz-tag nz-tooltip nzTooltipTitle="{{item.messageLT}}" *ngIf="item.status == 3" [nzColor]="'volcano'">
+                            <span>Fail</span>
+                        </nz-tag>
+                        <nz-tag nz-tooltip *ngIf="item.status == 2" style="color: #77838f;">
+                            <span>Cancel</span>
+                        </nz-tag>
+                    </td>
+                    <td>
+                        <span *ngIf="item.fromNm !== 'Techcombank' && item.fromNm !== 'BIDV'">
+                            <button 
+                                *ngIf="item.type == 1 && item.resultLT != 'SUCCESS' && item.status != 2"
+                                (click)="depositModal(item, createActionContent)" 
+                                class="m-r-5" 
+                                nz-button 
+                                nzType="primary" 
+                                [nzSize]="size"
+                                nzShape="circle" 
+                                nz-tooltip 
+                                nzTooltipTitle="Deposit" 
+                            >
+                                <span nz-icon nzType="money-collect" nzTheme="outline"></span>
+                            </button>
+                            <button 
+                                (click)="confirmCancel(item)"
+                                nzDanger
+                                *ngIf="item.type == 1 && item.resultLT != 'SUCCESS' && item.status != 2"
+                                class="m-r-5" 
+                                nzType="primary" 
+                                nz-button 
+                                nz-tooltip 
+                                nzShape="circle" 
+                                nzTooltipTitle="Cancel" 
+                            >
+                                <i nz-icon nzType="close" theme="outline"></i>
+                            </button>
+                        </span>
+                        <!-- <button 
+                            *ngIf="item.type == 0"
+                            (click)="withdrawModal(createActionContentWithdraw)" 
                             class="m-r-5" 
                             nz-button 
                             nzType="primary" 
-                            [nzSize]="size"
+                            nzDanger
                             nzShape="circle" 
                             nz-tooltip 
-                            nzTooltipTitle="Deposit" 
+                            nzTooltipTitle="Withdraw" 
                         >
                             <span nz-icon nzType="money-collect" nzTheme="outline"></span>
-                        </button>
-                        <button 
-                            (click)="confirmCancel(item)"
-                            nzDanger
-                            *ngIf="item.type == 1 && item.resultLT != 'SUCCESS' && item.status != 2"
-                            class="m-r-5" 
-                            nzType="primary" 
-                            nz-button 
-                            nz-tooltip 
-                            nzShape="circle" 
-                            nzTooltipTitle="Cancel" 
-                        >
-                            <i nz-icon nzType="close" theme="outline"></i>
-                        </button>
-                    </span>
-                    <!-- <button 
-                        *ngIf="item.type == 0"
-                        (click)="withdrawModal(createActionContentWithdraw)" 
-                        class="m-r-5" 
-                        nz-button 
-                        nzType="primary" 
-                        nzDanger
-                        nzShape="circle" 
-                        nz-tooltip 
-                        nzTooltipTitle="Withdraw" 
-                    >
-                        <span nz-icon nzType="money-collect" nzTheme="outline"></span>
-                    </button> -->
-                </td>
-            </tr>
+                        </button> -->
+                    </td>
+                </tr>
+            </ng-container>
         </tbody>
     </nz-table>
 </nz-card>

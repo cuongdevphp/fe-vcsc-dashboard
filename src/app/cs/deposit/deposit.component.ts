@@ -31,6 +31,7 @@ export class DepositComponent implements OnInit {
     sendItemDeposit: any = null;
     amount: any = '';
     loadingDepositModal = false;
+    loadingExportExcel = false;
     banks:any = [];
     bankCode:any = 'Vietcombank';
     requiredForm: any = {
@@ -297,16 +298,17 @@ export class DepositComponent implements OnInit {
     }
 
     actionExportExcel(arrData): void {
+        this.loadingExportExcel = true;
         this.paymentService.exportExcel(arrData)
         .subscribe((result:any) => {
             console.log(result, 'result');
             if(result.success) {
                 setTimeout(function () {
                     window.open(`http://10.10.25.150:3001/assets/excel/${result.result}`);
-                    
                 }, 1000);
                 
             }
+            this.loadingExportExcel = false;
         });
     }
 

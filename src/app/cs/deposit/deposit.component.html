@@ -106,7 +106,8 @@
         </thead>
         <tbody>
             <ng-container *ngFor="let item of paymentsListTable.data; let i=index">
-                <tr *ngIf="item.message.search('KHOP LENH') === -1">
+                <!-- <tr *ngIf="item.message.search('KHOP LENH') === -1"> -->
+                <tr>
                     <td>{{item.idx}}</td>
                     <td>
                         <img *ngIf="item.fromNm == 'Techcombank'" style="width: 100%;" src="assets/images/logo/TCB.png" />

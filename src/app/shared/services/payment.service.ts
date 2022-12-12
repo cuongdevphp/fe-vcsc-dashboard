@@ -30,7 +30,8 @@ export class PaymentService {
   }
 
   getBanks() {
-    return this.http.get(`https://api.vietqr.io/v2/banks`);
+    return this.http.get("assets/resource/bank_data.json");
+    // return this.http.get(`https://api.vietqr.io/v2/banks`);
   }
 
   searchAccountNumber(accountNumber) {

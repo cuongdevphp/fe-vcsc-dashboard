@@ -92,7 +92,7 @@ export class WithdrawDashboardComponent implements OnInit {
         this.pageSize = 10;
         setTimeout( async () =>{
             this.loadWithdrawList(this.pageIndex, this.pageSize, null, null, this.searchAccountName, this.selectedStatus, this.amount, this.searchDate[0], this.searchDate[1]);
-        }, 1000);
+        }, 2000);
     }
 
     statusChange(value: string): void {

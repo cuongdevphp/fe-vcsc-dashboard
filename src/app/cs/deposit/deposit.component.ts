@@ -25,7 +25,7 @@ export class DepositComponent implements OnInit {
     sms:any = [];
     selectedSubNumer: any = '';
     selectedType: any = '1';
-    selectedStatus: any = '';
+    selectedStatus: any = '0';
     searchAccountName: any = '';
     totalMoney: any = 0;
     sendItemDeposit: any = null;
@@ -33,7 +33,7 @@ export class DepositComponent implements OnInit {
     loadingDepositModal = false;
     loadingExportExcel = false;
     banks:any = [];
-    bankCode:any = 'Vietcombank';
+    bankCode:any = '';
     requiredForm: any = {
         accountNumber: false,
         subNumber: false,
@@ -67,9 +67,9 @@ export class DepositComponent implements OnInit {
     reload() {
         this.pageIndex = 1;
         this.pageSize = 10;
-        this.bankCode = 'Vietcombank';
+        this.bankCode = '';
         this.selectedType = '1';
-        this.selectedStatus = '';
+        this.selectedStatus = '0';
         this.searchDate = [new Date(), new Date()];
         this.loadWithdrawList(this.pageIndex, this.pageSize, this.bankCode, this.selectedType, this.selectedStatus, this.searchDate[0], this.searchDate[1]);
     }

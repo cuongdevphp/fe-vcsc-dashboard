@@ -124,8 +124,11 @@ export class DepositComponent implements OnInit {
             this.modalService.closeAll();
         });
     }
+
+    
     
     depositModal = (value, createActionContent) => {
+        const content = this.seperateMessage({bank: value.fromNm, str: value.message, amount: value.amount});
         const params = {
             "idx": value.idx,
             "fromNm": value.fromNm,
@@ -133,8 +136,10 @@ export class DepositComponent implements OnInit {
             "subNumber": '01',
             "accountBank": value.accountBank,
             "amount": value.amount,
-            "content": value.message,
+            "message": value.message,
+            "content": content,
         };
+        console.log(params, 'params');
         this.sendItemDeposit = cloneDeep(params);
         this.searchAccount(value.accountNumber.toUpperCase());
         this.showDepositModal(params, createActionContent);
@@ -255,6 +260,34 @@ export class DepositComponent implements OnInit {
     }
     
     formatterNumber = (value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+    seperateMessage = ({bank, str, amount}) => {
+        console.log(bank, str);
+        let result = ``;
+        switch(bank) {
+            case 'Vietcombank':
+                result = `+${this.formatterNumber(amount)}VND${str.split("Ref")[1]}`;
+                break;
+            case 'ACB':
+                result = `+${this.formatterNumber(amount)}VND${str.split("GD:")[1]}`;
+                break;
+            case 'Sacombank':
+                result = `+${this.formatterNumber(amount)}VND ${str.split("VND\n")[2]}`;
+                break;
+            case 'BanVietBank':
+                result = `+${this.formatterNumber(amount)}VND ${str.split("Noi dung:")[1]}`;
+                break;
+            case 'VIB':
+                result = `+${this.formatterNumber(amount)}VND ${str.split("ND:")[1].split("\nSODU:")[0]}`;
+                break;
+            case 'HDBank':
+                result = `+${this.formatterNumber(amount)}VND${str.split("ND:")[1]}`;
+                break;
+            default:
+                break;
+        }
+        return result;
+    };
 
     loadBanks(): void {
         this.paymentService.getBanks()

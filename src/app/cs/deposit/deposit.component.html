@@ -284,14 +284,45 @@
         <div class="row">
             <div class="col-md-12">
                 <nz-form-item class="relative">
-                    <nz-form-label nzRequired>Message</nz-form-label>
+                    <nz-form-label nzRequired>Content</nz-form-label>
                     <nz-form-control >
                         <nz-input-group>
-                            <textarea readonly name="sendItemDeposit.content"  [nzAutosize]="{ minRows: 3, maxRows: 3 }" [(ngModel)]="sendItemDeposit.content" placeholder="Please input content message" nz-input></textarea>
+                            <textarea
+                                *ngIf="sendItemDeposit.fromNm !== 'Eximbank'" 
+                                readonly 
+                                name="sendItemDeposit.content"  
+                                [nzAutosize]="{ minRows: 3, maxRows: 3 }" 
+                                [(ngModel)]="sendItemDeposit.content" 
+                                placeholder="Please input content" 
+                                nz-input
+                            >
+                            </textarea>
+                            <textarea
+                                *ngIf="sendItemDeposit.fromNm === 'Eximbank'" 
+                                name="sendItemDeposit.content"  
+                                [nzAutosize]="{ minRows: 3, maxRows: 3 }" 
+                                [(ngModel)]="sendItemDeposit.content" 
+                                placeholder="Please input content" 
+                                nz-input
+                            >
+                            </textarea>
                         </nz-input-group>
                         <nz-form-explain *ngIf="requiredForm.content" style="color: red;">
                             Please input content!
                         </nz-form-explain>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <nz-form-item class="relative">
+                    <nz-form-label >Message SIM</nz-form-label>
+                    <nz-form-control >
+                        <nz-input-group>
+                            {{sendItemDeposit.message}}
+                            <!-- <textarea readonly name="sendItemDeposit.message"  [nzAutosize]="{ minRows: 3, maxRows: 3 }" [(ngModel)]="sendItemDeposit.message" nz-input></textarea> -->
+                        </nz-input-group>
                     </nz-form-control>
                 </nz-form-item>
             </div>

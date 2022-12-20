@@ -124,7 +124,7 @@ export class DepositComponent implements OnInit {
     
     
     depositModal = (value, createActionContent) => {
-        const content = this.seperateMessage({bank: value.fromNm, str: value.message, amount: value.amount});
+        const content = this.seperateMessage({bank: value.fromNm, str: value.message, amount: value.amount, receivedTime: value.receivedTime});
         const params = {
             "idx": value.idx,
             "fromNm": value.fromNm,
@@ -257,7 +257,7 @@ export class DepositComponent implements OnInit {
     
     formatterNumber = (value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
-    seperateMessage = ({bank, str, amount}) => {
+    seperateMessage = ({bank, str, amount, receivedTime}) => {
         console.log(bank, str);
         let result = ``;
         switch(bank) {
@@ -283,7 +283,7 @@ export class DepositComponent implements OnInit {
                 break;
         }
 
-        return `${result} - ${moment(new Date()).format('DD/MM/YYYY')}`;
+        return `${result} - ${moment(new Date(receivedTime)).format('DD/MM/YYYY')}`;
     };
 
     loadBanks(): void {

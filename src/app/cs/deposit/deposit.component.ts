@@ -1,14 +1,10 @@
-import { HttpClient, HttpHeaders, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
-import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { cloneDeep } from "lodash";
-import { filter } from 'rxjs/internal/operators/filter';
 import { PaymentService } from 'src/app/shared/services/payment.service';
-import { ThemeConstantService } from 'src/app/shared/services/theme-constant.service';
-declare var $: any; // JQuery
+import * as moment from 'moment';
 @Component({
     templateUrl: './deposit.component.html'
 })
@@ -286,7 +282,8 @@ export class DepositComponent implements OnInit {
             default:
                 break;
         }
-        return result;
+
+        return `${result} - ${moment(new Date()).format('DD/MM/YYYY')}`;
     };
 
     loadBanks(): void {

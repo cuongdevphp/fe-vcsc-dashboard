@@ -4,7 +4,7 @@ document.write(`
         style="position:fixed;z-index:9999;top:0;left:0; width:50px" 
         src="https://sharethuthuat.com/wp-content/uploads/2021/12/banner_left.png" 
         _cke_saved_src="https://sharethuthuat.com/wp-content/uploads/2021/12/banner_right.png"/>
-    <img style="position:fixed;z-index:9999;top:0;right:0;width:100px" src="https://sharethuthuat.com/wp-content/uploads/2021/12/banner_right.png"/>
+    <img style="position:fixed;z-index:9999;top:0;right:0;width:80px" src="https://sharethuthuat.com/wp-content/uploads/2021/12/banner_right.png"/>
     <div style="position:fixed;z-index:9999;bottom:-58px;left:0;width:100%;height:104px;background:url(https://sharethuthuat.com/wp-content/uploads/2021/12/nentet.png) repeat-x bottom left;">
         
     </div>

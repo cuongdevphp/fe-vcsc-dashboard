@@ -11,11 +11,11 @@ document.write(`
     <img style="position:fixed;z-index:9999;bottom:20px;left:20px" src="https://sharethuthuat.com/wp-content/uploads/2021/12/banner_header.png"/>
     `);
 
-var pictureSrc ="https://sharethuthuat.com/wp-content/uploads/2021/12/hoamai.png"; //the location of the snowflakes
+var pictureSrc ="/assets/images/others/hoamai.png"; //the location of the snowflakes
 var pictureWidth = 20; //
 var pictureHeight = 20; //the height of the snowflakes
-var numFlakes = 10; //the number of snowflakes
-var downSpeed = 0.004; //the falling speed of snowflakes (portion of screen per 100 ms)
+var numFlakes = 9; //the number of snowflakes
+var downSpeed = 0.003; //the falling speed of snowflakes (portion of screen per 100 ms)
 var lrFlakes = 10; //the speed that the snowflakes should swing from side to side
 
 
@@ -101,4 +101,4 @@ function getRefToDivNest(divName) {
     return false;
 }
 
-window.setInterval('flakeFall();', 50);
+window.setInterval('flakeFall();', 40);

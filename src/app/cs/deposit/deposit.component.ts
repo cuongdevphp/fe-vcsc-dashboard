@@ -120,11 +120,14 @@ export class DepositComponent implements OnInit {
             this.modalService.closeAll();
         });
     }
-
-    
     
     depositModal = (value, createActionContent) => {
-        const content = this.seperateMessage({bank: value.fromNm, str: value.message, amount: value.amount, receivedTime: value.receivedTime});
+        const content = this.seperateMessage({
+            bank: value.fromNm, 
+            str: value.message, 
+            amount: value.amount, 
+            receivedTime: value.receivedTime
+        });
         const params = {
             "idx": value.idx,
             "fromNm": value.fromNm,

@@ -98,7 +98,8 @@
                 <td>{{item.subNumber}}</td>
                 <td>{{item.amount | number}}</td>
                 <td>
-                    <img style="width: 100%;" src="assets/images/logo/TCB.png" />
+                    <img *ngIf="item.bankCode == '0008'" style="width: 100%;" src="assets/images/logo/VPB.png" />
+                    <img *ngIf="item.bankCode == '0310'" style="width: 100%;" src="assets/images/logo/TCB.png" />
                 </td>
                 <td>{{item.message}}</td>
                 <td>{{item.transactionId}}</td>

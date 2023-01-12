@@ -251,7 +251,6 @@
                     <nz-form-control >
                         <nz-input-group>
                             <nz-input-number
-                            [nzDisabled]="sendItemDeposit.fromNm === 'Eximbank' ? false : true"
                             style="width: 100%"
                             [nzMin]="0"
                             [nzFormatter]="formatterNumber" 
@@ -288,7 +287,6 @@
                     <nz-form-control >
                         <nz-input-group>
                             <textarea
-                                *ngIf="sendItemDeposit.fromNm !== 'Eximbank'" 
                                 readonly 
                                 name="sendItemDeposit.content"  
                                 [nzAutosize]="{ minRows: 3, maxRows: 3 }" 
@@ -298,7 +296,6 @@
                             >
                             </textarea>
                             <textarea
-                                *ngIf="sendItemDeposit.fromNm === 'Eximbank'" 
                                 name="sendItemDeposit.content"  
                                 [nzAutosize]="{ minRows: 3, maxRows: 3 }" 
                                 [(ngModel)]="sendItemDeposit.content" 

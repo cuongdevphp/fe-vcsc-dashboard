@@ -282,6 +282,9 @@ export class DepositComponent implements OnInit {
             case 'HDBank':
                 result = `+${this.formatterNumber(amount)}VND${str.split("ND:")[1]}`;
                 break;
+            case 'Eximbank':
+                result = `+${this.formatterNumber(amount)}VND${str.split("TK 200015056000015")[1]}`;
+                break;
             default:
                 break;
         }

@@ -14,12 +14,12 @@ document.write(`
 var pictureSrc ="/assets/images/others/hoamai.png"; //the location of the snowflakes
 var pictureWidth = 20; //
 var pictureHeight = 20; //the height of the snowflakes
-var numFlakes = 9; //the number of snowflakes
+var numFlakes = 0; //the number of snowflakes
 var downSpeed = 0.003; //the falling speed of snowflakes (portion of screen per 100 ms)
 var lrFlakes = 10; //the speed that the snowflakes should swing from side to side
 
 
-if( typeof( numFlakes ) != 'number' || Math.round( numFlakes ) != numFlakes || numFlakes < 1 ) { numFlakes = 10; }
+if( typeof( numFlakes ) != 'number' || Math.round( numFlakes ) != numFlakes || numFlakes < 0 ) { numFlakes = 0; }
 
 //draw the snowflakes
 for( var x = 0; x < numFlakes; x++ ) {

@@ -512,7 +512,7 @@
             "code": "LPB",
             "bin": "970449",
             "shortName": "LienVietPostBank",
-            "logo": "https://api.vietqr.io/img/LPB.png",
+            "logo": "assets/images/logo/LPB.png",
             "transferSupported": 1,
             "lookupSupported": 1,
             "short_name": "LienVietPostBank",

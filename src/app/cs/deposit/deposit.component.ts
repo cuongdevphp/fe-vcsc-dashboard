@@ -10,7 +10,7 @@ import * as moment from 'moment';
 })
 
 export class DepositComponent implements OnInit {
-
+    branchUser: any = '';
     loading = false;
     pageSize = 10;
     dateFormat = 'dd/MM/yyyy';
@@ -47,7 +47,8 @@ export class DepositComponent implements OnInit {
 
     ngOnInit(): void {
         let users = JSON.parse(localStorage.getItem('user')) || [];
-        //console.log(users, 'users');
+        console.log(users, 'users');
+        this.branchUser = users.branch;
         this.loadWithdrawList(this.pageIndex, this.pageSize, this.bankCode, this.selectedType, this.selectedStatus, this.searchDate[0], this.searchDate[1]);
         this.loadBanks();
     }
@@ -261,7 +262,6 @@ export class DepositComponent implements OnInit {
     formatterNumber = (value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
     seperateMessage = ({bank, str, amount, receivedTime}) => {
-        console.log(bank, str);
         let result = ``;
         switch(bank) {
             case 'Vietcombank':
@@ -274,13 +274,22 @@ export class DepositComponent implements OnInit {
                 result = `+${this.formatterNumber(amount)}VND ${str.split("VND\n")[2]}`;
                 break;
             case 'BanVietBank':
-                result = `+${this.formatterNumber(amount)}VND ${str.split("Noi dung:")[1]}`;
+                result = this.branchUser == 1 ? `+${this.formatterNumber(amount)}VND ${str.split("Noi dung:")[1]}` : 'BV';
                 break;
             case 'VIB':
                 result = `+${this.formatterNumber(amount)}VND ${str.split("ND:")[1].split("\nSODU:")[0]}`;
                 break;
             case 'HDBank':
                 result = `+${this.formatterNumber(amount)}VND${str.split("ND:")[1]}`;
+                break;
+            case 'BIDV':
+                result = (str.search("TK122xxx4896") === -1) ? 'BIDV HT' : 'BIDV TA';;
+                break;
+            case 'VPBank':
+                result = `VP`;
+                break;
+            case 'LPB':
+                result = `LV`;
                 break;
             case 'Eximbank':
                 result = `${str.split("TK 200015056000015")[1]}`;
@@ -295,20 +304,32 @@ export class DepositComponent implements OnInit {
     loadBanks(): void {
         this.paymentService.getBanks()
         .subscribe((result:any) => {
+            console.log(this.branchUser, 'this.branchUser');
             this.banks = result.data.filter((el) => { 
-                return (
-                    el.shortName === "Techcombank" || // 
-                    el.shortName === "BIDV" || // 
-                    el.shortName === "VietinBank" || // 
-                    el.shortName === "VietCapitalBank" ||
-                    el.shortName === "Vietcombank" || //
-                    el.shortName === "ACB" || // 
-                    el.shortName === "HDBank" || //
-                    el.shortName === "Sacombank" || //
-                    el.shortName === "VIB" || //
-                    el.shortName === "Eximbank" //
-                ); 
+                
+                if(this.branchUser == 1) {
+                    return (
+                        el.shortName === "Techcombank" || // 
+                        el.shortName === "BIDV" || // 
+                        el.shortName === "VietinBank" || // 
+                        el.shortName === "VietCapitalBank" ||
+                        el.shortName === "Vietcombank" || //
+                        el.shortName === "ACB" || // 
+                        el.shortName === "HDBank" || //
+                        el.shortName === "Sacombank" || //
+                        el.shortName === "VIB" || //
+                        el.shortName === "Eximbank"
+                    ); 
+                } else {
+                    return (
+                        el.shortName === "BIDV" || // 
+                        el.shortName === "VietCapitalBank" ||
+                        el.shortName === "LienVietPostBank" || //
+                        el.shortName === "VPBank" 
+                    ); 
+                }
             }); 
+            console.log(this.banks, 'this.banks');
         });
     }
     

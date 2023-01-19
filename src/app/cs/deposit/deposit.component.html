@@ -36,6 +36,7 @@
                         <nz-option nzLabel="Rút tiền" nzValue="0"></nz-option>
                     </nz-select>
                 </div>
+
                 <div class="m-b-10 m-r-20">
                     <nz-select 
                         style="min-width: 220px;" 
@@ -120,6 +121,8 @@
                         <img *ngIf="item.fromNm == 'Sacombank'" style="width: 100%;" src="assets/images/logo/STB.png" />
                         <img *ngIf="item.fromNm == 'VIB'" style="width: 100%;" src="assets/images/logo/VIB.png" />
                         <img *ngIf="item.fromNm == 'Eximbank'" style="width: 100%;" src="assets/images/logo/EIB.png" />
+                        <img *ngIf="item.fromNm == 'LPB'" style="width: 100%;" src="assets/images/logo/LPB.png" />
+                        <img *ngIf="item.fromNm == 'VPBank'" style="width: 100%;" src="assets/images/logo/VPB.png" />
                     </td>
                     <td>
                         {{item.message}}
@@ -141,7 +144,10 @@
                         </nz-tag>
                     </td>
                     <td>
-                        <span *ngIf="item.fromNm !== 'Techcombank' && item.fromNm !== 'BIDV'">
+                        <span *ngIf="(
+                            (item.fromNm !== 'Techcombank' && item.fromNm !== 'BIDV') || 
+                            (branchUser == '0' && item.fromNm == 'BIDV')
+                        )">
                             <button 
                                 *ngIf="item.type == 1 && item.resultLT != 'SUCCESS' && item.status != 2"
                                 (click)="depositModal(item, createActionContent)" 

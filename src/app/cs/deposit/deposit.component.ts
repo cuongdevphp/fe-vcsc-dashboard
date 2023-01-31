@@ -283,7 +283,7 @@ export class DepositComponent implements OnInit {
                 result = `+${this.formatterNumber(amount)}VND${str.split("ND:")[1]}`;
                 break;
             case 'BIDV':
-                result = (str.search("TK122xxx4896") === -1) ? 'BIDV HT' : 'BIDV TA';
+                result = (str.search("xxx6868") === -1) ? 'BIDV HT' : 'BIDV TA';
                 break;
             case 'VPBank':
                 result = `VP`;

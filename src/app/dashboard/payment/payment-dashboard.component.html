@@ -110,7 +110,7 @@
                     <nz-badge *ngIf="item.status == 'SUCCESS'" nzStatus="success"></nz-badge>
                     <nz-badge *ngIf="item.status == 'MANUAL'" nzStatus="warning" nz-tooltip nzTooltipTitle="{{item.status}}"></nz-badge>
                 </td>
-                <td>{{item.createDate  | date:'dd/MM/YYYY hh:mm:ss a'}}</td>
+                <td>{{item.createDate  | date:'dd/MM/YYYY HH:mm:ss.SSS a'}}</td>
             </tr>
         </tbody>
     </nz-table>

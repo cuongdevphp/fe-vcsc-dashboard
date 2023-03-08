@@ -119,7 +119,8 @@
                         <div class="col-md-12">
                             <nz-form-item class="relative">
                                 <nz-form-label nzRequired>HTML</nz-form-label>
-                                <ckeditor
+                                <textarea formControlName="html" [(ngModel)]="html" placeholder="Please input html" nz-input></textarea>
+                                <!-- <ckeditor
                                     formControlName="html" 
                                     [(ngModel)]="html" 
                                     [data]="html"
@@ -131,7 +132,7 @@
                                     (focus)="onFocus()"
                                     (error)="onError()"
                                     (blur)="onBlur()">
-                                </ckeditor>
+                                </ckeditor> -->
                             </nz-form-item>
                         </div>
                     </div>

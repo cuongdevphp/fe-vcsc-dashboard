@@ -151,7 +151,9 @@
                              {{item.list_param.id}}
                         </span>
                     </span>
-                    <span *ngIf="item.templatecode === 'VCSC01' || item.templatecode === 'VCSC_OTP_VN' || item.templatecode === 'VCSC_OTP_EN'">
+                    <span 
+                        *ngIf="item.templatecode === 'VCSC01' || item.templatecode === 'VCSC_OTP_VN' || item.templatecode === 'VCSC_OTP_EN' || item.templatecode === 'VCSC_OTP_VN_90S' || item.templatecode === 'VCSC_OTP_EN_90S'"
+                    >
                         OTP: {{item.list_param.otp}}
                     </span>
                     <span *ngIf="item.templatecode === 'vcsc-freetemp'">

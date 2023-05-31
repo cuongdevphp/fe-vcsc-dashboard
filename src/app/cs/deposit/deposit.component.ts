@@ -194,7 +194,6 @@ export class DepositComponent implements OnInit {
                             this.requiredForm = false;
                             console.log(this.sendItemDeposit, "dsada");
                             this.actionDeposit(this.sendItemDeposit);
-
                         } 
                         else if (!this.sendItemDeposit.accountNumber) {
                             this.requiredForm.accountNumber = true; 
@@ -248,6 +247,7 @@ export class DepositComponent implements OnInit {
             subNumber: '',
             accountBank: '',
             amount: '',
+            idx: '',
             content: ''
         };
         this.requiredForm = {

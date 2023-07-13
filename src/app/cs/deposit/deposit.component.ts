@@ -14,7 +14,7 @@ export class DepositComponent implements OnInit {
     loading = false;
     pageSize = 10;
     dateFormat = 'dd/MM/yyyy';
-    searchDate = [new Date(), new Date()];
+    searchDate = [new Date(new Date().setDate(new Date().getDate() - 1)), new Date()];
     pageIndex = 1;
     total = 0;
     lastIdx: any = '';
@@ -391,7 +391,7 @@ export class DepositComponent implements OnInit {
 
     onChangeDateRange(result: Date[]): void {
         if(result.length === 0) {
-            result = [new Date(new Date().setMonth(new Date().getMonth() - 1)), new Date()];
+            result = [new Date(new Date().setDate(new Date().getDate() - 1)), new Date()];
         }
         this.pageIndex = 1;
         this.pageSize = 10;

@@ -16,8 +16,8 @@ export class PaymentDashboardComponent implements OnInit {
     loading = false;
     pageSize = 10;
     dateFormat = 'dd/MM/yyyy';
-    // searchDate = [new Date(new Date().setMonth(new Date().getMonth() - 1)), new Date()];
-    searchDate = [new Date(), new Date()];
+    searchDate = [new Date(new Date().setDate(new Date().getDate() - 1)), new Date()];
+    // searchDate = [new Date(), new Date()];
     pageIndex = 1;
     total = 0;
     indeterminate:boolean = false;
@@ -93,7 +93,7 @@ export class PaymentDashboardComponent implements OnInit {
 
     onChangeDateRange(result: Date[]): void {
         if(result.length === 0) {
-            result = [new Date(new Date().setMonth(new Date().getMonth() - 1)), new Date()];
+            result = [new Date(new Date().setDate(new Date().getDate() - 1)), new Date()];
         }
         this.loadPaymentList(this.pageIndex, this.pageSize, null, null, this.searchAccountNumber, this.selectedSubNumer, result[0], result[1]);
     }

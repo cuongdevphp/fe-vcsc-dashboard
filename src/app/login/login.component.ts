@@ -43,7 +43,7 @@ export class LoginComponent {
                     } else if (result.department === 'CS') {
                         this.router.navigate(['/cs/deposit']);
                     } else {
-                        this.router.navigate(['/dashboard/home']);
+                        this.router.navigate(['/dashboard/payment']);
                     }
                     //this.router.navigateByUrl(returnUrl);
                 },

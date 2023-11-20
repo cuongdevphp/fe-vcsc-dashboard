@@ -66,6 +66,18 @@
                         (click)="reload()" 
                     ></span>
                 </div>
+                <div class="m-b-10 m-r-20">
+                    <button *ngIf="loadingGenToken" nz-button nzLoading nzType="primary" nzShape="circle"></button>
+                    <button 
+                    *ngIf="!loadingGenToken"
+                        nz-tooltip 
+                        nzTooltipTitle="Update Token" 
+                        (click)="genToken()"  
+                        nz-button nzType="primary" 
+                        nzShape="circle">
+                        <span nz-icon nzType="key"></span>
+                    </button>
+                </div>
             </div>          
         </div>
         <div class="col-lg-2 text-right" style="text-align: right;">

@@ -28,6 +28,7 @@ export class DepositComponent implements OnInit {
     amount: any = '';
     loadingDepositModal = false;
     loadingExportExcel = false;
+    loadingGenToken = false;
     banks:any = [];
     bankCode:any = '';
     requiredForm: any = {
@@ -352,6 +353,22 @@ export class DepositComponent implements OnInit {
         this.pageSize = 10;
         this.pageIndex = 1;
         this.loadWithdrawList(this.pageIndex, this.pageSize, this.bankCode, this.selectedType, value, this.searchDate[0], this.searchDate[1]);
+    }
+
+    genToken(): void {
+        this.loadingGenToken = true;
+        this.paymentService.genToken()
+        .subscribe((result:any) => {
+            console.log(result, 'result');
+            if(result.success) {
+                this.notification.create(
+                    'success',
+                    'Notification',
+                    result.message
+                );
+            }
+            this.loadingGenToken = false;
+        });
     }
 
     actionExportExcel(arrData): void {

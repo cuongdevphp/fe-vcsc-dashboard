@@ -73,6 +73,10 @@ export class PaymentService {
     return this.http.post<any>(`${environment.apiUrl}/payment/tpLink/exportExcel`, { ...params })
   }
 
+  genToken() {
+    return this.http.post<any>(`${environment.apiUrl}/payment/payment/genToken`, {})
+  }
+
   actionCancelDeal(idx) {
     const params = {
       idx,

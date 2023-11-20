@@ -68,12 +68,12 @@
                 </div>
                 <div class="m-b-10 m-r-20">
                 </div>
-            </div>          
+            </div>
         </div>
         <div class="col-lg-2 text-right" style="text-align: right;">
             <button *ngIf="loadingGenToken" nz-button nzLoading nzType="primary" nzShape="circle"></button>
             <button 
-            *ngIf="!loadingGenToken"
+                *ngIf="!loadingGenToken"
                 nz-tooltip 
                 nzTooltipTitle="Update Token" 
                 (click)="genToken()"  
@@ -94,7 +94,7 @@
             </button>
         </div>
     </div>
-    
+
     <nz-table 
         #paymentsListTable 
         [nzData]="sms"

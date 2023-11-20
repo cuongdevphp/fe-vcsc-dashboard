@@ -173,7 +173,7 @@
                     <span *ngIf="item.templatecode === 'vcsc-freetemp'">BRANDNAMESMS</span>
                     <span *ngIf="item.templatecode !== 'vcsc-freetemp'">{{item.channel}}</span>
                 </td>
-                <td>{{item.timesend}}</td>
+                <td>{{item.timesend | date:'dd/MM/YYYY HH:mm:ss'}}</td>
                 <td>{{item.created_by}}</td>
                 <td style="text-align: center;">
                     <nz-badge *ngIf="item.complete == '1'" nzStatus="success"></nz-badge>

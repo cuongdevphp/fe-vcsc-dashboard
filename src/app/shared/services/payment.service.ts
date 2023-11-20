@@ -74,7 +74,7 @@ export class PaymentService {
   }
 
   genToken() {
-    return this.http.post<any>(`${environment.apiUrl}/payment/payment/genToken`, {})
+    return this.http.post<any>(`${environment.apiUrl}/payment/genToken`, {})
   }
 
   actionCancelDeal(idx) {

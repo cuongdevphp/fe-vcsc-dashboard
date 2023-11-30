@@ -89,7 +89,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of messagesListTable.data; let i=index; p = jsonDecode(item.params)">
+            <tr *ngFor="let item of messagesListTable.data; let i=index;">
                 <td>{{item.id}}</td>
                 <td>
                     {{item.phonenumber}}
@@ -112,20 +112,20 @@
                             item.templatecode === 'VCSC04' || 
                             item.templatecode === 'VCSC07'
                         ">
-                        Vietcap: KQKL NGAY {{item.p.day}}
-                        CUA QUI KHACH TK {{item.p.account}}
-                        {{item.p.type}} {{item.p.serie}}
-                        KL {{item.p.quantity}}
-                        GIA {{item.p.price}}
+                        Vietcap: KQKL NGAY {{jsonDecode(item.list_param).day}}
+                        CUA QUI KHACH TK {{item.list_param.account}}
+                        {{item.list_param.type}} {{item.list_param.serie}}
+                        KL {{item.list_param.quantity}}
+                        GIA {{item.list_param.price}}
                         <span 
                             *ngIf="item.templatecode === 'VCSC04' || item.templatecode === 'VCSC07'">
-                            Thời gian khớp lệnh {{item.p.time}}
+                            Thời gian khớp lệnh {{item.list_param.time}}
                         </span>
                         <span 
                             *ngIf="
                                 item.templatecode === 'VCSC07'
                             ">
-                            Số hiệu lệnh {{item.p.id}}
+                            Số hiệu lệnh {{item.list_param.id}}
                         </span>
                     </span>
                     <span 
@@ -134,21 +134,21 @@
                             item.templatecode === 'VCSC05' || 
                             item.templatecode === 'VCSC08'
                         ">
-                        Vietcap: {{item.p.day}}
+                        Vietcap: {{item.list_param.day}}
                         YOUR MATCHING RESULT ACC 
-                        {{item.p.account}} 
-                        {{item.p.type}} 
-                        VOL {{item.p.quantity}} 
-                        PRICE {{item.p.price}}  
+                        {{item.list_param.account}} 
+                        {{item.list_param.type}} 
+                        VOL {{item.list_param.quantity}} 
+                        PRICE {{item.list_param.price}}  
                         <span 
                             *ngIf="item.templatecode === 'VCSC05' || item.templatecode === 'VCSC08'">
-                            FILLED AT {{item.p.time}}
+                            FILLED AT {{item.list_param.time}}
                         </span>
                         <span 
                             *ngIf="
                                 item.templatecode === 'VCSC08'
                             ">
-                             {{item.p.id}}
+                             {{item.list_param.id}}
                         </span>
                     </span>
                     <span 

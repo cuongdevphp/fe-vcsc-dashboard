@@ -458,7 +458,7 @@ export class IncomComponent implements OnInit {
     //    }  
      //}  
     jsonDecode(item) {
-        return JSON.parse(item.params);
+        return JSON.parse(item);
     }
       
   

@@ -112,20 +112,20 @@
                             item.templatecode === 'VCSC04' || 
                             item.templatecode === 'VCSC07'
                         ">
-                        Vietcap: KQKL NGAY {{item.list_param.day}}
-                        CUA QUI KHACH TK {{item.list_param.account}}
-                        {{item.list_param.type}} {{item.list_param.serie}}
-                        KL {{item.list_param.quantity}}
-                        GIA {{item.list_param.price}}
+                        Vietcap: KQKL NGAY {{item.list_param.day | json}}
+                        CUA QUI KHACH TK {{item.list_param.account | json}}
+                        {{item.list_param.type | json}} {{item.list_param.serie | json}}
+                        KL {{item.list_param.quantity | json}}
+                        GIA {{item.list_param.price | json}}
                         <span 
                             *ngIf="item.templatecode === 'VCSC04' || item.templatecode === 'VCSC07'">
-                            Thời gian khớp lệnh {{item.list_param.time}}
+                            Thời gian khớp lệnh {{item.list_param.time | json}}
                         </span>
                         <span 
                             *ngIf="
                                 item.templatecode === 'VCSC07'
                             ">
-                            Số hiệu lệnh {{item.list_param.id}}
+                            Số hiệu lệnh {{item.list_param.id | json}}
                         </span>
                     </span>
                     <span 

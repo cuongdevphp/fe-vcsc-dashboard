@@ -113,19 +113,19 @@
                             item.templatecode === 'VCSC07'
                         ">
                         Vietcap: KQKL NGAY {{jsonDecode(item.list_param).day}}
-                        CUA QUI KHACH TK {{item.list_param.account}} 
-                        {{item.list_param.type}} {{item.list_param.serie}}
-                        KL {{item.list_param.quantity}}
-                        GIA {{item.list_param.price}}
+                        CUA QUI KHACH TK {{jsonDecode(item.list_param).account}} 
+                        {{jsonDecode(item.list_param).type}} {{jsonDecode(item.list_param).serie}}
+                        KL {{jsonDecode(item.list_param).quantity}}
+                        GIA {{jsonDecode(item.list_param).price}}
                         <span 
                             *ngIf="item.templatecode === 'VCSC04' || item.templatecode === 'VCSC07'">
-                            Thời gian khớp lệnh {{item.list_param.time}}
+                            Thời gian khớp lệnh {{jsonDecode(item.list_param).time}}
                         </span>
                         <span 
                             *ngIf="
                                 item.templatecode === 'VCSC07'
                             ">
-                            Số hiệu lệnh {{item.list_param.id}}
+                            Số hiệu lệnh {{jsonDecode(item.list_param).id}}
                         </span>
                     </span>
                     <span 
@@ -134,38 +134,38 @@
                             item.templatecode === 'VCSC05' || 
                             item.templatecode === 'VCSC08'
                         ">
-                        Vietcap: {{item.list_param.day}}
+                        Vietcap: {{jsonDecode(item.list_param).day}}
                         YOUR MATCHING RESULT ACC 
-                        {{item.list_param.account}} 
-                        {{item.list_param.type}} 
-                        VOL {{item.list_param.quantity}} 
-                        PRICE {{item.list_param.price}}  
+                        {{jsonDecode(item.list_param).account}} 
+                        {{jsonDecode(item.list_param).type}} 
+                        VOL {{jsonDecode(item.list_param).quantity}} 
+                        PRICE {{jsonDecode(item.list_param).price}}  
                         <span 
                             *ngIf="item.templatecode === 'VCSC05' || item.templatecode === 'VCSC08'">
-                            FILLED AT {{item.list_param.time}}
+                            FILLED AT {{jsonDecode(item.list_param).time}}
                         </span>
                         <span 
                             *ngIf="
                                 item.templatecode === 'VCSC08'
                             ">
-                             {{item.list_param.id}}
+                             {{jsonDecode(item.list_param).id}}
                         </span>
                     </span>
                     <span 
                         *ngIf="item.templatecode === 'VCSC01' || item.templatecode === 'VCSC_OTP_VN' || item.templatecode === 'VCSC_OTP_EN' || item.templatecode === 'VCSC_OTP_VN_90S' || item.templatecode === 'VCSC_OTP_EN_90S'"
                     >
-                        OTP: {{item.list_param.otp}}
+                        OTP: {{jsonDecode(item.list_param).otp}}
                     </span>
                     <span *ngIf="item.templatecode === 'vcsc-freetemp'">
-                        {{item.list_param.sendstr}}
+                        {{jsonDecode(item.list_param).sendstr}}
                     </span>
                     <span *ngIf="item.templatecode === 'VCSC9' || item.templatecode === 'VCSC10' ">
-                        sOTP: {{item.list_param.sotp}}
+                        sOTP: {{jsonDecode(item.list_param).sotp}}
                     </span>
                     <span *ngIf="item.templatecode === 'VCSC11' || item.templatecode === 'VCSC12' ">
-                        Account: {{item.list_param.account}} 
+                        Account: {{jsonDecode(item.list_param).account}} 
                         <br/>
-                        Pincode: {{item.list_param.pincode}}
+                        Pincode: {{jsonDecode(item.list_param).pincode}}
                     </span>
                 </td>
                 <td>{{item.id_omni}}</td>

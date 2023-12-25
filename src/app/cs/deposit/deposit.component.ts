@@ -274,9 +274,9 @@ export class DepositComponent implements OnInit {
             case 'Sacombank':
                 result = `+${this.formatterNumber(amount)}VND ${str.split("VND\n")[2]}`;
                 break;
-            case 'BanVietBank':
-                result = this.branchUser == 1 ? `+${this.formatterNumber(amount)}VND ${str.split("Noi dung:")[1]}` : 'BV';
-                break;
+            // case 'BanVietBank':
+            //     result = this.branchUser == 1 ? `+${this.formatterNumber(amount)}VND ${str.split("Noi dung:")[1]}` : 'BV';
+            //     break;
             case 'VIB':
                 result = `+${this.formatterNumber(amount)}VND ${str.split("ND:")[1].split("\nSODU:")[0]}`;
                 break;
@@ -313,7 +313,7 @@ export class DepositComponent implements OnInit {
                         el.shortName === "Techcombank" || // 
                         el.shortName === "BIDV" || // 
                         el.shortName === "VietinBank" || // 
-                        el.shortName === "VietCapitalBank" ||
+                        // el.shortName === "VietCapitalBank" ||
                         el.shortName === "Vietcombank" || //
                         el.shortName === "ACB" || // 
                         el.shortName === "HDBank" || //

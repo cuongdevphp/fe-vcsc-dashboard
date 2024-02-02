@@ -9,7 +9,7 @@ const appRoutes: Routes = [
     { path: 'login', loadChildren: loginModule },
     {
         path: '',
-        redirectTo: '/dashboard/home',
+        redirectTo: '/dashboard/payment',
         pathMatch: 'full',
     },
     // {
